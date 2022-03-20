@@ -1,0 +1,38 @@
+.header{
+    position: absolute;
+    width: 140px;
+    height: 38px;
+    left: calc(50% - 140px/2 + 20px);
+    bottom: 80%;
+    font-size: 22px;
+    line-height: 26px;
+    color: #000000;
+}
+.signUp{
+    &__box {
+         position: absolute;
+         width: 465px;
+         height: 727px;
+         left: calc(50% - 465px / 2 + 0.5px);
+         top: calc(50% - 350px);
+         box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.14);
+         border-radius: 12px;
+         background: #FCFCFC;
+     }
+     &__formBox{
+          position: absolute;
+          display: flex;
+          flex-direction: column;
+          left: calc(50% - 315px/2 - 0.5px);
+          top: 25%;
+          align-items: center;
+      }
+
+      &__button{
+           position: static;
+           left: 0;
+           margin-top: 25px;
+           width: 272.59px;
+           height: 38px;
+       }
+}

@@ -1,0 +1,48 @@
+.input{
+    outline: none;
+    border: none;
+    border-bottom: 1px solid #000000;
+    background: #FCFCFC;
+}
+.input::placeholder{
+    font-size: 12px;
+    line-height: 14px;
+    bottom: 2px;
+}
+
+.profile{
+    &__input{
+    width: 500px;
+    height: 40px;
+    }
+    &__label{
+         display: inline-block;
+         font-size: 12px;
+         line-height: 14px;
+         text-align: right;
+     }
+
+    &__wrapper{
+         margin:5px;
+     }
+}
+
+.signUp{
+    &__input{
+        width: 315px;
+        height: 40px;
+        position: static;
+        /*left: calc(50% - 315px/2 - 0.5px);*/
+    }
+
+    &__input, &__label {
+        display:block;
+    }
+
+    &__label{
+         display: inline-block;
+         font-size: 12px;
+         position: absolute;
+         line-height: 14px;
+     }
+}

@@ -1,0 +1,16 @@
+---
+login:
+password:
+title: Login Page
+---
+{{!< base/base}}
+
+<main>
+<div class="login">
+    <img class="login__img" src="../../../static/img/user(144x144)@1x.png">
+    <input class="login__input && login__input__login && text" placeholder="Логин" type="text" size="40" value={{login}}/>
+    <input class="login__input && text" placeholder="Пароль" type="password" size="40" value={{password}}/>
+    {{> button/button link="../dialogs/dialogs.hbs" style="login__button && text" text="Войти" }}
+    <a href="../signUp/signUp.hbs" class="textLink">Нет аккаунта?</a>
+</div>
+</main>

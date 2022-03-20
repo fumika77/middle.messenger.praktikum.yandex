@@ -1,0 +1,10 @@
+@import "common.css";
+@import "../components/avatar/avatar.css";
+@import "../components/backArrow/backArrow.css";
+@import "../components/input/input.css";
+@import "../../views/login/login.css";
+@import "../../views/profileSettings/profileSettings.css";
+@import "../../views/profileDescription/profileDescription.css";
+@import "../../views/signUp/signUp.css";
+@import "../../views/error/error.css";
+

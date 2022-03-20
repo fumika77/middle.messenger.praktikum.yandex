@@ -1,0 +1,24 @@
+{
+  "name": "messenger-project",
+  "version": "1.0.0",
+  "engines": {
+    "node": "=16.5.0"
+  },
+  "scripts": {
+    "start": "parcel src/views/login/index.hbs --port 3000 --no-cache",
+    "build": "parcel build src/views/login/index.hbs",
+    "watch-css": "parcel watch src/common/styles/style.css --dist-dir styles"
+  },
+  "devDependencies": {
+    "@anikin/parcel-transformer-handlebars": "^1.0.9",
+    "express": "^4.17.3",
+    "express-handlebars": "^6.0.3",
+    "parcel": "^2.3.2",
+    "parcel-plugin-handlebars": "^0.4.4",
+    "postcss-import": "^14.0.2",
+    "postcss-include": "^0.3.1",
+    "postcss-nested": "^5.0.6",
+    "postcss-url": "^10.1.3",
+    "prettier": "^2.5.1"
+  }
+}

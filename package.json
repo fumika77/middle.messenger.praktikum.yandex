@@ -5,7 +5,8 @@
     "node": "=16.5.0"
   },
   "scripts": {
-    "start": "parcel src/views/login/index.hbs --port 3000 --no-cache",
+    "dev": "parcel src/views/login/index.hbs --port 3000 --no-cache",
+    "start": "node index.js",
     "build": "parcel build src/views/login/index.hbs",
     "watch-css": "parcel watch src/common/styles/style.css --dist-dir styles"
   },

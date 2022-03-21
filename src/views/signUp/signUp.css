@@ -6,7 +6,6 @@
     bottom: 80%;
     font-size: 22px;
     line-height: 26px;
-    color: #000000;
 }
 .signUp{
     &__box {
@@ -17,7 +16,7 @@
          top: calc(50% - 350px);
          box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.14);
          border-radius: 12px;
-         background: #FCFCFC;
+         background: var(--box-background-color);
      }
      &__formBox{
           position: absolute;
@@ -27,12 +26,4 @@
           top: 25%;
           align-items: center;
       }
-
-      &__button{
-           position: static;
-           left: 0;
-           margin-top: 25px;
-           width: 272.59px;
-           height: 38px;
-       }
 }

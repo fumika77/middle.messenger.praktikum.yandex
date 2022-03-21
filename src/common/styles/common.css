@@ -1,22 +1,23 @@
+:root {
+    --main-font-family: 'RobotoFlex', serif;
+    --text-link-color: #000000;
+    --box-background-color: #FCFCFC;
+    --input-background-color: #FCFCFC;
+    --button-text-color: #fff;
+    --button-background-color: #C4B6FF;
+    --action-text-color:#957CFF;
+}
+
 .text {
-    font-family: 'RobotoFlex', serif;
+    font-family: var(--main-font-family);
     font-style: normal;
     font-weight: 400;
 }
 
-.button{
-    width: 176px;
-    height: 38px;
-    background: #C4B6FF;
-    border-radius: 12px;
-    border: none;
-    font-size: 18px;
-    color: #FFFFFF;
-}
-
 .textLink{
     font-size: 14px;
-    color: #000000;
+    color: var(--text-link-color);
+    margin-top: 5px;
     align-content: center;
     border-bottom: none;
     text-decoration: none;
@@ -28,7 +29,7 @@
     height: 787px;
     left: 378px;
     top: 10px;
-    background: #FCFCFC;
+    background: var(--box-background-color);
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
     border-radius: 12px;
     display: flex;

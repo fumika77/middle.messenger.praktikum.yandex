@@ -2,7 +2,7 @@
     outline: none;
     border: none;
     border-bottom: 1px solid #000000;
-    background: #FCFCFC;
+    background: var(--input-background-color);
 }
 .input::placeholder{
     font-size: 12px;
@@ -32,7 +32,6 @@
         width: 315px;
         height: 40px;
         position: static;
-        /*left: calc(50% - 315px/2 - 0.5px);*/
     }
 
     &__input, &__label {

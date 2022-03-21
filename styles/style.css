@@ -1,22 +1,23 @@
+:root {
+    --main-font-family: 'RobotoFlex', serif;
+    --text-link-color: #000000;
+    --box-background-color: #FCFCFC;
+    --input-background-color: #FCFCFC;
+    --button-text-color: #fff;
+    --button-background-color: #C4B6FF;
+    --action-text-color:#957CFF;
+}
+
 .text {
-    font-family: 'RobotoFlex', serif;
+    font-family: var(--main-font-family);
     font-style: normal;
     font-weight: 400;
 }
 
-.button{
-    width: 176px;
-    height: 38px;
-    background: #C4B6FF;
-    border-radius: 12px;
-    border: none;
-    font-size: 18px;
-    color: #FFFFFF;
-}
-
 .textLink{
     font-size: 14px;
-    color: #000000;
+    color: var(--text-link-color);
+    margin-top: 5px;
     align-content: center;
     border-bottom: none;
     text-decoration: none;
@@ -28,7 +29,7 @@
     height: 787px;
     left: 378px;
     top: 10px;
-    background: #FCFCFC;
+    background: var(--box-background-color);
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
     border-radius: 12px;
     display: flex;
@@ -54,7 +55,7 @@
     outline: none;
     border: none;
     border-bottom: 1px solid #000000;
-    background: #FCFCFC;
+    background: var(--input-background-color);
 }
 
 .input::placeholder{
@@ -83,7 +84,6 @@
         width: 315px;
         height: 40px;
         position: static;
-        /*left: calc(50% - 315px/2 - 0.5px);*/
     }
 
 .signUp__input, .signUp__label {
@@ -97,6 +97,21 @@
          line-height: 14px;
      }
 
+.button {
+    display: inline-block;
+    color: var(--button-text-color);
+    padding: 1rem 1.5rem;
+    text-decoration: none;
+    background: var(--button-background-color);
+    border-radius: 12px;
+    border: none;
+    width: 160px;
+    height: 15px;
+    text-align: center;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
 .login {
     position: absolute;
     width: 340px;
@@ -105,7 +120,6 @@
     right:0;
     margin: 0 auto;
     top:calc(50% - 225px);
-    background: #FFFFFF;
     box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.14);
     display: flex;
     flex-direction: column;
@@ -121,42 +135,21 @@
          margin-top: 60%;
      }
 
-.login__button{
-        width: 176px;
-        height: 38px;
-        background: #C4B6FF;
-        border-radius: 12px;
-        border: none;
-        font-family: 'RobotoFlex', serif;
-        font-style: normal;
-        font-weight: 400;
-        font-size: 18px;
-        color: #FFFFFF;
-         margin-top: 20px;
-     }
-
 .login__input {
         width: 232px;
         height: 40px;
-        outline: none;
         border: none;
+        outline: none;
         border-bottom: 1px solid #000000;
     }
 
 .login__input::placeholder{
-        font-family: 'RobotoFlex', serif;
-        font-style: normal;
-        font-weight: 400;
         font-size: 12px;
         line-height: 14px;
-        /*color: #A4A4A4;*/
-        bottom: 2px;
+        bottom: 1px;
     }
 
 .profile__settings__header{
-    font-family: 'RobotoFlex', serif;
-    font-style: normal;
-    font-weight: 400;
     position: absolute;
     top: 38%;
     font-size: 22px;
@@ -177,12 +170,6 @@
           flex-direction: column;
           align-items: center;
       }
-
-.profile__settings__button{
-           position: static;
-           left: 0;
-           margin-top: 20px;
-       }
 
 .profile__description__header {
          position: absolute;
@@ -221,7 +208,6 @@
     bottom: 80%;
     font-size: 22px;
     line-height: 26px;
-    color: #000000;
 }
 
 .signUp__box {
@@ -232,7 +218,7 @@
          top: calc(50% - 350px);
          box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.14);
          border-radius: 12px;
-         background: #FCFCFC;
+         background: var(--box-background-color);
      }
 
 .signUp__formBox{
@@ -243,14 +229,6 @@
           top: 25%;
           align-items: center;
       }
-
-.signUp__button{
-           position: static;
-           left: 0;
-           margin-top: 25px;
-           width: 272.59px;
-           height: 38px;
-       }
 
 .error__box {
         position: absolute;
@@ -280,7 +258,7 @@
      }
 
 .error__action{
-          color: #957CFF;
+          color: var(--action-text-color);
           font-size: 20px;
       }
 

@@ -1,0 +1,20 @@
+---
+title: Sign Up
+---
+{{!< base/base}}
+
+<main>
+<div class="signUp__box"></div>
+<h1 class="header && text">Регистрация</h1>
+<div class="signUp__formBox">
+    {{> input/input id="first_name" type="text" value=first_name label="Имя" style="signUp"}}
+    {{> input/input id="second_name" type="text" value=second_name label="Фамилия" style="signUp"}}
+    {{> input/input id="login" type="text" value=login label="Логин" style="signUp"}}
+    {{> input/input id="password" type="password" value=password label="Пароль" style="signUp"}}
+    {{> input/input id="password_repeat" type="password" value=password_repeat label="Повторите пароль" style="signUp"}}
+    {{> input/input id="email" type="text" value=email label="Почта" style="signUp"}}
+    {{> input/input id="phone" type="number" value=phone label="Телефон" style="signUp"}}
+    {{> button/button link="../login/index.hbs" text="Зарегистрироваться" }}
+    <a href="../login/index.hbs" class="textLink">Войти</a>
+</div>
+</main>

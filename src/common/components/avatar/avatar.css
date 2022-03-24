@@ -1,0 +1,9 @@
+.profileImg{
+    position: absolute;
+    width: 148px;
+    height: 148px;
+    left: calc(50% - 148px/2);
+    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 100px;
+    top:20%;
+}

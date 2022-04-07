@@ -24,6 +24,7 @@
     position: absolute;
     display: flex;
     flex-direction: column;
+    margin: 0 -5px;
     left: calc(50% - 315px / 2 - 0.5px);
     top: 25%;
     align-items: center;

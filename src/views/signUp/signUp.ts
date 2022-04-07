@@ -22,8 +22,8 @@ export class SignUp extends Block{
                 email:'',
                 phone:''
             },
-            onClick: (values) => {
-                values = {
+            onClick: () => {
+                let signUpData = {
                     login: (this.refs['login'].childNodes[3] as HTMLInputElement)?.value,
                     first_name: (this.refs['first_name'].childNodes[3] as HTMLInputElement)?.value,
                     second_name: (this.refs['second_name'].childNodes[3] as HTMLInputElement)?.value,
@@ -32,9 +32,7 @@ export class SignUp extends Block{
                     email: (this.refs['email'].childNodes[3] as HTMLInputElement)?.value,
                     phone: (this.refs['phone'].childNodes[3] as HTMLInputElement)?.value,
                 };
-                console.log('profileSettingsData')
-                console.log(values)
-                let validationResults: {[id: string]: IError} = Validation({...values});
+                let validationResults: {[id: string]: IError} = Validation({...signUpData});
                 const nextState = {
                     errors: {
                         login: validationResults.login.status? '' : validationResults.login.errorText,
@@ -45,18 +43,16 @@ export class SignUp extends Block{
                         email: validationResults.email.status? '' : validationResults.email.errorText,
                         phone: validationResults.phone.status? '' : validationResults.phone.errorText,
                     },
-                    values: { ...values },
+                    values: { ...signUpData },
                 };
-
                 this.setState(nextState);
-                console.log('action/login', values);
-            }
+            },
         }
     }
+
     render() {
         const {errors, values} = this.state;
         console.log(errors)
-        console.log(values)
         //language=hbs
         return `
             <main>
@@ -113,8 +109,9 @@ export class SignUp extends Block{
                                   label="Телефон" 
                                   style="signUp"}}}
                     {{{Button link="" 
-                              text="Зарегистрироваться" }}}
-                    <a href="" class="textLink">Войти</a>
+                              text="Зарегистрироваться" onClick=onClick}}}
+                    <a href="" class="textLink" click=onClick>Войти</a>
+                    
                 </div>
             </main>
         `

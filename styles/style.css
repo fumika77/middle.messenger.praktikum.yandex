@@ -85,6 +85,7 @@
     width: 315px;
     height: 40px;
     position: static;
+    margin-top: 3px;
   }
 
 .signUp__label {
@@ -126,7 +127,14 @@
         font-size: 12px;
         text-align: center;
         height: 12px;
+        margin-top: 3px;
     }
+
+.input__wrapper{
+          display:flex;
+          flex-direction: column;
+          align-items: center;
+      }
 
 .login {
   position: absolute;
@@ -148,7 +156,7 @@
   }
 
 .login__input__login {
-    margin-top: 60%;
+    margin-top: 90%;
   }
 
 .login__input::placeholder {
@@ -233,6 +241,7 @@
     position: absolute;
     display: flex;
     flex-direction: column;
+    margin: 0 -5px;
     left: calc(50% - 315px / 2 - 0.5px);
     top: 25%;
     align-items: center;

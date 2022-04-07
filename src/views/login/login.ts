@@ -1,62 +1,59 @@
 import Block from "../../utils/Block";
-import {IError, Validation} from "../../common/modules/validation";
-// import template from "./index.hbs";
+import img from "../../../static/img/user(144x144)@1x.png";
+
+interface ILoginData{
+    login:string,
+    password: string,
+}
 
 export class Login extends Block{
+    constructor() {
+        super({});
+    }
+
+    componentDidUpdate (oldProps: any,newProps:any){
+        return !oldProps.login==newProps.login && oldProps.password==newProps.password;
+    }
+
     protected getStateFromProps() {
         this.state = {
             values: {
                 login:'',
                 password:''
             },
-            errors: {
-                login: '',
-                password: '',
-            },
-            onLogin: (values) => {
-                values = {
+            onLogin: () => {
+                const loginData:ILoginData = {
                     login: (this.refs['login'].firstElementChild as HTMLInputElement).value,
                     password: (this.refs['password'].firstElementChild as HTMLInputElement).value,
                 };
-
-                let validationResults: {[id: string]: IError} = Validation({...values});
                 const nextState = {
-                    errors: {
-                        login: validationResults.login.status? '' : validationResults.login.errorText,
-                        password: validationResults.password.status? '' : validationResults.password.errorText,
-                    },
-                    values: { ...values },
+                    values: { ...loginData },
                 };
 
                 this.setState(nextState);
-                console.log('action/login', values);
             }
         }
     }
+
     render() {
-        const {errors, values} = this.state;
-
-        console.log('action/login', values);
-
+        const {values} = this.state;
         //language=hbs
         return `
         <main>
             <div class="login">
-                <img class="login__img" src="../../../static/img/user(144x144)@1x.png">
+                <img class="login__img" src=${img} alt="login">
                 {{{ Input ref="login" 
                           value="${values.login}" 
-                          error="${errors.login}" 
                           classList="input && login__input__login && text"
                           placeholder="Логин" 
                           type="text"}}}
                 {{{ Input ref="password"  
                           value="${values.password}"
-                          error="${errors.password}" 
                           classList="input && text"
                           placeholder="Пароль" 
                           type="password" }}}
-                {{{ Button link="" text="Войти" onClick=onLogin}}}
-                <a href="" class="textLink" >Нет аккаунта?</a>
+                {{{ Button link="../profileSettings/ProfileSettings.html" text="Войти" pageValues=${values} onClick=onLogin}}}
+                <a href="../profileSettings/profileSettings.html" class="textLink" >Нет аккаунта?</a>
             </div>
         </main>
         `

@@ -34,6 +34,7 @@
     width: 315px;
     height: 40px;
     position: static;
+    margin-top: 3px;
   }
 
   &__label {

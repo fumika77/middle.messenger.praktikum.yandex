@@ -93,10 +93,10 @@ export function Validation(fields: IValidationFields): { [id: string]: IError } 
             } else if (key == 'phone') {
                 checkPhone(validationResults, key, value)
             } else if (key == 'password') {
-                if (checkPassword(validationResults, key, value)) {
-                    fields.repeatPassword &&
-                    (checkPasswordRepeat(validationResults, key, value, fields.repeatPassword))
-                }
+                checkPassword(validationResults, key, value)
+            }
+             else if (key == 'password_repeat') {
+               checkPasswordRepeat(validationResults, key, value, fields.password)
             } else if (key == 'email') {
                 checkEmail(validationResults, key, value)
             }

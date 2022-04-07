@@ -1,6 +1,5 @@
 import Block from "../../utils/Block";
 import {IError, Validation} from "../../common/modules/validation";
-// import template from "./index.hbs";
 
 export class ProfileSettings extends Block{
     protected getStateFromProps() {
@@ -27,8 +26,7 @@ export class ProfileSettings extends Block{
                     email: (this.refs['email'].childNodes[3] as HTMLInputElement)?.value,
                     phone: (this.refs['phone'].childNodes[3] as HTMLInputElement)?.value,
                 };
-                console.log('profileSettingsData')
-                console.log(profileSettingsData)
+
                 let validationResults: {[id: string]: IError} = Validation({...profileSettingsData});
                 const nextState = {
                     errors: {
@@ -43,13 +41,11 @@ export class ProfileSettings extends Block{
 
 
                 this.setState(nextState);
-                console.log('action/login', profileSettingsData);
             }
         }
     }
     render() {
         const {errors, values} = this.state;
-        console.log(errors)
         //language=hbs
         return `
             <main>

@@ -12,20 +12,20 @@ export default class Block<P = any> {
     private _element: HTMLElement | null = null;
     private readonly _meta: {props: any};
     public id = nanoid(6);
-
+    protected componentName: string;
     protected readonly props: P;
     protected children: {[id: string]: Block} = {};
     eventBus: () => EventBus;
     protected state: any = {};
     protected refs: {[key: string]: HTMLElement} = {};
 
-    constructor(props?:P) {
+    constructor(props?:P, name) {
         const eventBus = new EventBus();
 
         this._meta = {
             props,
         };
-
+        this.componentName=name;
         this.getStateFromProps(props)
 
         this.props = this._makePropsProxy(props || {} as P);
@@ -44,19 +44,13 @@ export default class Block<P = any> {
         eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
         eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
     }
-    _createResources() {
-        this._element = this._createDocumentElement('div');
-    }
 
     protected getStateFromProps(props:P): void {
         this.state = {} as P;
     }
 
-
-
     init() {
-        this._createResources();
-        this.eventBus().emit(Block.EVENTS.FLOW_RENDER, this.props);
+        this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
     }
 
     _componentDidMount(props:any) {
@@ -93,6 +87,7 @@ export default class Block<P = any> {
             return;
         }
         Object.assign(this.state, nextState);
+        this.dispatchComponentDidMount()
     };
 
     dispatchComponentDidMount() {
@@ -113,7 +108,7 @@ export default class Block<P = any> {
 
     // Может переопределять пользователь, необязательно трогать
     protected render(): string {
-        return '';
+        return ''
     }
 
     getContent(): HTMLElement {
@@ -127,8 +122,7 @@ export default class Block<P = any> {
         }
         return this._element!;
     }
-
-    _makePropsProxy(props: any): any {
+    _makePropsProxy(props: any) {
         // Можно и так передать this
         // Такой способ больше не применяется с приходом ES6+
         const self = this;
@@ -140,6 +134,7 @@ export default class Block<P = any> {
             },
             set(target: Record<string, unknown>, prop:string, value:unknown) {
                 target[prop] = value;
+
                 // Запускаем обновление компоненты
                 // Плохой cloneDeep, в след итерации нужно заставлять добавлять cloneDeep им самим
                 self.eventBus().emit(Block.EVENTS.FLOW_CDU, {...target}, target);
@@ -150,12 +145,8 @@ export default class Block<P = any> {
             }});
     }
 
-    _createDocumentElement(tagName: string) {
-        return document.createElement(tagName);
-    }
-
     _removeEvents(){
-        const events: Record<string, () => void> = (this.props as any).events;
+        const events: Record<string, () => void> = this.props.events;
         if (!events || !this._element){
             return;
         }
@@ -163,7 +154,8 @@ export default class Block<P = any> {
 
     _addEvents() {
         const events: Record<string, () => void> = (this.props as any).events;
-
+        console.log('_addEvents___'+this.componentName)
+        console.log(events)
         if (!events) {
             return;
         }
@@ -175,7 +167,8 @@ export default class Block<P = any> {
 
     compile(){
         const fragment = document.createElement('template');
-
+        console.log('componentName')
+        console.log(this.componentName)
         const template = Handlebars.compile(this.render());
         const htmlString = template({ ...this.state, ...this.props, children: this.children, refs: this.refs});
         fragment.innerHTML = htmlString;
@@ -190,11 +183,11 @@ export default class Block<P = any> {
         return fragment.content;
     }
 
-    show() {
+    onShow() {
         this.getContent()!.style.display = "block";
     }
 
-    hide() {
+    onHide () {
         this.getContent()!.style.display = "none";
     }
 }

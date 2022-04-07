@@ -11,13 +11,14 @@ interface InputProps {
 
 export class Input extends Block {
     constructor({type, classList, placeholder, value, error, onChange}: InputProps) {
-        super({type, placeholder, value, error, classList, events: {input: onChange}});
+        super({type, placeholder, value, error, classList, events: {input: onChange}}, 'input');
     }
+
 
     render(){
         //language=hbs
         return `
-            <div>
+            <div class="input__wraper">
                 <input class="{{classList}}" placeholder="{{placeholder}}" type={{type}} size="40" value="{{value}}"/>
                 <div class="input__error">{{#if error}}{{error}}{{/if}}</div>
             </div>

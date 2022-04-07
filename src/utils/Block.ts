@@ -44,13 +44,19 @@ export default class Block<P = any> {
         eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
         eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
     }
+    _createResources() {
+        this._element = this._createDocumentElement('div');
+    }
 
     protected getStateFromProps(props:P): void {
         this.state = {} as P;
     }
 
+
+
     init() {
-        this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+        this._createResources();
+        this.eventBus().emit(Block.EVENTS.FLOW_RENDER, this.props);
     }
 
     _componentDidMount(props:any) {
@@ -107,7 +113,7 @@ export default class Block<P = any> {
 
     // Может переопределять пользователь, необязательно трогать
     protected render(): string {
-        return ''
+        return '';
     }
 
     getContent(): HTMLElement {
@@ -121,7 +127,8 @@ export default class Block<P = any> {
         }
         return this._element!;
     }
-    _makePropsProxy(props: any) {
+
+    _makePropsProxy(props: any): any {
         // Можно и так передать this
         // Такой способ больше не применяется с приходом ES6+
         const self = this;
@@ -133,7 +140,6 @@ export default class Block<P = any> {
             },
             set(target: Record<string, unknown>, prop:string, value:unknown) {
                 target[prop] = value;
-
                 // Запускаем обновление компоненты
                 // Плохой cloneDeep, в след итерации нужно заставлять добавлять cloneDeep им самим
                 self.eventBus().emit(Block.EVENTS.FLOW_CDU, {...target}, target);
@@ -144,8 +150,12 @@ export default class Block<P = any> {
             }});
     }
 
+    _createDocumentElement(tagName: string) {
+        return document.createElement(tagName);
+    }
+
     _removeEvents(){
-        const events: Record<string, () => void> = this.props.events;
+        const events: Record<string, () => void> = (this.props as any).events;
         if (!events || !this._element){
             return;
         }

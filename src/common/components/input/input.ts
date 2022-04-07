@@ -17,8 +17,10 @@ export class Input extends Block {
     render(){
         //language=hbs
         return `
-            <input class="{{classList}}" placeholder="{{placeholder}}" type={{type}} size="40" value="{{value}}"/>
-            <div class="input__error">{{#if error}}{{error}}{{/if}}</div>
+            <div>
+                <input class="{{classList}}" placeholder="{{placeholder}}" type={{type}} size="40" value="{{value}}"/>
+                <div class="input__error">{{#if error}}{{error}}{{/if}}</div>
+            </div>
         `
     }
 }

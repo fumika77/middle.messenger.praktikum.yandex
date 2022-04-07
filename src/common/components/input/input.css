@@ -1,47 +1,14 @@
-.input{
-    outline: none;
-    border: none;
-    border-bottom: 1px solid #000000;
-    background: var(--input-background-color);
-}
-.input::placeholder{
-    font-size: 12px;
-    line-height: 14px;
-    bottom: 2px;
-}
-
-.profile{
-    &__input{
-    width: 500px;
+.input {
+    width: 232px;
     height: 40px;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid #000;
+
+    &__error {
+        color: red;
+        font-size: 12px;
+        text-align: center;
+        height: 12px;
     }
-    &__label{
-         display: inline-block;
-         font-size: 12px;
-         line-height: 14px;
-         text-align: right;
-     }
-
-    &__wrapper{
-         margin:5px;
-     }
-}
-
-.signUp{
-    &__input{
-        width: 315px;
-        height: 40px;
-        position: static;
-    }
-
-    &__input, &__label {
-        display:block;
-    }
-
-    &__label{
-         display: inline-block;
-         font-size: 12px;
-         position: absolute;
-         line-height: 14px;
-     }
 }

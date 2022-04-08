@@ -47,6 +47,14 @@ export class SignUp extends Block{
                 };
                 this.setState(nextState);
             },
+            onBlur: () => {
+                console.log('onblur')
+                // document.getElementById('errorText')!.style.display = "block"
+            },
+            onFocus: () => {
+                console.log('onfocus')
+                // document.getElementById('errorText')!.style.display = "none"
+            }
         }
     }
 
@@ -57,57 +65,72 @@ export class SignUp extends Block{
         return `
             <main>
                 <div class="signUp__box"></div>
-                <h1 class="header && text">Регистрация</h1>
-                <div class="signUp__formBox">
+                <div class="signUp__formBox">                
+                    <h1 class="header && text">Регистрация</h1>
                     {{{InputLabel id="first_name"
                                   ref="first_name"
                                   type="text" 
                                   value="${values.first_name}"
                                   error="${errors.first_name}" 
                                   label="Имя" 
-                                  style="signUp"}}}
+                                  style="signUp"
+                                  onBlur=onBlur
+                                  onFocus=onFocus}}}
                     {{{InputLabel id="second_name"
                                   ref="second_name"
                                   type="text" 
                                   value="${values.second_name}"
                                   error="${errors.second_name}" 
                                   label="Фамилия" 
-                                  style="signUp"}}}
+                                  style="signUp"
+                                  onBlur=onBlur
+                                  onFocus=onFocus}}}
                     {{{InputLabel id="login"
                                   ref="login"
                                   type="text" 
                                   value="${values.login}"
                                   error="${errors.login}"  
                                   label="Логин" 
-                                  style="signUp"}}}
+                                  style="signUp"
+                                  onBlur=onBlur
+                                  onFocus=onFocus}}}
                     {{{InputLabel id="password"
                                   ref="password"
                                   type="password" 
                                   value="${values.password}"
                                   error="${errors.password}"  
                                   label="Пароль" 
-                                  style="signUp"}}}
+                                  style="signUp"
+                                  onBlur=onBlur
+                                  onFocus=onFocus}}}
                     {{{InputLabel id="password_repeat"
                                   ref="password_repeat"
                                   type="password" 
                                   value="${values.password_repeat}"
                                   error="${errors.password_repeat}"
                                   label="Повторите пароль" 
-                                  style="signUp"}}}
+                                  style="signUp"
+                                  onBlur=onBlur
+                                  onFocus=onFocus}}}
                     {{{InputLabel id="email" 
                                   ref="email" 
                                   type="text" 
                                   value="${values.email}"
                                   error="${errors.email}" 
                                   label="Почта" 
-                                  style="signUp"}}}
+                                  style="signUp"
+                                  onBlur=onBlur
+                                  onFocus=onFocus}}}
                     {{{InputLabel id="phone"
                                   ref="phone"
                                   type="number" 
                                   value="${values.phone}"
                                   error="${errors.phone}"
                                   label="Телефон" 
-                                  style="signUp"}}}
+                                  style="signUp"
+                                  onBlur=onBlur
+                                  onFocus=onFocus
+                    }}}
                     {{{Button link="" 
                               text="Зарегистрироваться" onClick=onClick}}}
                     <a href="" class="textLink" click=onClick>Войти</a>

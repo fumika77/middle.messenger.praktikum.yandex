@@ -2,18 +2,18 @@ import Block from "../../../utils/Block";
 
 interface AvatarProps {
     src: string;
-    onClick?: () => void;
+    style?: string;
 }
 
 export class Avatar extends Block {
-    constructor({src, onClick}: AvatarProps) {
-        super({src, events: {click: onClick}});
+    constructor({src}: AvatarProps) {
+        super({src, events: {}});
     }
 
     render(){
         //language=hbs
         return `
-            <img class="profileImg" src="{{src}}">
+            <img class="{{style}}" src="{{src}}">
         `
     }
 }

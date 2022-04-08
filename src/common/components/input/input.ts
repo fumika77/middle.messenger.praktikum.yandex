@@ -6,12 +6,13 @@ interface InputProps {
     value: string;
     error?: string;
     classList: string;
+    ref?: string;
     onChange?: () => void;
 }
 
 export class Input extends Block {
-    constructor({type, classList, placeholder, value, error, onChange}: InputProps) {
-        super({type, placeholder, value, error, classList, events: {input: onChange}}, 'input');
+    constructor({type, classList, placeholder, value, error, ref, onChange}: InputProps) {
+        super({type, placeholder, value, error, classList, ref, events: {input: onChange}}) ;
     }
 
 

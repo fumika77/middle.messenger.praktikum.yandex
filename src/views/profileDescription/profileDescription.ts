@@ -1,5 +1,5 @@
 import Block from "../../utils/Block";
-import {IError, Validation} from "../../common/modules/validation";
+import {IError, Validation} from "../../utils/validation";
 
 export class ProfileDescription extends Block{
     protected getStateFromProps() {
@@ -26,8 +26,6 @@ export class ProfileDescription extends Block{
                     email: (this.refs['email'].childNodes[3] as HTMLInputElement)?.value,
                     phone: (this.refs['phone'].childNodes[3] as HTMLInputElement)?.value,
                 };
-                console.log('profileSettingsData')
-                console.log(profileSettingsData)
                 let validationResults: {[id: string]: IError} = Validation({...profileSettingsData});
                 const nextState = {
                     errors: {
@@ -39,7 +37,6 @@ export class ProfileDescription extends Block{
                     },
                     values: { ...profileSettingsData },
                 };
-
 
                 this.setState(nextState);
                 console.log('action/login', profileSettingsData);
@@ -54,7 +51,7 @@ export class ProfileDescription extends Block{
             <main>
             <div class="profile__box">
                 {{{ BackArrow link=""}}}
-                {{{ Avatar }}}
+                {{{ Avatar style="profileImg" src="../../../static/img/animals.png"}}}
                 <h1 class="profile__description__header && text">{{name}}</h1>
                 <div class="profile__description__formData">
                     {{{InputLabel ref="first_name" 

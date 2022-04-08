@@ -13,14 +13,10 @@ export class Button extends Block<any> {
         super({text,  link, style, events: {click: onClick}}, 'button'+nanoid(6));
     }
 
-    protected componentDidUpdate (oldProps: any,newProps:any){
-        return !oldProps.login==newProps.login && oldProps.password==newProps.password;
-    }
     render(){
         //language=hbs
         return `
-        <a class="text && button && {{style}}">{{text}}</a>
-<!--        <a href="{{link}}" class="text && button && {{style}}">{{text}}</a>-->
+        <a href="{{link}}" class="text && button && {{style}}">{{text}}</a>
         `
     }
 }

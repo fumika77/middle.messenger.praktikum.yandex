@@ -19,7 +19,7 @@ export default class Block<P = any> {
     protected state: any = {};
     protected refs: {[key: string]: HTMLElement} = {};
 
-    constructor(props?:P, name) {
+    constructor(props?:P, name?) {
         const eventBus = new EventBus();
 
         this._meta = {
@@ -154,8 +154,8 @@ export default class Block<P = any> {
 
     _addEvents() {
         const events: Record<string, () => void> = (this.props as any).events;
-        console.log('_addEvents___'+this.componentName)
-        console.log(events)
+        // console.log('_addEvents___'+this.componentName)
+        // console.log(events)
         if (!events) {
             return;
         }
@@ -167,8 +167,8 @@ export default class Block<P = any> {
 
     compile(){
         const fragment = document.createElement('template');
-        console.log('componentName')
-        console.log(this.componentName)
+        // console.log('componentName')
+        // console.log(this.componentName)
         const template = Handlebars.compile(this.render());
         const htmlString = template({ ...this.state, ...this.props, children: this.children, refs: this.refs});
         fragment.innerHTML = htmlString;

@@ -1,1 +1,4 @@
-<input class="{{class}}" placeholder="{{placeholder}}" type={{type}} size="40" value="{{login}}"/>
+<div class="input__wraper">
+    <input class="{{classList}}" placeholder="{{placeholder}}" type={{type}} size="40" value="{{value}}"/>
+    <div class="input__error">{{#if error}}{{error}}{{/if}}</div>
+</div>

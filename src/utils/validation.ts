@@ -6,6 +6,7 @@ interface IValidationFields {
     first_name?: string,
     second_name?: string,
     phone?: string,
+    message?: string,
 }
 
 export interface IError {

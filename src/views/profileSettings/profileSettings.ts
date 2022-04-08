@@ -1,5 +1,5 @@
 import Block from "../../utils/Block";
-import {IError, Validation} from "../../common/modules/validation";
+import {IError, Validation} from "../../utils/validation";
 
 export class ProfileSettings extends Block{
     protected getStateFromProps() {
@@ -51,7 +51,7 @@ export class ProfileSettings extends Block{
             <main>
                 <div class="profile__box">
                     {{{BackArrow link="../profileDescription/profileDescription.hbs"}}}
-                    {{{Avatar src="../../../static/img/animals.png"}}}
+                    {{{Avatar style="profileImg" src="../../../static/img/animals.png"}}}
                     <img class="profile__settings__editImg" src="../../../static/img/image-edit(40x40)@1x.png">
                     <h1 class="profile__settings__header && text">Настройки профиля</h1>
                     <div class="profile__settings__formData">

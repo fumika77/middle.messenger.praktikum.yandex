@@ -1,5 +1,5 @@
 import Block from "../../utils/Block";
-import {IError, Validation} from "../../common/modules/validation";
+import {IError, Validation} from "../../utils/validation";
 
 export class SignUp extends Block{
     protected getStateFromProps() {
@@ -60,7 +60,8 @@ export class SignUp extends Block{
 
     render() {
         const {errors, values} = this.state;
-        console.log(errors)
+        console.log("this.refs")
+        console.log(this.refs)
         //language=hbs
         return `
             <main>

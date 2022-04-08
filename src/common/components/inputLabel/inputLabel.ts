@@ -28,16 +28,12 @@ export class InputLabel extends Block {
 
 
     render(){
-        console.log('this.state'+this.componentName)
-        console.log({...this.state})
         //language=hbs
         return `
             <div class="{{style}}__inputWrapper">
                 <label class="{{style}}__label" for={{id}}>{{label}}</label>
-                <input 
-                    onblur={{{onBlur}}}
-                class="inputLabel && {{style}}__input"
-                type={{type}} size="40" id="{{id}}" value="{{value}}" {{disabled}}/>
+                <input class="inputLabel && {{style}}__input"
+                       type={{type}} size="40" id="{{id}}" value="{{value}}" {{disabled}}/>
                 <div  id="errorText" class="input__error">{{#if error}}{{error}}{{/if}}</div>
             </div>
         `

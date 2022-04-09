@@ -1,0 +1,21 @@
+{
+  "extends": ["airbnb", "prettier"],
+  "parserOptions": {
+    "ecmaVersion": 2017
+  },
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "html","prettier"],
+  "env": {
+    "es6": true
+  },
+  "rules": {
+    "max-len": [2, 100],
+    "indent": [
+      "error",
+      4
+    ],
+    "no-console": [
+      0
+    ]
+  }
+}

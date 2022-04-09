@@ -1,0 +1,127 @@
+.dialogs {
+    &__wrapper {
+         display: grid;
+         /*width: 1200px;*/
+         margin: auto;
+         grid-template-areas:
+                "n h"
+                "n c"
+                "n f";
+         grid-template-rows: 100px 1fr 100px;
+         grid-template-columns: 500px 1fr;
+         min-height: 800px;
+     }
+    &__profile__box__img{
+         width: 148px;
+         height: 148px;
+         border-radius: 100px;
+         box-shadow: inset 0 2px 4px #0000001a;
+     }
+
+    &__profile__box{
+         height: 30%;
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         justify-content: space-evenly;
+         margin: 5px;
+     }
+
+     &__search{
+          width: 246px;
+          height: 35px;
+          top: 20%;
+          background: var(--dialogs-input-color);
+          border-radius: 12px;
+          border-color: var(--dialogs-input-color);;
+      }
+
+    &__header {
+        grid-area: h;
+        background-color: cornflowerblue;
+        background: var(--dialogs-header-color);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding-left: 20px;
+    }
+
+    &__footer {
+        grid-area: f;
+        background-color:  var(--box-background-color);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding-left: 20px;
+        border-top: 0.5px solid #BABABA;
+        justify-content: center;
+    }
+
+     &__header__person__name{
+          font-weight: bold;
+          font-size: 16px;
+          padding-left: 10px;
+      }
+
+    &__sidebar {
+        grid-area: n;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: var(--dialogs-sidebar-color);
+    }
+
+    &__dialogs__box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: var(--dialogs-sidebar-color);
+        height: auto;
+        padding: 5px;
+    }
+
+    &__content {
+        grid-area: c;
+        background-color:  var(--box-background-color);
+    }
+
+     &__item{
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          width: 500px;
+          height: 130px;
+          border-bottom: 1px solid #BABABA;
+          border-top: 1px solid #BABABA;
+          padding: 5px;
+      }
+
+     &__item__img{
+          width: 90px;
+          height: 90px;
+          border-radius: 100px;
+          top: 10%;
+          box-shadow: inset 0 2px 4px #0000001a;
+      }
+
+     &__person-name{
+          font-weight: bold;
+          font-size: 16px;
+          top: 5%
+      }
+
+     &__message{
+          padding: 14px;
+          display: flex;
+          flex-direction: column;
+          height: 120px;
+      }
+
+     &__message__text{
+         padding-top: 25px;
+      }
+
+     &__send__button{
+         padding-left: 10px;
+      }
+}

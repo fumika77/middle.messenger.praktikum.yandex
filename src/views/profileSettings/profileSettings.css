@@ -1,22 +1,23 @@
-.profile__settings{
-    &__header{
+.profile__settings {
+  &__header {
     position: absolute;
     top: 38%;
     font-size: 22px;
-    }
-    &__editImg{
-         position: absolute;
-         width: 32px;
-         height: 35px;
-         top:35%;
-         left: 56%;
-     }
+  }
 
-     &__formData{
-          position: absolute;
-          top: 45%;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-      }
+  &__editImg {
+    position: absolute;
+    width: 32px;
+    height: 35px;
+    top: 35%;
+    left: 56%;
+  }
+
+  &__formData {
+    position: absolute;
+    top: 45%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }

@@ -12,12 +12,11 @@
   align-items: center;
 
   &__img {
-    position: absolute;
     margin-top: 15%;
   }
 
   &__input__login {
-    margin-top: 90%;
+     margin-top: 30%;
   }
 
   &__input::placeholder {

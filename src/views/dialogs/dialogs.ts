@@ -8,13 +8,20 @@ export class Dialogs extends Block{
                 message:'message',
                 searchValue:'',
                 activeDialogSenderName:'Муся',
+                // dialogs: [
+                //     {
+                //         senderImg:,
+                //         senderName:,
+                //         messageText:
+                //     }
+                // ]
             },
             errors: {
                 message:'где мой message'
             },
             onClick: () => {
                 let dialogData = {
-                    // message: (this.refs['message'].childNodes[3] as HTMLInputElement)?.value,
+                    message: (this.refs['message'].childNodes[3] as HTMLInputElement)?.value,
                 };
                 let validationResults: {[id: string]: IError} = Validation({...dialogData});
                 const nextState = {
@@ -24,7 +31,6 @@ export class Dialogs extends Block{
                     values: { ...dialogData },
                 };
                 this.setState(nextState);
-
             },
         }
     }
@@ -37,14 +43,14 @@ export class Dialogs extends Block{
             <main>
                 <div class="dialogs__wrapper">
                     <div class="dialogs__header">
-                        {{{ Avatar style="dialogs__item__img" 
+                        {{{ Avatar style="dialogs__item__img"
                                    src="img/animals.png"}}}
-                        <div class="dialogs__header__person__name && text">"${this.state.values.activeDialogSenderName}"</div>
+                        <div class="dialogs__header__person__name && text">"${values.activeDialogSenderName}"</div>
                     </div>
                     <div class="dialogs__sidebar">
                         <div class="dialogs__profile__box">
                             <div>
-                                {{{Avatar style="dialogs__profile__box__img" 
+                                {{{Avatar style="dialogs__profile__box__img"
                                           src="img/animals.png"}}}
                                 {{{ImageButton href=""
                                                src="img/profile-edit(32x32)@1x.png"}}}
@@ -53,35 +59,35 @@ export class Dialogs extends Block{
                                      ref="search"
                                      placeholder="Поиск"
                                      type="text"
-                                     value="${this.state.values.searchValue}"}}}
+                                     value="${values.searchValue}"}}}
                         </div>
                         <div class="dialogs__dialogs__box">
-                            {{{DialogItem src="${this.state.values.senderImg}" 
-                                          sender="${this.state.values.senderName}" 
-                                          value="${this.state.values.messageText}"}}}
-                            {{{DialogItem src="${this.state.values.senderImg}" 
-                                          sender="${this.state.values.senderName}" 
-                                          value="${this.state.values.messageText}"}}}
-                            {{{DialogItem src="${this.state.values.senderImg}" 
-                                          sender="${this.state.values.senderName}" 
-                                          value="${this.state.values.messageText}"}}}
+                            {{{DialogItem src="${values.senderImg}"
+                                          sender="${values.senderName}"
+                                          value="${values.messageText}"}}}
+                            {{{DialogItem src="${values.senderImg}"
+                                          sender="${values.senderName}"
+                                          value="${values.messageText}"}}}
+                            {{{DialogItem src="${values.senderImg}"
+                                          sender="${values.senderName}"
+                                          value="${values.messageText}"}}}
                         </div>
                     </div>
-                <div class="dialogs__content">
-                </div>
-                <div class="dialogs__footer">
-                    {{{Input ref="my_message"
-                             style="dialogs__send__message"
-                             placeholder="Написать сообщение" 
-                             type="text" 
-                             value="${this.state.values.message}"
-                             error="${this.state.errors.message}"}}}
-                    {{{ImageButton class="dialogs__send__button" 
-                                   href="" 
-                                   src="img/send-button-3(40x40)@1x.png"
-                                   onClick=onClick
-                    }}}
-                </div>
+                    <div class="dialogs__content">
+                    </div>
+                    <div class="dialogs__footer">
+                        {{{Input ref="my_message"
+                                 style="dialogs__send__message"
+                                 placeholder="Написать сообщение"
+                                 type="text"
+                                 value="${values.message}"
+                                 error="${errors.message}"}}}
+                        {{{ImageButton class="dialogs__send__button"
+                                       href=""
+                                       src="img/send-button-3(40x40)@1x.png"
+                                       onClick=onClick
+                        }}}
+                    </div>
             </main>
         `
     }

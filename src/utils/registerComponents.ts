@@ -24,7 +24,7 @@ export default function registerComponents(Component: typeof Block) {
     })
 
     Handlebars.registerHelper('isNeedStubForStyle', function (value) {
-        return value == 'profile' || value == 'signUp';
+        return value == 'profile' || value == 'signUp'|| value == 'login';
     });
 
 }

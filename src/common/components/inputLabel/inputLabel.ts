@@ -8,19 +8,16 @@ interface InputLabelProps {
     value: string;
     error?: string;
     style: string;
-    label:string;
+    label?:string;
     disabled?:string;
-    onBlur: () => void;
 }
 
 export class InputLabel extends Block {
     constructor({type, id, label, style, placeholder, value, error, disabled}: InputLabelProps) {
         super({type, id, label, style, placeholder, value, error, disabled,
             onBlur: () => {
-                console.log('onblur')
             },
             onFocus: () => {
-                console.log('onfocus')
             },
             events: {}
         }, 'InputLabel___'+nanoid(2));

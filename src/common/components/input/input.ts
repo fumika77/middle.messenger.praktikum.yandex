@@ -18,20 +18,12 @@ export class Input extends Block {
             events: {
                 blur: () =>{
                         let errorTextId = idForError+'_errorText';
-                        console.log('blurblurblurblur');
-                        console.log(document.getElementById(errorTextId));
-                        document.getElementById(errorTextId)!.style.display = "block"
+                        // document.getElementById(errorTextId)!.style.display = "block"
                 },
                 focus: () => {
-                    console.log('FOCUS FOCUS');
                     let errorTextId = idForError+'_errorText';
-                    console.log(document.getElementById(errorTextId));
-                    document.getElementById(errorTextId)!.style.display = "none"
+                    // document.getElementById(errorTextId)!.style.display = "none"
                 }
-                ,
-                input: () => {console.log('input')},
-                onblur: onBlur,
-                onfocus: onFocus
         }}) ;
     }
 

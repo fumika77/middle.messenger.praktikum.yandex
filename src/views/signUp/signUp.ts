@@ -46,8 +46,6 @@ export class SignUp extends Block {
                     values: {...signUpData},
                 };
 
-                console.log('errors')
-                console.log(nextState.errors)
                 this.setState(nextState);
             },
             onBlur: () => {

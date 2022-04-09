@@ -2,6 +2,7 @@ import Block from "../../utils/Block";
 import img from "../../../static/img/user(144x144)@1x.png";
 import {addEventListner} from "../../index";
 import {redirect} from "../../utils/redirect";
+import {IError, Validation} from "../../utils/validation";
 
 interface ILoginData{
     login:string,
@@ -9,13 +10,6 @@ interface ILoginData{
 }
 
 export class Login extends Block{
-    constructor() {
-        super({});
-    }
-
-    componentDidUpdate (oldProps: any,newProps:any){
-        return !oldProps.login==newProps.login && oldProps.password==newProps.password;
-    }
 
     protected getStateFromProps() {
         this.state = {
@@ -23,43 +17,55 @@ export class Login extends Block{
                 login:'',
                 password:''
             },
+            errors: {
+                login:'',
+                password:''
+            },
             onLogin: () => {
-                console.log('login click')
                 const loginData:ILoginData = {
-                    login: (this.refs['login'].firstElementChild as HTMLInputElement).value,
-                    password: (this.refs['password'].firstElementChild as HTMLInputElement).value,
+                    login: (this.refs['login'].childNodes[3]  as HTMLInputElement)?.value,
+                    password: (this.refs['password'].childNodes[3]  as HTMLInputElement)?.value,
                 };
+
+                let validationResults: { [id: string]: IError } = Validation({...loginData});
                 const nextState = {
-                    values: { ...loginData },
+                    errors: {
+                        login: validationResults.login.status ? '' : validationResults.login.errorText,
+                        password: validationResults.password.status ? '' : validationResults.password.errorText,
+                    },
+                    values: {...loginData},
                 };
-                redirect('dialogs');
                 this.setState(nextState);
+                if(nextState.errors.login=='' && nextState.errors.password==''){
+                    redirect('dialogs');
+                }
             },
             onSignUpClick: () => {
-                console.log('signUP click')
                 redirect('signUp');
             }
         }
     }
 
     render() {
-        const {values} = this.state;
+        const {values, errors} = this.state;
         //language=hbs
         return `
         <main>
             <div class="login">
                 <img class="login__img" src="img/user(144x144)@1x.png" alt="login">
-                {{{ Input ref="login" 
-                          value="${values.login}"
-                          style="input && login__input__login && text"
-                          placeholder="Логин" 
-                          type="text"}}}
-                {{{ Input ref="password"  
-                          value="${values.password}"
-                          style="input && text"
-                          placeholder="Пароль" 
-                          type="password" }}}
-                {{{ Button link="#dialogs" text="Войти" pageValues=${values} onClick=onLogin}}}
+                {{{ InputLabel ref="login" 
+                              value="${values.login}"
+                              error="${errors.login}"
+                              style="login"
+                              placeholder="Логин" 
+                              type="text"}}}
+                {{{ InputLabel ref="password"  
+                              value="${values.password}"
+                              error="${errors.password}"
+                              style="login"
+                              placeholder="Пароль" 
+                              type="password" }}}
+                {{{ Button text="Войти" onClick=onLogin}}}
                 {{{ Link link="#signUp" style="textLink"  text="Нет аккаунта?" onClick=onSignUpClick}}}
             </div>
         </main>

@@ -5,7 +5,7 @@ interface ButtonProps {
     text: string;
     link: string;
     style: string;
-    onClick: (pageValues:any) => void;
+    onClick: () => void;
 }
 
 export class Button extends Block<any> {

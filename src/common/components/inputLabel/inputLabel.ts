@@ -1,5 +1,5 @@
-import Block from "../../../utils/Block";
 import {nanoid} from "nanoid";
+import Block from "../../../utils/Block";
 
 interface InputLabelProps {
     type: 'text' | 'password' | 'email';
@@ -20,11 +20,11 @@ export class InputLabel extends Block {
             onFocus: () => {
             },
             events: {}
-        }, 'InputLabel___'+nanoid(2));
+        }, `InputLabel___${nanoid(2)}`);
     }
 
     render(){
-        //language=hbs
+        // language=hbs
         return `
             <div class="{{style}}__inputWrapper">
                 <label class="{{style}}__label" for={{id}}>{{label}}</label>

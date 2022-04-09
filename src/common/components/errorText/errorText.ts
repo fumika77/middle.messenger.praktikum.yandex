@@ -10,7 +10,7 @@ export class ErrorText extends Block {
     }
 
     render(){
-        //language=hbs
+        // language=hbs
         return `
             <div class="input__error">{{errorText}}</div>
         `

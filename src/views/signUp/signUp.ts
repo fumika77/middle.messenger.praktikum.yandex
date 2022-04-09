@@ -24,16 +24,16 @@ export class SignUp extends Block {
                 phone: ''
             },
             onClick: () => {
-                let signUpData = {
-                    login: (this.refs['login'].childNodes[3] as HTMLInputElement)?.value,
-                    first_name: (this.refs['first_name'].childNodes[3] as HTMLInputElement)?.value,
-                    second_name: (this.refs['second_name'].childNodes[3] as HTMLInputElement)?.value,
-                    password: (this.refs['password'].childNodes[3] as HTMLInputElement)?.value,
-                    password_repeat: (this.refs['password_repeat'].childNodes[3] as HTMLInputElement)?.value,
-                    email: (this.refs['email'].childNodes[3] as HTMLInputElement)?.value,
-                    phone: (this.refs['phone'].childNodes[3] as HTMLInputElement)?.value,
+                const signUpData = {
+                    login: (this.refs.login.childNodes[3] as HTMLInputElement)?.value,
+                    first_name: (this.refs.first_name.childNodes[3] as HTMLInputElement)?.value,
+                    second_name: (this.refs.second_name.childNodes[3] as HTMLInputElement)?.value,
+                    password: (this.refs.password.childNodes[3] as HTMLInputElement)?.value,
+                    password_repeat: (this.refs.password_repeat.childNodes[3] as HTMLInputElement)?.value,
+                    email: (this.refs.email.childNodes[3] as HTMLInputElement)?.value,
+                    phone: (this.refs.phone.childNodes[3] as HTMLInputElement)?.value,
                 };
-                let validationResults: { [id: string]: IError } = Validation({...signUpData});
+                const validationResults: { [id: string]: IError } = Validation({...signUpData});
                 const nextState = {
                     errors: {
                         login: validationResults.login.status ? '' : validationResults.login.errorText,
@@ -57,7 +57,7 @@ export class SignUp extends Block {
 
     render() {
         const {errors, values} = this.state;
-        //language=hbs
+        // language=hbs
         return `
             <main>
                 <div class="signUp__box">

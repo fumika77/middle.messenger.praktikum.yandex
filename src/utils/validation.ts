@@ -21,7 +21,7 @@ function checkNames(validationResults: { [id: string]: IError }, key: string, va
             errorText: 'Некорректное значение'
         }
         return false;
-    } else return true;
+    } return true;
 }
 
 function checkLogin(validationResults: { [id: string]: IError }, key: string, value: string) {
@@ -32,7 +32,7 @@ function checkLogin(validationResults: { [id: string]: IError }, key: string, va
             errorText: 'Недопустимые символы'
         }
         return false;
-    } else return true;
+    } return true;
 }
 
 function checkPassword(validationResults: { [id: string]: IError }, key: string, value: string) {
@@ -42,7 +42,7 @@ function checkPassword(validationResults: { [id: string]: IError }, key: string,
             errorText: 'Выбранный пароль не удовлетворяет требованиям'
         }
         return false;
-    } else return true;
+    } return true;
 }
 
 function checkPhone(validationResults: { [id: string]: IError }, key: string, value: string) {
@@ -52,7 +52,7 @@ function checkPhone(validationResults: { [id: string]: IError }, key: string, va
             errorText: 'Введен некорректный номер телефона'
         }
         return false;
-    } else return true;
+    } return true;
 }
 
 function checkEmail(validationResults: { [id: string]: IError }, key: string, value: string) {
@@ -62,7 +62,7 @@ function checkEmail(validationResults: { [id: string]: IError }, key: string, va
             errorText: 'Некорректное значение'
         }
         return false;
-    } else return true;
+    } return true;
 }
 
 function checkPasswordRepeat(validationResults: { [id: string]: IError }, key: string, value: string, repeatValue: string | undefined) {
@@ -72,15 +72,15 @@ function checkPasswordRepeat(validationResults: { [id: string]: IError }, key: s
             errorText: 'Значения паролей не совпадают'
         }
         return false;
-    } else return true;
+    } return true;
 }
 
 
 export function Validation(fields: IValidationFields): { [id: string]: IError } {
-    let validationResults: { [id: string]: IError } = {};
+    const validationResults: { [id: string]: IError } = {};
     Object.keys(fields).forEach(key => {
         // @ts-ignore
-        let value: any = fields[key];
+        const value: any = fields[key];
         if (value == undefined || value == null || value == '') {
             validationResults[key] = {
                 status: false,
@@ -96,8 +96,8 @@ export function Validation(fields: IValidationFields): { [id: string]: IError } 
             } else if (key == 'password') {
                 checkPassword(validationResults, key, value)
             }
-             else if (key == 'password_repeat') {
-               checkPasswordRepeat(validationResults, key, value, fields.password)
+            else if (key == 'password_repeat') {
+                checkPasswordRepeat(validationResults, key, value, fields.password)
             } else if (key == 'email') {
                 checkEmail(validationResults, key, value)
             }

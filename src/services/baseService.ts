@@ -19,82 +19,75 @@ export interface IRequestOptions{
 function queryStringify(data: {[key:string]:any}) {
     const array:string[] = [];
     Object.keys(data).forEach(key => {
-            let param = data[key];
-            if (Array.isArray(param)) {
-                array.push(key + '=' + param.join(','));
-            } else if (typeof param === 'object') {
-                array.push(key + '=' + param)
-            } else if (typeof param === 'boolean') {
-                array.push(key + '=' + Boolean(param))
-            } else {
-                array.push(key + '=' + param)
-            }
+        const param = data[key];
+        if (Array.isArray(param)) {
+            array.push(`${key  }=${  param.join(',')}`);
+        } else if (typeof param === 'object') {
+            array.push(`${key  }=${  param}`)
+        } else if (typeof param === 'boolean') {
+            array.push(`${key  }=${  Boolean(param)}`)
+        } else {
+            array.push(`${key  }=${  param}`)
         }
+    }
     )
-    return '?'+array.join('&');
+    return `?${array.join('&')}`;
 }
 
 export class BaseService {
-    get = (url:string, options:IRequestOptions) => {
-        return this.request(url, {...options, method: EMethods.GET}, options.timeout);
-    };
-    post = (url:string, options:IRequestOptions) => {
-        return this.request(url, {...options, method: EMethods.POST}, options.timeout);
-    };
-    put = (url:string, options:IRequestOptions) => {
-        return this.request(url, {...options, method: EMethods.PUT}, options.timeout);
-    };
-    delete = (url:string, options:IRequestOptions) => {
-        return this.request(url, {...options, method: EMethods.DELETE}, options.timeout);
-    };
+    get = (url:string, options:IRequestOptions) => this.request(url, {...options, method: EMethods.GET}, options.timeout);
 
-    request = (url:string, options: IRequestOptions, timeout = 5000) => {
-        return new Promise(function(resolve, reject) {
-            const xhr = new XMLHttpRequest();
-            if (options.method === EMethods.GET && options.data){
-                xhr.open(options.method, url+queryStringify(options.data),true);
-            } else {
-                xhr.open(options.method, url, true);
-            }
+    post = (url:string, options:IRequestOptions) => this.request(url, {...options, method: EMethods.POST}, options.timeout);
 
-            xhr.onload = function() {
-                resolve(xhr);
-            };
+    put = (url:string, options:IRequestOptions) => this.request(url, {...options, method: EMethods.PUT}, options.timeout);
 
-            xhr.onabort = reject;
-            xhr.onerror = reject;
+    delete = (url:string, options:IRequestOptions) => this.request(url, {...options, method: EMethods.DELETE}, options.timeout);
 
-            xhr.timeout = timeout;
-            xhr.ontimeout = reject;
+    request = (url:string, options: IRequestOptions, timeout = 5000) => new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        if (options.method === EMethods.GET && options.data){
+            xhr.open(options.method, url+queryStringify(options.data),true);
+        } else {
+            xhr.open(options.method, url, true);
+        }
 
-            xhr.onerror = () => {
-                reject({
-                    'status': xhr.status,
-                    'statusText': xhr.statusText,
-                    'description': 'load error'
-                });
-            };
+        xhr.onload = function() {
+            resolve(xhr);
+        };
 
-            if (options.headers) {
-                Object.keys(options.headers).forEach(key => {
-                    xhr.setRequestHeader(key, options.headers[key]);
-                });
-            }
-            else{
-                xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-            }
+        xhr.onabort = reject;
+        xhr.onerror = reject;
 
-            if (options.data) {
-                xhr.send(JSON.stringify(options.data));
-            } else {
-                xhr.send()
-            }
-        })
-    };
+        xhr.timeout = timeout;
+        xhr.ontimeout = reject;
+
+        xhr.onerror = () => {
+            reject({
+                'status': xhr.status,
+                'statusText': xhr.statusText,
+                'description': 'load error'
+            });
+        };
+
+        if (options.headers) {
+            Object.keys(options.headers).forEach(key => {
+                xhr.setRequestHeader(key, options.headers[key]);
+            });
+        }
+        else{
+            xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+        }
+
+        if (options.data) {
+            xhr.send(JSON.stringify(options.data));
+        } else {
+            xhr.send()
+        }
+    });
 }
 
 function fetchWithRetry(url:string, options:IRequestOptions): Promise<any> {
-    let retries  = options.retries;
+    const {retries} = options;
     function onError(err: any){
         const triesLeft = retries!--;
         if (!triesLeft){

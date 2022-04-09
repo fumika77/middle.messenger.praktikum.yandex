@@ -21,14 +21,14 @@ export class ProfileSettings extends Block{
             },
             onClick: () => {
                 const profileSettingsData = {
-                    login: (this.refs['login'].childNodes[3] as HTMLInputElement)?.value,
-                    first_name: (this.refs['first_name'].childNodes[3] as HTMLInputElement)?.value,
-                    second_name: (this.refs['second_name'].childNodes[3] as HTMLInputElement)?.value,
-                    email: (this.refs['email'].childNodes[3] as HTMLInputElement)?.value,
-                    phone: (this.refs['phone'].childNodes[3] as HTMLInputElement)?.value,
+                    login: (this.refs.login.childNodes[3] as HTMLInputElement)?.value,
+                    first_name: (this.refs.first_name.childNodes[3] as HTMLInputElement)?.value,
+                    second_name: (this.refs.second_name.childNodes[3] as HTMLInputElement)?.value,
+                    email: (this.refs.email.childNodes[3] as HTMLInputElement)?.value,
+                    phone: (this.refs.phone.childNodes[3] as HTMLInputElement)?.value,
                 };
 
-                let validationResults: {[id: string]: IError} = Validation({...profileSettingsData});
+                const validationResults: {[id: string]: IError} = Validation({...profileSettingsData});
                 const nextState = {
                     errors: {
                         login: validationResults.login.status? '' : validationResults.login.errorText,
@@ -50,9 +50,10 @@ export class ProfileSettings extends Block{
             }
         }
     }
+
     render() {
         const {errors, values} = this.state;
-        //language=hbs
+        // language=hbs
         return `
             <main>
                 <div class="profile__box">

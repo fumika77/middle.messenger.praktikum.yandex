@@ -26,31 +26,31 @@ export class Dialogs extends Block{
                 searchValue:'',
                 activeDialogSenderName:'Муся',
                 dialogs: [
-                     {
-                         senderImg:"img/animals-2.png",
-                         senderName:"Барсик",
-                         messageText:"Вы: мои кожаные ушли, приходи, на шторах повисим"
-                     },
-                     {
-                         senderImg:"img/negative-space-kitten-series-brown-portrait-2048x1474.jpg",
-                         senderName:"Муся",
-                         messageText:":3"
-                     },
-                     {
-                         senderImg:"img/negative-space-small-purple-flowers-2048x1367.jpg",
-                         senderName:"Садовод",
-                         messageText:":3"
-                     }
-                 ]
+                    {
+                        senderImg:"img/animals-2.png",
+                        senderName:"Барсик",
+                        messageText:"Вы: мои кожаные ушли, приходи, на шторах повисим"
+                    },
+                    {
+                        senderImg:"img/negative-space-kitten-series-brown-portrait-2048x1474.jpg",
+                        senderName:"Муся",
+                        messageText:":3"
+                    },
+                    {
+                        senderImg:"img/negative-space-small-purple-flowers-2048x1367.jpg",
+                        senderName:"Садовод",
+                        messageText:":3"
+                    }
+                ]
             },
             errors: {
                 message:''
             },
             onClick: () => {
-                let dialogData = {
-                    message: (this.refs['message'].childNodes[3] as HTMLInputElement)?.value,
+                const dialogData = {
+                    message: (this.refs.message.childNodes[3] as HTMLInputElement)?.value,
                 };
-                let validationResults: {[id: string]: IError} = Validation({...dialogData});
+                const validationResults: {[id: string]: IError} = Validation({...dialogData});
                 const nextState = {
                     errors: {
                         message: validationResults.message.status? '' : validationResults.message.errorText,
@@ -68,7 +68,7 @@ export class Dialogs extends Block{
     render() {
         const {errors, values} = this.state;
 
-        //language=hbs
+        // language=hbs
         return `
             <main>
                 <div class="dialogs__wrapper">

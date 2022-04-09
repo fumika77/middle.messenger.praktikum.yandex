@@ -1,6 +1,7 @@
-import EventBus from "./EventBus";
 import {nanoid} from "nanoid";
 import Handlebars from 'handlebars';
+import EventBus from "./EventBus";
+
 export default class Block<P = any> {
     static EVENTS = {
         INIT: "init",
@@ -10,13 +11,21 @@ export default class Block<P = any> {
     };
 
     private _element: HTMLElement | null = null;
+
     private readonly _meta: {props: any};
+
     public id = nanoid(6);
+
     protected componentName: string;
+
     protected readonly props: P;
+
     protected children: {[id: string]: Block} = {};
+
     eventBus: () => EventBus;
+
     protected state: any = {};
+
     protected refs: {[key: string]: HTMLElement} = {};
 
     constructor(props?:P, name?) {
@@ -122,6 +131,7 @@ export default class Block<P = any> {
         }
         return this._element!;
     }
+
     _makePropsProxy(props: any) {
         // Можно и так передать this
         // Такой способ больше не применяется с приходом ES6+
@@ -146,14 +156,14 @@ export default class Block<P = any> {
     }
 
     _removeEvents(){
-        const events: Record<string, () => void> = this.props.events;
+        const {events} = this.props;
         if (!events || !this._element){
-            return;
+            
         }
     }
 
     _addEvents() {
-        const events: Record<string, () => void> = (this.props as any).events;
+        const {events} = this.props as any;
         if (!events) {
             return;
         }

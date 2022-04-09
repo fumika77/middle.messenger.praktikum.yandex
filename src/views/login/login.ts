@@ -23,11 +23,11 @@ export class Login extends Block{
             },
             onLogin: () => {
                 const loginData:ILoginData = {
-                    login: (this.refs['login'].childNodes[3]  as HTMLInputElement)?.value,
-                    password: (this.refs['password'].childNodes[3]  as HTMLInputElement)?.value,
+                    login: (this.refs.login.childNodes[3]  as HTMLInputElement)?.value,
+                    password: (this.refs.password.childNodes[3]  as HTMLInputElement)?.value,
                 };
 
-                let validationResults: { [id: string]: IError } = Validation({...loginData});
+                const validationResults: { [id: string]: IError } = Validation({...loginData});
                 const nextState = {
                     errors: {
                         login: validationResults.login.status ? '' : validationResults.login.errorText,
@@ -49,7 +49,7 @@ export class Login extends Block{
 
     render() {
         const {values, errors} = this.state;
-        //language=hbs
+        // language=hbs
         return `
         <main>
             <div class="login">

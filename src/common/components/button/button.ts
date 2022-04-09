@@ -10,11 +10,11 @@ interface ButtonProps {
 
 export class Button extends Block<any> {
     constructor({text, link, style, onClick}: ButtonProps) {
-        super({text,  link, style, events: {click: onClick}}, 'button'+nanoid(6));
+        super({text,  link, style, events: {click: onClick}}, `button${nanoid(6)}`);
     }
 
     render(){
-        //language=hbs
+        // language=hbs
         return `
         <a class="text && button && {{style}}">{{text}}</a>
         `

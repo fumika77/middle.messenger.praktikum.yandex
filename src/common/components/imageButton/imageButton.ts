@@ -13,7 +13,7 @@ export class ImageButton extends Block<any> {
     }
 
     render(){
-        //language=hbs
+        // language=hbs
         return `
             <a class="{{style}}">{{text}}
             <img src="{{src}}">

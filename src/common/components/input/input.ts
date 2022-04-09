@@ -17,18 +17,18 @@ export class Input extends Block {
         super({type, placeholder, value, error, style, disabled, idForError,
             events: {
                 blur: () =>{
-                        let errorTextId = idForError+'_errorText';
-                        // document.getElementById(errorTextId)!.style.display = "block"
+                    const errorTextId = `${idForError}_errorText`;
+                    // document.getElementById(errorTextId)!.style.display = "block"
                 },
                 focus: () => {
-                    let errorTextId = idForError+'_errorText';
+                    const errorTextId = `${idForError}_errorText`;
                     // document.getElementById(errorTextId)!.style.display = "none"
                 }
-        }}) ;
+            }}) ;
     }
 
     render(){
-        //language=hbs
+        // language=hbs
         return `
                 <input class="{{#if (isNeedStubForStyle style)}}inputLabel && {{style}}__input {{else}}{{style}}{{/if}}" 
                        placeholder="{{placeholder}}" 

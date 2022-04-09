@@ -13,7 +13,7 @@ export class DialogItem extends Block<any> {
     }
 
     render(){
-        //language=hbs
+        // language=hbs
         return `
         <div class="dialogs__item">
             <img class="dialogs__item__img" src="{{src}}">

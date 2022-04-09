@@ -11,7 +11,7 @@ export class Avatar extends Block {
     }
 
     render(){
-        //language=hbs
+        // language=hbs
         return `
             <img class="{{style}}" src="{{src}}">
         `

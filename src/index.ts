@@ -29,20 +29,20 @@ registerComponents(DialogItem)
 registerComponents(Link)
 
 export function addEventListner() {
-    let key=window.location.hash.substr(1);
-    let page = key == ''?'login': key;
+    const key=window.location.hash.substr(1);
+    const page = key == ''?'login': key;
 
     document.addEventListener('DOMContentLoaded', () => {
-        let pageCollection:{[key:string]:typeof Block} = {};
-            pageCollection['login']=new Login();
-            pageCollection['profileSettings']=new ProfileSettings();
-            pageCollection['profileDescription']=new ProfileDescription();
-            pageCollection['signUp']=new SignUp();
-            pageCollection['dialogs']=new Dialogs();
-            pageCollection['error']=new Error({
-                errorNumber: 404,
-                errorDescription: 'Упс, ошибочка вышла...'
-            });
+        const pageCollection:{[key:string]:typeof Block} = {};
+        pageCollection.login=new Login();
+        pageCollection.profileSettings=new ProfileSettings();
+        pageCollection.profileDescription=new ProfileDescription();
+        pageCollection.signUp=new SignUp();
+        pageCollection.dialogs=new Dialogs();
+        pageCollection.error=new Error({
+            errorNumber: 404,
+            errorDescription: 'Упс, ошибочка вышла...'
+        });
         if (pageCollection[page] != null) {
             renderDom('#app', pageCollection[page])
         }

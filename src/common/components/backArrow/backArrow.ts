@@ -11,7 +11,7 @@ export class BackArrow extends Block {
     }
 
     render(){
-        //language=hbs
+        // language=hbs
         return `
             <a class="arrowLink"">
                 <img class="profileDescription__arrowImg" src="img/arrow-left-square---filled(40x40)@1x.png">

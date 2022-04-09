@@ -27,9 +27,10 @@ export class ProfileDescription extends Block{
             }
         }
     }
+
     render() {
         const {values} = this.state;
-        //language=hbs
+        // language=hbs
         return `
             <main>
             <div class="profile__box">

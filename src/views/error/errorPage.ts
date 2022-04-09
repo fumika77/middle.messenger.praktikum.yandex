@@ -17,7 +17,7 @@ export class ErrorPage extends Block<IErrorPageProps>{
 
     render() {
         const {values} = this.state;
-        //language=hbs
+        // language=hbs
         return `
             <main>
                 <div class="error__box">

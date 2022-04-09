@@ -1,9 +1,9 @@
+import Handlebars, {HelperOptions} from 'handlebars';
+
 import Block from './Block';
-import {HelperOptions} from 'handlebars';
-import Handlebars from 'handlebars';
 
 export default function registerComponents(Component: typeof Block) {
-    Handlebars.registerHelper(Component.name, function ({ hash: { ref, ...hash }, data }: HelperOptions) {
+    Handlebars.registerHelper(Component.name, ({ hash: { ref, ...hash }, data }: HelperOptions) => {
         if (!data.root.children) {
             data.root.children = {};
         }
@@ -23,8 +23,6 @@ export default function registerComponents(Component: typeof Block) {
         return `<div data-id="id-${component.id}"></div>`;
     })
 
-    Handlebars.registerHelper('isNeedStubForStyle', function (value) {
-        return value == 'profile' || value == 'signUp'|| value == 'login';
-    });
+    Handlebars.registerHelper('isNeedStubForStyle', (value) => value == 'profile' || value == 'signUp'|| value == 'login');
 
 }

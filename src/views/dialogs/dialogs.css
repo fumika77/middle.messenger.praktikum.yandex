@@ -9,7 +9,7 @@
                 "n f";
          grid-template-rows: 100px 1fr 100px;
          grid-template-columns: 500px 1fr;
-         min-height: 1000px;
+         min-height: 800px;
      }
     &__profile__box__img{
          width: 148px;
@@ -37,7 +37,7 @@
       }
 
      &__send__message{
-          width: 900px;
+          width: 700px;
           height: 52px;
           top: 20%;
           background: var(--dialogs-input-color);

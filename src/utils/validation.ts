@@ -1,4 +1,4 @@
-interface IValidationFields {
+export interface IValidationFields {
     login?: string,
     password?: string,
     repeatPassword?: string,

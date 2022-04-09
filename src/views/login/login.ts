@@ -1,5 +1,7 @@
 import Block from "../../utils/Block";
 import img from "../../../static/img/user(144x144)@1x.png";
+import {addEventListner} from "../../index";
+import {redirect} from "../../utils/redirect";
 
 interface ILoginData{
     login:string,
@@ -29,8 +31,11 @@ export class Login extends Block{
                 const nextState = {
                     values: { ...loginData },
                 };
-
+                redirect('dialogs');
                 this.setState(nextState);
+            },
+            onSignUpClick: () => {
+                redirect('signUp');
             }
         }
     }
@@ -41,7 +46,7 @@ export class Login extends Block{
         return `
         <main>
             <div class="login">
-                <img class="login__img" src=${img} alt="login">
+                <img class="login__img" src="img/user(144x144)@1x.png" alt="login">
                 {{{ Input ref="login" 
                           value="${values.login}" 
                           classList="input && login__input__login && text"
@@ -52,8 +57,8 @@ export class Login extends Block{
                           classList="input && text"
                           placeholder="Пароль" 
                           type="password" }}}
-                {{{ Button link="../profileSettings/ProfileSettings.html" text="Войти" pageValues=${values} onClick=onLogin}}}
-                <a href="../profileSettings/profileSettings.html" class="textLink" >Нет аккаунта?</a>
+                {{{ Button link="#dialogs" text="Войти" pageValues=${values} onClick=onLogin}}}
+                {{{ Link link="#signUp" style="textLink"  text="Нет аккаунта?" onClick=onSignUpClick}}}
             </div>
         </main>
         `

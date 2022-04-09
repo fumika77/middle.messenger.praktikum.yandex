@@ -6,6 +6,9 @@
   --button-text-color: #fff;
   --button-background-color: #c4b6ff;
   --action-text-color: #957cff;
+  --dialogs-sidebar-color: #F8F8F8;
+  --dialogs-input-color: #E8E8E8;
+  --dialogs-header-color: #f6f6f6;
 }
 
 .text {
@@ -221,7 +224,7 @@
   width: 140px;
   height: 38px;
   left: calc(50% - 140px / 2 + 20px);
-  bottom: 80%;
+  bottom: 95%;
   font-size: 22px;
   line-height: 26px;
 }
@@ -278,5 +281,141 @@
     color: var(--action-text-color);
     font-size: 20px;
   }
+
+.dialogs__wrapper {
+         display: grid;
+         /*width: 1200px;*/
+         margin: auto;
+         grid-template-areas:
+                "n h"
+                "n c"
+                "n f";
+         grid-template-rows: 100px 1fr 100px;
+         grid-template-columns: 500px 1fr;
+         min-height: 800px;
+     }
+
+.dialogs__profile__box__img{
+         width: 148px;
+         height: 148px;
+         border-radius: 100px;
+         box-shadow: inset 0 2px 4px #0000001a;
+     }
+
+.dialogs__profile__box{
+         height: 30%;
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         justify-content: space-evenly;
+         margin: 5px;
+     }
+
+.dialogs__search{
+          width: 246px;
+          height: 35px;
+          top: 20%;
+          background: var(--dialogs-input-color);
+          border-radius: 12px;
+          border-color: var(--dialogs-input-color);;
+      }
+
+.dialogs__send__message{
+          width: 700px;
+          height: 52px;
+          top: 20%;
+          background: var(--dialogs-input-color);
+          border-radius: 12px;
+          border-color: var(--dialogs-input-color);;
+      }
+
+.dialogs__header {
+        grid-area: h;
+        background-color: cornflowerblue;
+        background: var(--dialogs-header-color);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding-left: 20px;
+    }
+
+.dialogs__footer {
+        grid-area: f;
+        background-color:  var(--box-background-color);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding-left: 20px;
+        border-top: 0.5px solid #BABABA;
+        justify-content: center;
+    }
+
+.dialogs__header__person__name{
+          font-weight: bold;
+          font-size: 16px;
+          padding-left: 10px;
+      }
+
+.dialogs__sidebar {
+        grid-area: n;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: var(--dialogs-sidebar-color);
+    }
+
+.dialogs__dialogs__box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: var(--dialogs-sidebar-color);
+        height: auto;
+        padding: 5px;
+    }
+
+.dialogs__content {
+        grid-area: c;
+        background-color:  var(--box-background-color);
+    }
+
+.dialogs__item{
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          width: 500px;
+          height: 130px;
+          border-bottom: 1px solid #BABABA;
+          border-top: 1px solid #BABABA;
+          padding: 5px;
+      }
+
+.dialogs__item__img{
+          width: 90px;
+          height: 90px;
+          border-radius: 100px;
+          /*top: 10%;*/
+          box-shadow: inset 0 2px 4px #0000001a;
+      }
+
+.dialogs__person-name{
+          font-weight: bold;
+          font-size: 16px;
+          top: 5%
+      }
+
+.dialogs__message{
+          padding: 14px;
+          display: flex;
+          flex-direction: column;
+          height: 120px;
+      }
+
+.dialogs__message__text{
+         padding-top: 25px;
+      }
+
+.dialogs__send__button{
+         padding-left: 10px;
+      }
 
 /*# sourceMappingURL=style.css.map */

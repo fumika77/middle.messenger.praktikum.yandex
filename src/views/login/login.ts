@@ -24,6 +24,7 @@ export class Login extends Block{
                 password:''
             },
             onLogin: () => {
+                console.log('login click')
                 const loginData:ILoginData = {
                     login: (this.refs['login'].firstElementChild as HTMLInputElement).value,
                     password: (this.refs['password'].firstElementChild as HTMLInputElement).value,
@@ -35,6 +36,7 @@ export class Login extends Block{
                 this.setState(nextState);
             },
             onSignUpClick: () => {
+                console.log('signUP click')
                 redirect('signUp');
             }
         }
@@ -48,13 +50,13 @@ export class Login extends Block{
             <div class="login">
                 <img class="login__img" src="img/user(144x144)@1x.png" alt="login">
                 {{{ Input ref="login" 
-                          value="${values.login}" 
-                          classList="input && login__input__login && text"
+                          value="${values.login}"
+                          style="input && login__input__login && text"
                           placeholder="Логин" 
                           type="text"}}}
                 {{{ Input ref="password"  
                           value="${values.password}"
-                          classList="input && text"
+                          style="input && text"
                           placeholder="Пароль" 
                           type="password" }}}
                 {{{ Button link="#dialogs" text="Войти" pageValues=${values} onClick=onLogin}}}

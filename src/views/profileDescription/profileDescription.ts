@@ -45,7 +45,6 @@ export class ProfileDescription extends Block{
     }
     render() {
         const {errors, values} = this.state;
-        console.log(errors)
         //language=hbs
         return `
             <main>

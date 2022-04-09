@@ -23,13 +23,8 @@ export class Dialogs extends Block{
                     },
                     values: { ...dialogData },
                 };
-                console.log("this.refs")
-                console.log(this.refs)
                 this.setState(nextState);
 
-                // console.log(this.refs['message'])
-                console.log("this.refs")
-                console.log(this.refs)
             },
         }
     }
@@ -43,18 +38,18 @@ export class Dialogs extends Block{
                 <div class="dialogs__wrapper">
                     <div class="dialogs__header">
                         {{{ Avatar style="dialogs__item__img" 
-                                   src="../../../static/img/animals.png"}}}
+                                   src="img/animals.png"}}}
                         <div class="dialogs__header__person__name && text">"${this.state.values.activeDialogSenderName}"</div>
                     </div>
                     <div class="dialogs__sidebar">
                         <div class="dialogs__profile__box">
                             <div>
                                 {{{Avatar style="dialogs__profile__box__img" 
-                                          src="../../../static/img/animals.png"}}}
+                                          src="img/animals.png"}}}
                                 {{{ImageButton href=""
-                                               src="../../../static/img/profile-edit(32x32)@1x.png"}}}
+                                               src="img/profile-edit(32x32)@1x.png"}}}
                             </div>
-                            {{{Input classList="dialogs__search"
+                            {{{Input style="dialogs__search"
                                      ref="search"
                                      placeholder="Поиск"
                                      type="text"
@@ -75,15 +70,15 @@ export class Dialogs extends Block{
                 <div class="dialogs__content">
                 </div>
                 <div class="dialogs__footer">
-                    {{{Input ref="my_message" 
-                             classList="dialogs__send__message"
+                    {{{Input ref="my_message"
+                             style="dialogs__send__message"
                              placeholder="Написать сообщение" 
                              type="text" 
                              value="${this.state.values.message}"
                              error="${this.state.errors.message}"}}}
                     {{{ImageButton class="dialogs__send__button" 
                                    href="" 
-                                   src="../../../static/img/send-button-3(40x40)@1x.png"
+                                   src="img/send-button-3(40x40)@1x.png"
                                    onClick=onClick
                     }}}
                 </div>

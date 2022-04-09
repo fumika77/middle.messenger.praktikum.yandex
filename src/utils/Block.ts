@@ -154,8 +154,6 @@ export default class Block<P = any> {
 
     _addEvents() {
         const events: Record<string, () => void> = (this.props as any).events;
-        // console.log('_addEvents___'+this.componentName)
-        // console.log(events)
         if (!events) {
             return;
         }

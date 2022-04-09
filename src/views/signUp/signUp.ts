@@ -45,6 +45,9 @@ export class SignUp extends Block {
                     },
                     values: {...signUpData},
                 };
+
+                console.log('errors')
+                console.log(nextState.errors)
                 this.setState(nextState);
             },
             onBlur: () => {
@@ -60,7 +63,6 @@ export class SignUp extends Block {
 
     render() {
         const {errors, values} = this.state;
-
         //language=hbs
         return `
             <main>
@@ -73,54 +75,42 @@ export class SignUp extends Block {
                                       value="${values.first_name}"
                                       error="${errors.first_name}"
                                       label="Имя"
-                                      style="signUp"
-                                      onBlur=onBlur
-                                      onFocus=onFocus}}}
+                                      style="signUp"}}}
                         {{{InputLabel id="second_name"
                                       ref="second_name"
                                       type="text"
                                       value="${values.second_name}"
                                       error="${errors.second_name}"
                                       label="Фамилия"
-                                      style="signUp"
-                                      onBlur=onBlur
-                                      onFocus=onFocus}}}
+                                      style="signUp"}}}
                         {{{InputLabel id="login"
                                       ref="login"
                                       type="text"
                                       value="${values.login}"
                                       error="${errors.login}"
                                       label="Логин"
-                                      style="signUp"
-                                      onBlur=onBlur
-                                      onFocus=onFocus}}}
+                                      style="signUp"}}}
                         {{{InputLabel id="password"
                                       ref="password"
                                       type="password"
                                       value="${values.password}"
                                       error="${errors.password}"
                                       label="Пароль"
-                                      style="signUp"
-                                      onBlur=onBlur
-                                      onFocus=onFocus}}}
+                                      style="signUp"}}}
                         {{{InputLabel id="password_repeat"
                                       ref="password_repeat"
                                       type="password"
                                       value="${values.password_repeat}"
                                       error="${errors.password_repeat}"
                                       label="Повторите пароль"
-                                      style="signUp"
-                                      onBlur=onBlur
-                                      onFocus=onFocus}}}
+                                      style="signUp"}}}
                         {{{InputLabel id="email"
                                       ref="email"
                                       type="text"
                                       value="${values.email}"
                                       error="${errors.email}"
                                       label="Почта"
-                                      style="signUp"
-                                      onBlur=onBlur
-                                      onFocus=onFocus}}}
+                                      style="signUp"}}}
                         {{{InputLabel id="phone"
                                       ref="phone"
                                       type="number"
@@ -128,8 +118,6 @@ export class SignUp extends Block {
                                       error="${errors.phone}"
                                       label="Телефон"
                                       style="signUp"
-                                      onBlur=onBlur
-                                      onFocus=onFocus
                         }}}
                         {{{Button link=""
                                   text="Зарегистрироваться" onClick=onClick}}}

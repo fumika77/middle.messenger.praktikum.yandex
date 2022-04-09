@@ -22,4 +22,9 @@ export default function registerComponents(Component: typeof Block) {
         }
         return `<div data-id="id-${component.id}"></div>`;
     })
+
+    Handlebars.registerHelper('isNeedStubForStyle', function (value) {
+        return value == 'profile' || value == 'signUp';
+    });
+
 }

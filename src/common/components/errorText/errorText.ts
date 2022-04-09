@@ -6,13 +6,7 @@ interface IErrorTextProps {
 
 export class ErrorText extends Block {
     constructor({errorText}: IErrorTextProps) {
-        super({errorText
-            // , events: {
-            // onblur: super.show()
-            // , onfocus: () =>{console.log('учспех onfocus');
-            //     document.getElementById('errorText')!.style.display = "none"},}});
-        }, "ErrorText___component"  )
-console.log('Constructor ErrorText')
+        super({errorText })
     }
 
     render(){

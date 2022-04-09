@@ -9,14 +9,15 @@ import Avatar from "./common/components/avatar";
 import ProfileDescription from "./views/profileDescription";
 import Error from "./views/error";
 import SignUp from "./views/signUp";
-import Dialogs from "./views/dialogs";
 import Block from "./utils/Block";
 import {ErrorText} from "./common/components/errorText/errorText";
 import {ImageButton} from "./common/components/imageButton/imageButton";
 import {DialogItem} from "./common/components/dialogItem/dialogItem";
 import Input from "./common/components/input";
 import Link from "./common/components/link";
+import Dialogs from "./views/dialogs";
 
+registerComponents(ErrorText)
 registerComponents(Button)
 registerComponents(Input)
 registerComponents(BackArrow)

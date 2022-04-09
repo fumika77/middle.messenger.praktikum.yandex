@@ -15,7 +15,7 @@ export interface IError {
 }
 
 function checkNames(validationResults: { [id: string]: IError }, key: string, value: string) {
-    if (value?.replace(/^[A-Z][a-z-]+$/u, "").length > 0) {
+    if (value?.replace(/^[A-ZА-Я][a-zа-я-]+$/u, "").length > 0) {
         validationResults[key] = {
             status: false,
             errorText: 'Некорректное значение'
@@ -81,7 +81,7 @@ export function Validation(fields: IValidationFields): { [id: string]: IError } 
     Object.keys(fields).forEach(key => {
         // @ts-ignore
         let value: any = fields[key];
-        if (value == undefined || value == null) {
+        if (value == undefined || value == null || value == '') {
             validationResults[key] = {
                 status: false,
                 errorText: 'Пустое значение'

@@ -15,8 +15,7 @@ export class ImageButton extends Block<any> {
     render(){
         //language=hbs
         return `
-<!--        <a href="{{link}}" class="{{style}}">{{text}}-->
-        <a class="{{style}}">{{text}}
+            <a class="{{style}}">{{text}}
             <img src="{{src}}">
         </a>
         `

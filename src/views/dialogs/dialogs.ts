@@ -1,5 +1,6 @@
 import Block from "../../utils/Block";
 import {IError, Validation} from "../../utils/validation";
+import {redirect} from "../../utils/redirect";
 
 interface IDialogsState{
     values: {
@@ -58,6 +59,9 @@ export class Dialogs extends Block{
                 };
                 this.setState(nextState);
             },
+            profileButtonClick: () => {
+                redirect('profileDescription');
+            }
         }
     }
 
@@ -78,7 +82,7 @@ export class Dialogs extends Block{
                             <div>
                                 {{{Avatar style="dialogs__profile__box__img"
                                           src="img/animals.png"}}}
-                                {{{ImageButton href=""
+                                {{{ImageButton onClick=profileButtonClick
                                                src="img/profile-edit(32x32)@1x.png"}}}
                             </div>
                             {{{Input style="dialogs__search"

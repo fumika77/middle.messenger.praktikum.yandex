@@ -1,22 +1,23 @@
 import Block from "../../utils/Block";
 import {IError, Validation} from "../../utils/validation";
+import {redirect} from "../../utils/redirect";
 
 export class ProfileSettings extends Block{
     protected getStateFromProps() {
         this.state = {
             values: {
-                login:'',
-                first_name:'',
-                second_name:'',
-                email:'',
-                phone:''
+                login: "SuperArchi",
+                first_name: "Арчибальд",
+                second_name: "Котиков",
+                email: "kotikoff@kotomail.ru",
+                phone: "88005678286"
             },
             errors: {
-                login:'',
-                first_name:'',
-                second_name:'',
-                email:'',
-                phone:''
+                login: "",
+                first_name: "",
+                second_name: "",
+                email: "",
+                phone: ""
             },
             onClick: () => {
                 const profileSettingsData = {
@@ -38,9 +39,14 @@ export class ProfileSettings extends Block{
                     },
                     values: { ...profileSettingsData },
                 };
-
-
                 this.setState(nextState);
+                console.log('profileSettingsData',profileSettingsData)
+                if(Object.keys(nextState.errors).find(key => nextState.errors[key]!=='')==null){
+                    redirect('profileDescription');
+                }
+            },
+            onBackArrowClick: () => {
+                redirect('profileDescription');
             }
         }
     }
@@ -50,9 +56,9 @@ export class ProfileSettings extends Block{
         return `
             <main>
                 <div class="profile__box">
-                    {{{BackArrow link="../profileDescription/profileDescription.hbs"}}}
-                    {{{Avatar style="profileImg" src="../../../static/img/animals.png"}}}
-                    <img class="profile__settings__editImg" src="../../../static/img/image-edit(40x40)@1x.png">
+                    {{{BackArrow onClick=onBackArrowClick}}}
+                    {{{Avatar style="profileImg" src="img/animals.png"}}}
+                    <img class="profile__settings__editImg" src="img/image-edit(40x40)@1x.png">
                     <h1 class="profile__settings__header && text">Настройки профиля</h1>
                     <div class="profile__settings__formData">
                         {{{InputLabel ref ="first_name" 

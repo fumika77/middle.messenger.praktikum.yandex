@@ -36,6 +36,7 @@ export class Login extends Block{
                     values: {...loginData},
                 };
                 this.setState(nextState);
+                console.log('loginData',loginData)
                 if(nextState.errors.login=='' && nextState.errors.password==''){
                     redirect('dialogs');
                 }

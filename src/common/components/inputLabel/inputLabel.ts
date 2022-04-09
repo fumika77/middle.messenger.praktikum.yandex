@@ -30,6 +30,7 @@ export class InputLabel extends Block {
                 <label class="{{style}}__label" for={{id}}>{{label}}</label>
                     {{{Input style=style
                         placeholder=placeholder
+                        disabled=disabled
                         type=type
                         value=value
                         onBlur=onBlur

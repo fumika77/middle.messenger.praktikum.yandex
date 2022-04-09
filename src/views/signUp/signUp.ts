@@ -1,5 +1,6 @@
 import Block from "../../utils/Block";
 import {IError, Validation} from "../../utils/validation";
+import {redirect} from "../../utils/redirect";
 
 export class SignUp extends Block {
     protected getStateFromProps() {
@@ -47,14 +48,9 @@ export class SignUp extends Block {
                 };
 
                 this.setState(nextState);
-            },
-            onBlur: () => {
-                console.log('onblur')
-                // document.getElementById('errorText')!.style.display = "block"
-            },
-            onFocus: () => {
-                console.log('onfocus')
-                // document.getElementById('errorText')!.style.display = "none"
+                if(Object.keys(nextState.errors).find(key => nextState.errors[key]!=='')==null){
+                    redirect('login');
+                }
             }
         }
     }

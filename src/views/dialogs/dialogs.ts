@@ -1,23 +1,49 @@
 import Block from "../../utils/Block";
 import {IError, Validation} from "../../utils/validation";
 
+interface IDialogsState{
+    values: {
+        message: Nullable<string>,
+        searchValue: string,
+        activeDialogSenderName: string,
+        dialogs: IDialogsItem[]
+    }
+    errors:{
+        message: IError
+    }
+}
+interface IDialogsItem {
+    senderImg: string,
+    senderName: string,
+    messageText: string
+}
 export class Dialogs extends Block{
     protected getStateFromProps() {
         this.state = {
             values: {
-                message:'message',
+                message:'',
                 searchValue:'',
                 activeDialogSenderName:'Муся',
-                // dialogs: [
-                //     {
-                //         senderImg:,
-                //         senderName:,
-                //         messageText:
-                //     }
-                // ]
+                dialogs: [
+                     {
+                         senderImg:"img/animals-2.png",
+                         senderName:"Барсик",
+                         messageText:"Вы: мои кожаные ушли, приходи, на шторах повисим"
+                     },
+                     {
+                         senderImg:"img/negative-space-kitten-series-brown-portrait-2048x1474.jpg",
+                         senderName:"Муся",
+                         messageText:":3"
+                     },
+                     {
+                         senderImg:"img/negative-space-small-purple-flowers-2048x1367.jpg",
+                         senderName:"Садовод",
+                         messageText:":3"
+                     }
+                 ]
             },
             errors: {
-                message:'где мой message'
+                message:''
             },
             onClick: () => {
                 let dialogData = {
@@ -28,7 +54,7 @@ export class Dialogs extends Block{
                     errors: {
                         message: validationResults.message.status? '' : validationResults.message.errorText,
                     },
-                    values: { ...dialogData },
+                    values: { ...this.state.values, ...dialogData },
                 };
                 this.setState(nextState);
             },
@@ -44,8 +70,8 @@ export class Dialogs extends Block{
                 <div class="dialogs__wrapper">
                     <div class="dialogs__header">
                         {{{ Avatar style="dialogs__item__img"
-                                   src="img/animals.png"}}}
-                        <div class="dialogs__header__person__name && text">"${values.activeDialogSenderName}"</div>
+                                   src="img/negative-space-kitten-series-brown-portrait-2048x1474.jpg"}}}
+                        <div class="dialogs__header__person__name && text">${values.activeDialogSenderName}</div>
                     </div>
                     <div class="dialogs__sidebar">
                         <div class="dialogs__profile__box">
@@ -62,22 +88,23 @@ export class Dialogs extends Block{
                                      value="${values.searchValue}"}}}
                         </div>
                         <div class="dialogs__dialogs__box">
-                            {{{DialogItem src="${values.senderImg}"
-                                          sender="${values.senderName}"
-                                          value="${values.messageText}"}}}
-                            {{{DialogItem src="${values.senderImg}"
-                                          sender="${values.senderName}"
-                                          value="${values.messageText}"}}}
-                            {{{DialogItem src="${values.senderImg}"
-                                          sender="${values.senderName}"
-                                          value="${values.messageText}"}}}
+                            {{{DialogItem src="${values.dialogs?.[0]?.senderImg}"
+                                          senderName="${values.dialogs?.[0]?.senderName}"
+                                          messageText="${values.dialogs?.[0]?.messageText}"}}}
+                            {{{DialogItem src="${values.dialogs?.[1]?.senderImg}"
+                                          senderName="${values.dialogs?.[1]?.senderName}"
+                                          messageText="${values.dialogs?.[1]?.messageText}"}}}
+                            {{{DialogItem src="${values.dialogs?.[2]?.senderImg}"
+                                          senderName="${values.dialogs?.[2]?.senderName}"
+                                          messageText="${values.dialogs?.[2]?.messageText}"}}}
+                            
                         </div>
                     </div>
                     <div class="dialogs__content">
                     </div>
                     <div class="dialogs__footer">
-                        {{{Input ref="my_message"
-                                 style="dialogs__send__message"
+                        {{{InputLabel ref="message"
+                                 style="dialogs__input"
                                  placeholder="Написать сообщение"
                                  type="text"
                                  value="${values.message}"

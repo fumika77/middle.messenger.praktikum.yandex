@@ -30,7 +30,8 @@ export class Input extends Block {
     render(){
         //language=hbs
         return `
-                <input class="{{#if (isNeedStubForStyle style)}}inputLabel && {{style}}__input {{else}}{{style}}{{/if}}" 
+                <input 
+                        class="{{#if (isNeedStubForStyle style)}}inputLabel && {{style}}__input {{else}}{{style}}{{/if}}" 
                        placeholder="{{placeholder}}" 
                        type={{type}} 
                        size="40" 

@@ -6,8 +6,8 @@ interface AvatarProps {
 }
 
 export class Avatar extends Block {
-    constructor({src}: AvatarProps) {
-        super({src, events: {}});
+    constructor({src, style}: AvatarProps) {
+        super({src, style, events: {}});
     }
 
     render(){

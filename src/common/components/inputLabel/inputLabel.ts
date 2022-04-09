@@ -28,7 +28,7 @@ export class InputLabel extends Block {
         return `
             <div class="{{style}}__inputWrapper">
                 <label class="{{style}}__label" for={{id}}>{{label}}</label>
-                {{{Input style=style
+                    {{{Input style=style
                         placeholder=placeholder
                         type=type
                         value=value

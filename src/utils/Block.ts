@@ -16,7 +16,7 @@ export default class Block<P = any> {
 
     public id = nanoid(6);
 
-    protected componentName: string;
+    static componentName: string;
 
     protected readonly props: P;
 
@@ -28,13 +28,12 @@ export default class Block<P = any> {
 
     protected refs: {[key: string]: HTMLElement} = {};
 
-    constructor(props?:P, name?) {
+    constructor(props?:P) {
         const eventBus = new EventBus();
 
         this._meta = {
             props,
         };
-        this.componentName=name;
         this.getStateFromProps(props)
 
         this.props = this._makePropsProxy(props || {} as P);

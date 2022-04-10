@@ -10,22 +10,26 @@ interface InputProps {
     idForError?: string;
     onBlur?: () => void;
     onFocus?: () => void;
+    onInput?: () => void;
 }
 
 export class Input extends Block {
-    constructor({type, style, placeholder, value, error, disabled, idForError, onFocus, onBlur}: InputProps) {
-        super({type, placeholder, value, error, style, disabled, idForError,
+    constructor({type, style, placeholder, value, error, disabled, idForError, onInput}: InputProps) {
+        super({type, placeholder, value, error, style, disabled, idForError, onInput,
             events: {
-                blur: () =>{
+                blur: () => {
                     const errorTextId = `${idForError}_errorText`;
-                    // document.getElementById(errorTextId)!.style.display = "block"
+                    document.getElementById(errorTextId)!.style.display = "block"
                 },
                 focus: () => {
                     const errorTextId = `${idForError}_errorText`;
-                    // document.getElementById(errorTextId)!.style.display = "none"
-                }
+                    document.getElementById(errorTextId)!.style.display = "none"
+                },
+                input: onInput
             }}) ;
     }
+
+    static componentName = 'Input';
 
     render(){
         // language=hbs

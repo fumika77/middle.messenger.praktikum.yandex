@@ -12,6 +12,7 @@ export class Link extends Block {
         super({style, link, text, events: {click: onClick}}) ;
     }
 
+    static componentName = 'Link';
 
     render(){
         // language=hbs

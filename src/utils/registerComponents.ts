@@ -3,7 +3,7 @@ import Handlebars, {HelperOptions} from 'handlebars';
 import Block from './Block';
 
 export default function registerComponents(Component: typeof Block) {
-    Handlebars.registerHelper(Component.name, ({ hash: { ref, ...hash }, data }: HelperOptions) => {
+    Handlebars.registerHelper(Component.componentName || Component.name, ({ hash: { ref, ...hash }, data }: HelperOptions) => {
         if (!data.root.children) {
             data.root.children = {};
         }

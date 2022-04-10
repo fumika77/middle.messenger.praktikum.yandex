@@ -9,6 +9,8 @@ export class ErrorText extends Block {
         super({errorText })
     }
 
+    static componentName = 'ErrorText';
+
     render(){
         // language=hbs
         return `

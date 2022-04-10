@@ -43,6 +43,15 @@ export class Login extends Block{
             },
             onSignUpClick: () => {
                 redirect('signUp');
+            },
+            onInput: (id: string) => {
+                const newInputValue = (document.getElementById(id)  as HTMLInputElement)?.value;
+                const validationResults: IError = Validation({[id]: newInputValue})[id];
+                const nextState = {...this.state};
+                nextState.values[id] = newInputValue;
+                nextState.errors[id] = validationResults.status? '' : validationResults.errorText;
+                console.log('nextState')
+                this.setState(nextState);
             }
         }
     }
@@ -54,18 +63,24 @@ export class Login extends Block{
         <main>
             <div class="login">
                 <img class="login__img" src="img/user(144x144)@1x.png" alt="login">
-                {{{ InputLabel ref="login" 
+                {{{InputLabel ref="login"
+                              id="login"
                               value="${values.login}"
                               error="${errors.login}"
                               style="login"
                               placeholder="Логин" 
-                              type="text"}}}
-                {{{ InputLabel ref="password"  
+                              type="text"
+                              onInput=onInput
+                }}}
+                {{{InputLabel ref="password"
+                              id="password"
                               value="${values.password}"
                               error="${errors.password}"
                               style="login"
                               placeholder="Пароль" 
-                              type="password" }}}
+                              type="password"
+                              onInput=onInput
+                }}}
                 {{{ Button text="Войти" onClick=onLogin}}}
                 {{{ Link link="#signUp" style="textLink"  text="Нет аккаунта?" onClick=onSignUpClick}}}
             </div>

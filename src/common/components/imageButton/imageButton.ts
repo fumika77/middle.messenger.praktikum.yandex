@@ -12,6 +12,8 @@ export class ImageButton extends Block<any> {
         super({src,  link, style, events: {click: onClick}});
     }
 
+    static componentName = 'ImageButton';
+
     render(){
         // language=hbs
         return `

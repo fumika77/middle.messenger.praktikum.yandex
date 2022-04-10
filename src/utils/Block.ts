@@ -2,7 +2,7 @@ import {nanoid} from "nanoid";
 import Handlebars from 'handlebars';
 import EventBus from "./EventBus";
 
-export default class Block<P = any> {
+export default class Block {
     static EVENTS = {
         INIT: "init",
         FLOW_CDM: "flow:component-did-mount",
@@ -16,9 +16,9 @@ export default class Block<P = any> {
 
     public id = nanoid(6);
 
-    protected componentName: string;
+    static componentName: string;
 
-    protected readonly props: P;
+    protected readonly props: any;
 
     protected children: {[id: string]: Block} = {};
 
@@ -28,16 +28,15 @@ export default class Block<P = any> {
 
     protected refs: {[key: string]: HTMLElement} = {};
 
-    constructor(props?:P, name?) {
+    constructor(props?:any) {
         const eventBus = new EventBus();
 
         this._meta = {
             props,
         };
-        this.componentName=name;
         this.getStateFromProps(props)
 
-        this.props = this._makePropsProxy(props || {} as P);
+        this.props = this._makePropsProxy(props || {} as any);
         this.state = this._makePropsProxy(this.state);
 
         this.eventBus = () => eventBus;
@@ -54,8 +53,8 @@ export default class Block<P = any> {
         eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
     }
 
-    protected getStateFromProps(props:P): void {
-        this.state = {} as P;
+    protected getStateFromProps(props:any): void {
+        this.state = {} as any;
     }
 
     init() {

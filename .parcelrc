@@ -3,5 +3,5 @@
   "transformers": {
     "*.hbs": ["@anikin/parcel-transformer-handlebars-precompile"]
   },
-  "reporters":  ["parcel-reporter-multiple-static-file-copier"]
+    "reporters":  ["parcel-reporter-multiple-static-file-copier"]
 }

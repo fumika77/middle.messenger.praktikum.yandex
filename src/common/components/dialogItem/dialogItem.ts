@@ -12,6 +12,8 @@ export class DialogItem extends Block<any> {
         super({src,  senderName, messageText, events: {click: onClick}});
     }
 
+    static componentName = 'DialogItem';
+
     render(){
         // language=hbs
         return `

@@ -10,6 +10,8 @@ export class Avatar extends Block {
         super({src, style, events: {}});
     }
 
+    static componentName = 'Avatar';
+
     render(){
         // language=hbs
         return `

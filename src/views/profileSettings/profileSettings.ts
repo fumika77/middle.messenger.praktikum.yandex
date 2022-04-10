@@ -19,7 +19,7 @@ export class ProfileSettings extends Block{
                 email: "",
                 phone: ""
             },
-            onClick: () => {
+            updateProfileSettingsData: () => {
                 const profileSettingsData = {
                     login: (this.refs.login.childNodes[3] as HTMLInputElement)?.value,
                     first_name: (this.refs.first_name.childNodes[3] as HTMLInputElement)?.value,
@@ -40,10 +40,16 @@ export class ProfileSettings extends Block{
                     values: { ...profileSettingsData },
                 };
                 this.setState(nextState);
-                console.log('profileSettingsData',profileSettingsData)
-                if(Object.keys(nextState.errors).find(key => nextState.errors[key]!=='')==null){
+            },
+            onClick: () => {
+                this.state.updateProfileSettingsData();
+                console.log('profileSettingsData',this.state.values)
+                if(Object.keys(this.state.errors).find(key => this.state.errors[key]!=='')==null){
                     redirect('profileDescription');
                 }
+            },
+            onChange: () => {
+                this.state.updateProfileSettingsData();
             },
             onBackArrowClick: () => {
                 redirect('profileDescription');
@@ -63,38 +69,43 @@ export class ProfileSettings extends Block{
                     <h1 class="profile__settings__header && text">Настройки профиля</h1>
                     <div class="profile__settings__formData">
                         {{{InputLabel ref ="first_name" 
-                                        id="first_name" 
-                                        type="text" 
-                                        value="${values.first_name}"
-                                        error="${errors.first_name}"
-                                        label="Имя"  
-                                        style="profile"}}}
+                                      id="first_name" 
+                                      type="text" 
+                                      value="${values.first_name}"
+                                      error="${errors.first_name}"
+                                      onChange=onChange
+                                      label="Имя"  
+                                      style="profile"}}}
                         {{{InputLabel ref ="second_name" 
                                       id="second_name" 
                                       type="text" 
                                       value="${values.second_name}" 
-                                      error="${errors.second_name}" 
+                                      error="${errors.second_name}"
+                                      onChange=onChange
                                       label="Фамилия" 
                                       style="profile"}}}
                         {{{InputLabel ref ="login" 
                                       id="login" 
                                       type="text" 
                                       value="${values.login}" 
-                                      error="${errors.login}" 
+                                      error="${errors.login}"
+                                      onChange=onChange
                                       label="Логин"  
                                       style="profile"}}}
                         {{{InputLabel ref ="email" 
                                       id="email" 
                                       type="text" 
                                       value="${values.email}" 
-                                      error="${errors.email}" 
+                                      error="${errors.email}"
+                                      onChange=onChange
                                       label="Почта"  
                                       style="profile"}}}
                         {{{InputLabel ref ="phone" 
                                       id="phone" 
                                       type="number" 
                                       value="${values.phone}" 
-                                      error="${errors.phone}" 
+                                      error="${errors.phone}"
+                                      onChange=onChange
                                       label="Телефон"  
                                       style="profile"}}}
                         {{{Button link="" text="Сохранить" onClick=onClick}}}

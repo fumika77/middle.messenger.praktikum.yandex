@@ -10,18 +10,17 @@ interface InputLabelProps {
     style: string;
     label?:string;
     disabled?:string;
+    onChange: () => void;
 }
 
 export class InputLabel extends Block {
-    constructor({type, id, label, style, placeholder, value, error, disabled}: InputLabelProps) {
-        super({type, id, label, style, placeholder, value, error, disabled,
-            onBlur: () => {
-            },
-            onFocus: () => {
-            },
+    constructor({type, id, label, style, placeholder, value, error, disabled, onChange}: InputLabelProps) {
+        super({type, id, label, style, placeholder, value, error, disabled, onChange,
             events: {}
-        }, `InputLabel___${nanoid(2)}`);
+        });
     }
+
+    static componentName = 'InputLabel';
 
     render(){
         // language=hbs
@@ -33,8 +32,7 @@ export class InputLabel extends Block {
                         disabled=disabled
                         type=type
                         value=value
-                        onBlur=onBlur
-                        onFocus=onFocus
+                        onChange=onChange
                         idForError=id
                 }}}
                 <div class="input__error" id="{{id}}_errorText">{{error}}</div>

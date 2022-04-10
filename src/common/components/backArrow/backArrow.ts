@@ -10,6 +10,8 @@ export class BackArrow extends Block {
         super({link, events: {click: onClick}});
     }
 
+    static componentName = 'BackArrow';
+
     render(){
         // language=hbs
         return `

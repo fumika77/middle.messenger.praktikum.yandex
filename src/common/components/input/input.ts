@@ -8,24 +8,26 @@ interface InputProps {
     style: string;
     disabled?: string;
     idForError?: string;
-    onBlur?: () => void;
-    onFocus?: () => void;
+    onChange?: () => void;
 }
 
 export class Input extends Block {
-    constructor({type, style, placeholder, value, error, disabled, idForError, onFocus, onBlur}: InputProps) {
-        super({type, placeholder, value, error, style, disabled, idForError,
+    constructor({type, style, placeholder, value, error, disabled, idForError, onChange}: InputProps) {
+        super({type, placeholder, value, error, style, disabled, idForError, onChange,
             events: {
-                blur: () =>{
+                blur: () => {
                     const errorTextId = `${idForError}_errorText`;
-                    // document.getElementById(errorTextId)!.style.display = "block"
+                    document.getElementById(errorTextId)!.style.display = "block"
                 },
                 focus: () => {
                     const errorTextId = `${idForError}_errorText`;
-                    // document.getElementById(errorTextId)!.style.display = "none"
-                }
+                    document.getElementById(errorTextId)!.style.display = "none"
+                },
+                change: onChange
             }}) ;
     }
+
+    static componentName = 'Input';
 
     render(){
         // language=hbs

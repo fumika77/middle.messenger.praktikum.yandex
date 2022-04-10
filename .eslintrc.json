@@ -22,9 +22,12 @@
     ],
     "import/prefer-default-export": "off",
     "no-underscore-dangle": "off",
+    "no-restricted-exports": "off",
     "import/no-default-export": "error",
     "import/no-unresolved": 0,
     "import/no-named-as-default": 0,
+    "eqeqeq": "off",
+    "no-param-reassign": "off",
     "import/extensions": [
       "error",
       "ignorePackages",

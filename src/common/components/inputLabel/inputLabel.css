@@ -55,13 +55,14 @@
      height: 40px;
      position: static;
      margin-top: 3px;
+       background: none;
+
    }
-  &__input__wrapper {
-     margin-top: 10%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  &__inputWrapper {
+       display: flex;
+       flex-direction: column;
+       align-items: center;
+       background: none;
   }
   &__label {
      display: none;

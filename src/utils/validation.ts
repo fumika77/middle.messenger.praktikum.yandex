@@ -65,6 +65,16 @@ function checkEmail(validationResults: { [id: string]: IError }, key: string, va
     } return true;
 }
 
+function checkMessage(validationResults: { [id: string]: IError }, key: string, value: string) {
+    if (value == undefined || value == null || value == '') {
+        validationResults[key] = {
+            status: false,
+            errorText: 'Пустое значение'
+        }
+        return false;
+    } return true;
+}
+
 function checkPasswordRepeat(validationResults: { [id: string]: IError }, key: string, value: string, repeatValue: string | undefined) {
     if (value !== repeatValue) {
         validationResults[key] = {
@@ -81,13 +91,7 @@ export function Validation(fields: IValidationFields): { [id: string]: IError } 
     Object.keys(fields).forEach(key => {
         // @ts-ignore
         const value: any = fields[key];
-        if (value == undefined || value == null || value == '') {
-            validationResults[key] = {
-                status: false,
-                errorText: 'Пустое значение'
-            }
-        } else {
-            if (key == 'second_name' || key == 'first_name') {
+        if (key == 'second_name' || key == 'first_name') {
                 checkNames(validationResults, key, value)
             } else if (key == 'login') {
                 checkLogin(validationResults, key, value)
@@ -100,13 +104,14 @@ export function Validation(fields: IValidationFields): { [id: string]: IError } 
                 checkPasswordRepeat(validationResults, key, value, fields.password)
             } else if (key == 'email') {
                 checkEmail(validationResults, key, value)
+            } else if (key == 'message') {
+                checkMessage(validationResults, key, value)
             }
             if (!validationResults[key]) {
                 validationResults[key] = {
                     status: true
                 }
             }
-        }
     });
     return validationResults;
 }

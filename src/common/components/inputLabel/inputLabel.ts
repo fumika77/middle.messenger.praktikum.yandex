@@ -10,12 +10,12 @@ interface InputLabelProps {
     style: string;
     label?:string;
     disabled?:string;
-    onInput: () => void;
+    onChange: () => void;
 }
 
 export class InputLabel extends Block {
-    constructor({type, id, label, style, placeholder, value, error, disabled, onInput}: InputLabelProps) {
-        super({type, id, label, style, placeholder, value, error, disabled, onInput,
+    constructor({type, id, label, style, placeholder, value, error, disabled, onChange}: InputLabelProps) {
+        super({type, id, label, style, placeholder, value, error, disabled, onChange,
             events: {}
         });
     }
@@ -32,7 +32,7 @@ export class InputLabel extends Block {
                         disabled=disabled
                         type=type
                         value=value
-                        onInput=onInput
+                        onChange=onChange
                         idForError=id
                 }}}
                 <div class="input__error" id="{{id}}_errorText">{{error}}</div>

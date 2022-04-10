@@ -1,6 +1,4 @@
 import Block from "../../utils/Block";
-import img from "../../../static/img/user(144x144)@1x.png";
-import {addEventListner} from "../../index";
 import {redirect} from "../../utils/redirect";
 import {IError, Validation} from "../../utils/validation";
 
@@ -21,7 +19,7 @@ export class Login extends Block{
                 login:'',
                 password:''
             },
-            onLogin: () => {
+            updateLoginData: () => {
                 const loginData:ILoginData = {
                     login: (this.refs.login.childNodes[3]  as HTMLInputElement)?.value,
                     password: (this.refs.password.childNodes[3]  as HTMLInputElement)?.value,
@@ -36,22 +34,19 @@ export class Login extends Block{
                     values: {...loginData},
                 };
                 this.setState(nextState);
-                console.log('loginData',loginData)
-                if(nextState.errors.login=='' && nextState.errors.password==''){
+            },
+            onLogin: () => {
+                this.state.updateLoginData();
+                console.log('loginData',this.state.values)
+                if(this.state.errors.login=='' && this.state.errors.password==''){
                     redirect('dialogs');
                 }
             },
             onSignUpClick: () => {
                 redirect('signUp');
             },
-            onInput: (id: string) => {
-                const newInputValue = (document.getElementById(id)  as HTMLInputElement)?.value;
-                const validationResults: IError = Validation({[id]: newInputValue})[id];
-                const nextState = {...this.state};
-                nextState.values[id] = newInputValue;
-                nextState.errors[id] = validationResults.status? '' : validationResults.errorText;
-                console.log('nextState')
-                this.setState(nextState);
+            onChange: () => {
+                this.state.updateLoginData();
             }
         }
     }
@@ -70,7 +65,7 @@ export class Login extends Block{
                               style="login"
                               placeholder="Логин" 
                               type="text"
-                              onInput=onInput
+                              onChange=onChange
                 }}}
                 {{{InputLabel ref="password"
                               id="password"
@@ -79,7 +74,7 @@ export class Login extends Block{
                               style="login"
                               placeholder="Пароль" 
                               type="password"
-                              onInput=onInput
+                              onChange=onChange
                 }}}
                 {{{ Button text="Войти" onClick=onLogin}}}
                 {{{ Link link="#signUp" style="textLink"  text="Нет аккаунта?" onClick=onSignUpClick}}}

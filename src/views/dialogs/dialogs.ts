@@ -2,22 +2,6 @@ import Block from "../../utils/Block";
 import {IError, Validation} from "../../utils/validation";
 import {redirect} from "../../utils/redirect";
 
-interface IDialogsState{
-    values: {
-        message: Nullable<string>,
-        searchValue: string,
-        activeDialogSenderName: string,
-        dialogs: IDialogsItem[]
-    }
-    errors:{
-        message: IError
-    }
-}
-interface IDialogsItem {
-    senderImg: string,
-    senderName: string,
-    messageText: string
-}
 export class Dialogs extends Block{
     protected getStateFromProps() {
         this.state = {
@@ -46,7 +30,7 @@ export class Dialogs extends Block{
             errors: {
                 message:''
             },
-            onClick: () => {
+            updateDialogData: () => {
                 const dialogData = {
                     message: (this.refs.message.childNodes[3] as HTMLInputElement)?.value,
                 };
@@ -58,6 +42,13 @@ export class Dialogs extends Block{
                     values: { ...this.state.values, ...dialogData },
                 };
                 this.setState(nextState);
+            },
+            onClick: () => {
+                this.state.updateDialogData();
+                console.log('message:', this.state.values.message)
+            },
+            onChange: () => {
+                this.state.updateDialogData();
             },
             profileButtonClick: () => {
                 redirect('profileDescription');
@@ -108,11 +99,14 @@ export class Dialogs extends Block{
                     </div>
                     <div class="dialogs__footer">
                         {{{InputLabel ref="message"
+                                 id="message"
                                  style="dialogs__input"
                                  placeholder="Написать сообщение"
                                  type="text"
                                  value="${values.message}"
-                                 error="${errors.message}"}}}
+                                 error="${errors.message}"
+                                 onChange=onChange
+                        }}}
                         {{{ImageButton class="dialogs__send__button"
                                        href=""
                                        src="img/send-button-3(40x40)@1x.png"

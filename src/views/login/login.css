@@ -16,7 +16,7 @@
   }
 
   &__input__login {
-     margin-top: 30%;
+    margin-top: 30%;
   }
 
   &__input::placeholder {

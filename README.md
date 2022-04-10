@@ -1,3 +1,5 @@
+Ссылка на pull request sprint 2:
+https://github.com/fumika77/middle.messenger.praktikum.yandex/pull/2
 ## Описание
 
 Проект мессенджер, в разработке, макет решения можно посмотреть в figma:

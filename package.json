@@ -6,9 +6,10 @@
     "start": "node index.js",
     "build": "parcel build src/index.html",
     "watch-css": "parcel watch src/common/styles/style.css --dist-dir styles",
-    "lint": "eslint ./src/** index.ts",
-    "lint-fix": "eslint ./src/** index.ts --fix ",
-    "stylelint": "npx stylelint \"**/*.css\" --fix"
+    "lint": "eslint ./src/**/.ts",
+    "lint-fix": "eslint ./src/**/**/*.ts --fix ",
+    "stylelint": "npx stylelint \"**/*.css\" --fix",
+    "prettier": "prettier --write  ./src/**/**/*.ts"
   },
   "multipleStaticFileCopier": [
     {

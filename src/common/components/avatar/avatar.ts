@@ -1,4 +1,4 @@
-import Block from "../../../utils/Block";
+import Block from '../../../utils/Block';
 
 interface AvatarProps {
     src: string;
@@ -6,16 +6,16 @@ interface AvatarProps {
 }
 
 export class Avatar extends Block {
-    constructor({src, style}: AvatarProps) {
-        super({src, style, events: {}});
+    constructor({ src, style }: AvatarProps) {
+        super({ src, style, events: {} });
     }
 
     static componentName = 'Avatar';
 
-    render(){
+    render() {
         // language=hbs
         return `
             <img class="{{style}}" src="{{src}}">
-        `
+        `;
     }
 }

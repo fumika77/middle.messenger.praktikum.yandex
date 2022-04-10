@@ -1,35 +1,34 @@
-import Block from "../../utils/Block";
-import {IError, Validation} from "../../utils/validation";
-import {redirect} from "../../utils/redirect";
+import Block from '../../utils/Block';
+import { redirect } from '../../utils/redirect';
 
-export class ProfileDescription extends Block{
+export class ProfileDescription extends Block {
     protected getStateFromProps() {
         this.state = {
             values: {
-                login: "SuperArchi",
-                first_name: "Арчибальд",
-                second_name: "Котиков",
-                email: "kotikoff@kotomail.ru",
-                phone: "88005678286"
+                login: 'SuperArchi',
+                first_name: 'Арчибальд',
+                second_name: 'Котиков',
+                email: 'kotikoff@kotomail.ru',
+                phone: '88005678286',
             },
             errors: {
-                login:'',
-                first_name:'',
-                second_name:'',
-                email:'',
-                phone:''
+                login: '',
+                first_name: '',
+                second_name: '',
+                email: '',
+                phone: '',
             },
             onEditButtonClick: () => {
                 redirect('profileSettings');
             },
             onBackArrowClick: () => {
                 redirect('dialogs');
-            }
-        }
+            },
+        };
     }
 
     render() {
-        const {values} = this.state;
+        const { values } = this.state;
         // language=hbs
         return `
             <main>
@@ -76,6 +75,6 @@ export class ProfileDescription extends Block{
                 </div>
             </div>
             </main>
-        `
+        `;
     }
 }

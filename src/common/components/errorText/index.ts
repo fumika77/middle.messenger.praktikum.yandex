@@ -1,1 +1,1 @@
-export {ErrorText as default} from "./errorText"
+export { ErrorText as default } from './errorText';

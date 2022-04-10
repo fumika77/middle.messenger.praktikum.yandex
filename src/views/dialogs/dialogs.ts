@@ -1,43 +1,43 @@
-import Block from "../../utils/Block";
-import {IError, Validation} from "../../utils/validation";
-import {redirect} from "../../utils/redirect";
+import Block from '../../utils/Block';
+import { IError, Validation } from '../../utils/validation';
+import { redirect } from '../../utils/redirect';
 
-export class Dialogs extends Block{
+export class Dialogs extends Block {
     protected getStateFromProps() {
         this.state = {
             values: {
-                message:'',
-                searchValue:'',
-                activeDialogSenderName:'Муся',
+                message: '',
+                searchValue: '',
+                activeDialogSenderName: 'Муся',
                 dialogs: [
                     {
-                        senderImg:"img/animals-2.png",
-                        senderName:"Барсик",
-                        messageText:"Вы: мои кожаные ушли, приходи, на шторах повисим"
+                        senderImg: 'img/animals-2.png',
+                        senderName: 'Барсик',
+                        messageText: 'Вы: мои кожаные ушли, приходи, на шторах повисим',
                     },
                     {
-                        senderImg:"img/negative-space-kitten-series-brown-portrait-2048x1474.jpg",
-                        senderName:"Муся",
-                        messageText:":3"
+                        senderImg: 'img/negative-space-kitten-series-brown-portrait-2048x1474.jpg',
+                        senderName: 'Муся',
+                        messageText: ':3',
                     },
                     {
-                        senderImg:"img/negative-space-small-purple-flowers-2048x1367.jpg",
-                        senderName:"Садовод",
-                        messageText:":3"
-                    }
-                ]
+                        senderImg: 'img/negative-space-small-purple-flowers-2048x1367.jpg',
+                        senderName: 'Садовод',
+                        messageText: ':3',
+                    },
+                ],
             },
             errors: {
-                message:''
+                message: '',
             },
             updateDialogData: () => {
                 const dialogData = {
                     message: (this.refs.message.childNodes[3] as HTMLInputElement)?.value,
                 };
-                const validationResults: {[id: string]: IError} = Validation({...dialogData});
+                const validationResults: { [id: string]: IError } = Validation({ ...dialogData });
                 const nextState = {
                     errors: {
-                        message: validationResults.message.status? '' : validationResults.message.errorText,
+                        message: validationResults.message.status ? '' : validationResults.message.errorText,
                     },
                     values: { ...this.state.values, ...dialogData },
                 };
@@ -45,19 +45,19 @@ export class Dialogs extends Block{
             },
             onClick: () => {
                 this.state.updateDialogData();
-                console.log('message:', this.state.values.message)
+                console.log('message:', this.state.values.message);
             },
             onChange: () => {
                 this.state.updateDialogData();
             },
             profileButtonClick: () => {
                 redirect('profileDescription');
-            }
-        }
+            },
+        };
     }
 
     render() {
-        const {errors, values} = this.state;
+        const { errors, values } = this.state;
 
         // language=hbs
         return `
@@ -114,6 +114,6 @@ export class Dialogs extends Block{
                         }}}
                     </div>
             </main>
-        `
+        `;
     }
 }

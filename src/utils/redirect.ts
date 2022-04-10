@@ -1,7 +1,6 @@
-import {IValidationFields} from "./validation";
-import {addEventListner} from "../index";
+import { addEventListner } from '../index';
 
-export function redirect(page: string, errors?: IValidationFields){
+export function redirect(page: string) {
     window.location.hash = page;
-    addEventListner()
+    addEventListner();
 }

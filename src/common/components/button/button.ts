@@ -1,4 +1,4 @@
-import Block from "../../../utils/Block";
+import Block from '../../../utils/Block';
 
 interface ButtonProps {
     text: string;
@@ -7,17 +7,17 @@ interface ButtonProps {
     onClick: () => void;
 }
 
-export class Button extends Block<any> {
-    constructor({text, link, style, onClick}: ButtonProps) {
-        super({text,  link, style, events: {click: onClick}});
+export class Button extends Block {
+    constructor({ text, link, style, onClick }: ButtonProps) {
+        super({ text, link, style, events: { click: onClick } });
     }
 
     static componentName = 'Button';
 
-    render(){
+    render() {
         // language=hbs
         return `
         <a class="text && button && {{style}}">{{text}}</a>
-        `
+        `;
     }
 }

@@ -1,6 +1,6 @@
-import Block from "../../utils/Block";
-import {IError, Validation} from "../../utils/validation";
-import {redirect} from "../../utils/redirect";
+import Block from '../../utils/Block';
+import { IError, Validation } from '../../utils/validation';
+import { redirect } from '../../utils/redirect';
 
 export class SignUp extends Block {
     protected getStateFromProps() {
@@ -12,7 +12,7 @@ export class SignUp extends Block {
                 password: '',
                 password_repeat: '',
                 email: '',
-                phone: ''
+                phone: '',
             },
             errors: {
                 login: '',
@@ -21,7 +21,7 @@ export class SignUp extends Block {
                 password: '',
                 password_repeat: '',
                 email: '',
-                phone: ''
+                phone: '',
             },
             updateSignUpData: () => {
                 const signUpData = {
@@ -33,36 +33,40 @@ export class SignUp extends Block {
                     email: (this.refs.email.childNodes[3] as HTMLInputElement)?.value,
                     phone: (this.refs.phone.childNodes[3] as HTMLInputElement)?.value,
                 };
-                const validationResults: { [id: string]: IError } = Validation({...signUpData});
+                const validationResults: { [id: string]: IError } = Validation({ ...signUpData });
                 const nextState = {
                     errors: {
                         login: validationResults.login.status ? '' : validationResults.login.errorText,
                         first_name: validationResults.first_name.status ? '' : validationResults.first_name.errorText,
-                        second_name: validationResults.second_name.status ? '' : validationResults.second_name.errorText,
+                        second_name: validationResults.second_name.status
+                            ? ''
+                            : validationResults.second_name.errorText,
                         password: validationResults.password.status ? '' : validationResults.password.errorText,
-                        password_repeat: validationResults.password_repeat.status ? '' : validationResults.password_repeat.errorText,
+                        password_repeat: validationResults.password_repeat.status
+                            ? ''
+                            : validationResults.password_repeat.errorText,
                         email: validationResults.email.status ? '' : validationResults.email.errorText,
                         phone: validationResults.phone.status ? '' : validationResults.phone.errorText,
                     },
-                    values: {...signUpData},
+                    values: { ...signUpData },
                 };
 
                 this.setState(nextState);
             },
             onClick: () => {
                 this.state.updateSignUpData();
-                if(Object.keys(this.state.errors).find(key => this.state.errors[key]!=='')==null){
+                if (Object.keys(this.state.errors).find((key) => this.state.errors[key] !== '') == null) {
                     redirect('login');
                 }
             },
             onChange: () => {
                 this.state.updateSignUpData();
-            }
-        }
+            },
+        };
     }
 
     render() {
-        const {errors, values} = this.state;
+        const { errors, values } = this.state;
         // language=hbs
         return `
             <main>
@@ -131,6 +135,6 @@ export class SignUp extends Block {
                     </div>
                 </div>
             </main>
-        `
+        `;
     }
 }

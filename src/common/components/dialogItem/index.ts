@@ -1,1 +1,1 @@
-export {DialogItem as default} from "./dialogItem"
+export { DialogItem as default } from './dialogItem';

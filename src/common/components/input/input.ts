@@ -1,4 +1,4 @@
-import Block from "../../../utils/Block";
+import Block from '../../../utils/Block';
 
 interface InputProps {
     type: 'text' | 'password' | 'email';
@@ -12,24 +12,33 @@ interface InputProps {
 }
 
 export class Input extends Block {
-    constructor({type, style, placeholder, value, error, disabled, idForError, onChange}: InputProps) {
-        super({type, placeholder, value, error, style, disabled, idForError, onChange,
+    constructor({ type, style, placeholder, value, error, disabled, idForError, onChange }: InputProps) {
+        super({
+            type,
+            placeholder,
+            value,
+            error,
+            style,
+            disabled,
+            idForError,
+            onChange,
             events: {
                 blur: () => {
                     const errorTextId = `${idForError}_errorText`;
-                    document.getElementById(errorTextId)!.style.display = "block"
+                    document.getElementById(errorTextId)!.style.display = 'block';
                 },
                 focus: () => {
                     const errorTextId = `${idForError}_errorText`;
-                    document.getElementById(errorTextId)!.style.display = "none"
+                    document.getElementById(errorTextId)!.style.display = 'none';
                 },
-                change: onChange
-            }}) ;
+                change: onChange,
+            },
+        });
     }
 
     static componentName = 'Input';
 
-    render(){
+    render() {
         // language=hbs
         return `
                 <input class="{{#if (isNeedStubForStyle style)}}inputLabel && {{style}}__input {{else}}{{style}}{{/if}}" 
@@ -39,6 +48,6 @@ export class Input extends Block {
                        value="{{value}}" 
                         {{#if disabled}}disabled=true{{/if}}
                 />
-        `
+        `;
     }
 }

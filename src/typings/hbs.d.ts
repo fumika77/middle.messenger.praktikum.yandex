@@ -1,2 +1,2 @@
-declare module "*.hbs";
+declare module '*.hbs';
 declare type Nullable<P> = P | null;

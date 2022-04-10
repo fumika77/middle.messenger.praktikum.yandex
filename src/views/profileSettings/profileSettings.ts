@@ -1,23 +1,23 @@
-import Block from "../../utils/Block";
-import {IError, Validation} from "../../utils/validation";
-import {redirect} from "../../utils/redirect";
+import Block from '../../utils/Block';
+import { IError, Validation } from '../../utils/validation';
+import { redirect } from '../../utils/redirect';
 
-export class ProfileSettings extends Block{
+export class ProfileSettings extends Block {
     protected getStateFromProps() {
         this.state = {
             values: {
-                login: "SuperArchi",
-                first_name: "Арчибальд",
-                second_name: "Котиков",
-                email: "kotikoff@kotomail.ru",
-                phone: "88005678286"
+                login: 'SuperArchi',
+                first_name: 'Арчибальд',
+                second_name: 'Котиков',
+                email: 'kotikoff@kotomail.ru',
+                phone: '88005678286',
             },
             errors: {
-                login: "",
-                first_name: "",
-                second_name: "",
-                email: "",
-                phone: ""
+                login: '',
+                first_name: '',
+                second_name: '',
+                email: '',
+                phone: '',
             },
             updateProfileSettingsData: () => {
                 const profileSettingsData = {
@@ -28,14 +28,16 @@ export class ProfileSettings extends Block{
                     phone: (this.refs.phone.childNodes[3] as HTMLInputElement)?.value,
                 };
 
-                const validationResults: {[id: string]: IError} = Validation({...profileSettingsData});
+                const validationResults: { [id: string]: IError } = Validation({ ...profileSettingsData });
                 const nextState = {
                     errors: {
-                        login: validationResults.login.status? '' : validationResults.login.errorText,
-                        first_name: validationResults.first_name.status? '' : validationResults.first_name.errorText,
-                        second_name: validationResults.second_name.status? '' : validationResults.second_name.errorText,
-                        email: validationResults.email.status? '' : validationResults.email.errorText,
-                        phone: validationResults.phone.status? '' : validationResults.phone.errorText,
+                        login: validationResults.login.status ? '' : validationResults.login.errorText,
+                        first_name: validationResults.first_name.status ? '' : validationResults.first_name.errorText,
+                        second_name: validationResults.second_name.status
+                            ? ''
+                            : validationResults.second_name.errorText,
+                        email: validationResults.email.status ? '' : validationResults.email.errorText,
+                        phone: validationResults.phone.status ? '' : validationResults.phone.errorText,
                     },
                     values: { ...profileSettingsData },
                 };
@@ -43,8 +45,8 @@ export class ProfileSettings extends Block{
             },
             onClick: () => {
                 this.state.updateProfileSettingsData();
-                console.log('profileSettingsData',this.state.values)
-                if(Object.keys(this.state.errors).find(key => this.state.errors[key]!=='')==null){
+                console.log('profileSettingsData', this.state.values);
+                if (Object.keys(this.state.errors).find((key) => this.state.errors[key] !== '') == null) {
                     redirect('profileDescription');
                 }
             },
@@ -53,12 +55,12 @@ export class ProfileSettings extends Block{
             },
             onBackArrowClick: () => {
                 redirect('profileDescription');
-            }
-        }
+            },
+        };
     }
 
     render() {
-        const {errors, values} = this.state;
+        const { errors, values } = this.state;
         // language=hbs
         return `
             <main>
@@ -112,6 +114,6 @@ export class ProfileSettings extends Block{
                     </div>
                 </div>
             </main>
-        `
+        `;
     }
 }

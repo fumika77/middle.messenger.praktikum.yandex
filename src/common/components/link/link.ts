@@ -1,4 +1,4 @@
-import Block from "../../../utils/Block";
+import Block from '../../../utils/Block';
 
 interface LinkProps {
     style?: string;
@@ -8,16 +8,16 @@ interface LinkProps {
 }
 
 export class Link extends Block {
-    constructor({style, link, text, onClick}: LinkProps) {
-        super({style, link, text, events: {click: onClick}}) ;
+    constructor({ style, link, text, onClick }: LinkProps) {
+        super({ style, link, text, events: { click: onClick } });
     }
 
     static componentName = 'Link';
 
-    render(){
+    render() {
         // language=hbs
         return `
             <a href={{link}} class={{style}}>{{text}}</a>
-        `
+        `;
     }
 }

@@ -1,20 +1,20 @@
-import Block from "../../../utils/Block";
+import Block from '../../../utils/Block';
 
 interface DialogItemProps {
     src: string;
     senderName: string;
     messageText: string;
-    onClick: (pageValues:any) => void;
+    onClick: (pageValues: any) => void;
 }
 
 export class DialogItem extends Block<any> {
-    constructor({src, senderName, messageText, onClick}: DialogItemProps) {
-        super({src,  senderName, messageText, events: {click: onClick}});
+    constructor({ src, senderName, messageText, onClick }: DialogItemProps) {
+        super({ src, senderName, messageText, events: { click: onClick } });
     }
 
     static componentName = 'DialogItem';
 
-    render(){
+    render() {
         // language=hbs
         return `
         <div class="dialogs__item">
@@ -24,6 +24,6 @@ export class DialogItem extends Block<any> {
                 <div class="dialogs__message__text && text">{{messageText}}</div>
             </div>
         </div>
-        `
+        `;
     }
 }

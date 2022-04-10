@@ -1,9 +1,8 @@
-import {BaseService} from "./baseService";
+import { BaseService } from './baseService';
 
-class MainController extends BaseService{
+class MainController extends BaseService {
     constructor() {
         super();
     }
-
 }
 export default new MainController();

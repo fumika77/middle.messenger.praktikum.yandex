@@ -1,22 +1,22 @@
-import Block from "../../utils/Block";
+import Block from '../../utils/Block';
 
 interface IErrorPageProps {
-    errorNumber:number,
-    errorDescription: string
+    errorNumber: number;
+    errorDescription: string;
 }
 
-export class ErrorPage extends Block<IErrorPageProps>{
-    protected getStateFromProps(props:IErrorPageProps) {
+export class ErrorPage extends Block<IErrorPageProps> {
+    protected getStateFromProps(props: IErrorPageProps) {
         this.state = {
             values: {
-                errorNumber:props.errorNumber,
-                errorDescription: props.errorDescription
-            }
-        }
+                errorNumber: props.errorNumber,
+                errorDescription: props.errorDescription,
+            },
+        };
     }
 
     render() {
-        const {values} = this.state;
+        const { values } = this.state;
         // language=hbs
         return `
             <main>
@@ -26,6 +26,6 @@ export class ErrorPage extends Block<IErrorPageProps>{
                     <a class="error__action && error__text && text" href="">Вернуться к чатам</a>
                 </div>
             </main>
-        `
+        `;
     }
 }

@@ -1,4 +1,4 @@
-import Block from "../../../utils/Block";
+import Block from '../../../utils/Block';
 
 interface BackArrowProps {
     link: string;
@@ -6,18 +6,18 @@ interface BackArrowProps {
 }
 
 export class BackArrow extends Block {
-    constructor({link, onClick}: BackArrowProps) {
-        super({link, events: {click: onClick}});
+    constructor({ link, onClick }: BackArrowProps) {
+        super({ link, events: { click: onClick } });
     }
 
     static componentName = 'BackArrow';
 
-    render(){
+    render() {
         // language=hbs
         return `
             <a class="arrowLink"">
                 <img class="profileDescription__arrowImg" src="img/arrow-left-square---filled(40x40)@1x.png">
             </a>
-        `
+        `;
     }
 }

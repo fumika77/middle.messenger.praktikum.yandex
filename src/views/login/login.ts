@@ -1,44 +1,43 @@
-import Block from "../../utils/Block";
-import {redirect} from "../../utils/redirect";
-import {IError, Validation} from "../../utils/validation";
+import Block from '../../utils/Block';
+import { redirect } from '../../utils/redirect';
+import { IError, Validation } from '../../utils/validation';
 
-interface ILoginData{
-    login:string,
-    password: string,
+interface ILoginData {
+    login: string;
+    password: string;
 }
 
-export class Login extends Block{
-
+export class Login extends Block {
     protected getStateFromProps() {
         this.state = {
             values: {
-                login:'',
-                password:''
+                login: '',
+                password: '',
             },
             errors: {
-                login:'',
-                password:''
+                login: '',
+                password: '',
             },
             updateLoginData: () => {
-                const loginData:ILoginData = {
-                    login: (this.refs.login.childNodes[3]  as HTMLInputElement)?.value,
-                    password: (this.refs.password.childNodes[3]  as HTMLInputElement)?.value,
+                const loginData: ILoginData = {
+                    login: (this.refs.login.childNodes[3] as HTMLInputElement)?.value,
+                    password: (this.refs.password.childNodes[3] as HTMLInputElement)?.value,
                 };
 
-                const validationResults: { [id: string]: IError } = Validation({...loginData});
+                const validationResults: { [id: string]: IError } = Validation({ ...loginData });
                 const nextState = {
                     errors: {
                         login: validationResults.login.status ? '' : validationResults.login.errorText,
                         password: validationResults.password.status ? '' : validationResults.password.errorText,
                     },
-                    values: {...loginData},
+                    values: { ...loginData },
                 };
                 this.setState(nextState);
             },
             onLogin: () => {
                 this.state.updateLoginData();
-                console.log('loginData',this.state.values)
-                if(this.state.errors.login=='' && this.state.errors.password==''){
+                console.log('loginData', this.state.values);
+                if (this.state.errors.login == '' && this.state.errors.password == '') {
                     redirect('dialogs');
                 }
             },
@@ -47,12 +46,12 @@ export class Login extends Block{
             },
             onChange: () => {
                 this.state.updateLoginData();
-            }
-        }
+            },
+        };
     }
 
     render() {
-        const {values, errors} = this.state;
+        const { values, errors } = this.state;
         // language=hbs
         return `
         <main>
@@ -80,6 +79,6 @@ export class Login extends Block{
                 {{{ Link link="#signUp" style="textLink"  text="Нет аккаунта?" onClick=onSignUpClick}}}
             </div>
         </main>
-        `
+        `;
     }
 }

@@ -1,0 +1,41 @@
+{
+  "extends": ["airbnb",
+    "prettier",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"],
+  "parserOptions": {
+    "ecmaVersion": 2017
+  },
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "html","prettier"],
+  "env": {
+    "es6": true
+  },
+  "rules": {
+    "max-len": [2, 120],
+    "indent": [
+      "error",
+      4
+    ],
+    "no-console": [
+      0
+    ],
+    "import/prefer-default-export": "off",
+    "no-underscore-dangle": "off",
+    "no-restricted-exports": "off",
+    "import/no-default-export": "error",
+    "import/no-unresolved": 0,
+    "import/no-named-as-default": 0,
+    "eqeqeq": "off",
+    "no-param-reassign": "off",
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "ts": "never",
+        "": "never"
+      }
+    ]
+  }
+}

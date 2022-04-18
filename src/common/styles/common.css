@@ -1,38 +1,42 @@
 :root {
-    --main-font-family: 'RobotoFlex', serif;
-    --text-link-color: #000000;
-    --box-background-color: #FCFCFC;
-    --input-background-color: #FCFCFC;
-    --button-text-color: #fff;
-    --button-background-color: #C4B6FF;
-    --action-text-color:#957CFF;
+  --main-font-family: "RobotoFlex", serif;
+  --text-link-color: #000;
+  --box-background-color: #fcfcfc;
+  --input-background-color: #fcfcfc;
+  --button-text-color: #fff;
+  --button-background-color: #c4b6ff;
+  --action-text-color: #957cff;
+  --dialogs-sidebar-color: #f8f8f8;
+  --dialogs-input-color: #e8e8e8;
+  --dialogs-header-color: #f6f6f6;
 }
 
 .text {
-    font-family: var(--main-font-family);
-    font-style: normal;
-    font-weight: 400;
+  font-family: var(--main-font-family);
+  font-style: normal;
+  font-weight: 400;
 }
 
-.textLink{
-    font-size: 14px;
-    color: var(--text-link-color);
-    margin-top: 5px;
-    align-content: center;
-    border-bottom: none;
-    text-decoration: none;
+.textLink {
+  font-size: 14px;
+  color: var(--text-link-color);
+  margin-top: 5px;
+  align-content: center;
+  border-bottom: none;
+  text-decoration: none;
 }
 
-.profile__box{
-    position: absolute;
-    width: 755px;
-    height: 787px;
-    left: 378px;
-    top: 10px;
-    background: var(--box-background-color);
-    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.profile__box {
+  position: absolute;
+  width: 650px;
+  height: 730px;
+  left: 50%;
+  transform: translate3d(-50%, 0, 0);
+  top: 10px;
+  background: var(--box-background-color);
+  box-shadow: 0 0 4px rgb(0 0 0 / 25%);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

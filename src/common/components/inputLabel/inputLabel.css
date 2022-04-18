@@ -1,0 +1,89 @@
+.inputLabel {
+  outline: none;
+  border: none;
+  border-bottom: 1px solid #000;
+  background: var(--input-background-color);
+}
+
+.inputLabel::placeholder {
+  font-size: 12px;
+  line-height: 14px;
+  bottom: 2px;
+}
+
+.profile {
+  &__input {
+    width: 400px;
+    height: 40px;
+  }
+
+  &__label {
+    display: inline-block;
+    font-size: 12px;
+    line-height: 14px;
+    text-align: right;
+  }
+
+  &__wrapper {
+    margin: 5px;
+  }
+}
+
+.signUp {
+  &__input {
+    width: 315px;
+    height: 40px;
+    position: static;
+    margin-top: 3px;
+  }
+
+  &__label {
+    display: inline-block;
+    font-size: 12px;
+    position: absolute;
+    line-height: 14px;
+  }
+}
+
+.login {
+  &__input {
+    width: 200px;
+    height: 40px;
+    position: static;
+    margin-top: 3px;
+    background: none;
+  }
+
+  &__inputWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: none;
+  }
+
+  &__label {
+    display: none;
+  }
+}
+
+.dialogs {
+  &__input {
+    width: 700px;
+    height: 45px;
+    background: var(--dialogs-input-color);
+    border-radius: 12px;
+    border-color: var(--dialogs-input-color);
+  }
+
+  &__input__wrapper {
+    margin-top: 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__label {
+    display: none;
+  }
+}

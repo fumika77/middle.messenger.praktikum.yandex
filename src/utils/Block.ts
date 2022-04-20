@@ -189,6 +189,7 @@ export default class Block {
     }
 
     onShow() {
+        this.eventBus().emit(Block.EVENTS.FLOW_CDM)
         this.getContent()!.style.display = 'block';
     }
 

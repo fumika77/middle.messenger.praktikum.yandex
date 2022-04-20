@@ -318,11 +318,10 @@
 
 .dialogs__wrapper {
   min-height: 800px;
-  grid-template:
-    "n h" 100px
-    "n c" 1fr
-    "n f" 100px
-    / 500px 1fr;
+  grid-template: "n h" 100px
+                 "n c" 1fr
+                 "n f" 100px
+                 / 500px 1fr;
   margin: auto;
   display: grid;
 }
@@ -363,7 +362,7 @@
 
 .dialogs__footer {
   background-color: var(--box-background-color);
-  border-top: 0.5px solid #bababa;
+  border-top: .5px solid #bababa;
   flex-direction: row;
   grid-area: f;
   justify-content: center;
@@ -439,3 +438,5 @@
 .dialogs__send__button {
   padding-left: 10px;
 }
+
+/*# sourceMappingURL=style.css.map */

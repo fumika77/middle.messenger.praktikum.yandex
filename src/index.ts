@@ -1,6 +1,6 @@
 import { Login } from './views/login/login';
 import { ProfileSettings } from './views/profileSettings/profileSettings';
-import { renderDom } from './utils/renderDom';
+import { renderDOM } from './utils/renderDOM';
 import Button from './common/components/button/index';
 import registerComponents from './utils/registerComponents';
 import { BackArrow } from './common/components/backArrow/backArrow';
@@ -16,6 +16,7 @@ import { DialogItem } from './common/components/dialogItem/dialogItem';
 import Input from './common/components/input';
 import Link from './common/components/link';
 import Dialogs from './views/dialogs';
+import {Router} from "express";
 
 registerComponents(ErrorText);
 registerComponents(Button);
@@ -44,10 +45,10 @@ export function addEventListner() {
             errorDescription: 'Упс, ошибочка вышла...',
         });
         if (pageCollection[page] != null) {
-            renderDom('#app', pageCollection[page]);
+            renderDOM('#app', pageCollection[page]);
         }
     });
     document.dispatchEvent(new Event('DOMContentLoaded'));
 }
 
-addEventListner();
+Router router = new Router();

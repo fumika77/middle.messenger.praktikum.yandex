@@ -16,9 +16,8 @@ export class Store<State extends Record<string, any>> extends EventBus {
 
     constructor(defaultState: State) {
         super();
-
+        console.log('State создан')
         this.state = defaultState;
-        this.set(defaultState);
     }
 
     public getState() {
@@ -30,7 +29,7 @@ export class Store<State extends Record<string, any>> extends EventBus {
 
         this.state = { ...this.state, ...nextState };
 
-        this.emit('changed', prevState, nextState);
+        this.emit('change', prevState, nextState);
     }
 
     dispatch(nextStateOrAction: Partial<State> | Action<State>, payload?: any) {

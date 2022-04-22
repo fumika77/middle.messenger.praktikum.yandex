@@ -1,8 +1,28 @@
-import Block from '../../utils/Block';
+import Block from '../../core/Block';
 import { IError, Validation } from '../../utils/validation';
-import { redirect } from '../../utils/redirect';
+import {withRouter, withStore} from "../../utils";
+import {BrowserRouter} from "../../core/Route";
+import {Store} from "../../core/Store";
+
+type DialogsPageProps = {
+    router: BrowserRouter;
+    store: Store<AppState>;
+    formError?: () => string | null;
+    isLoading?: () => boolean;
+};
 
 export class Dialogs extends Block {
+    constructor(props:DialogsPageProps) {
+        super(props);
+        this.setProps({
+            formError: () => this.props.store.getState().loginFormError,
+            isLoading: () => Boolean(this.props.store.getState().isLoading),
+            onProfileButtonClick: () => {
+                console.log('onProfileButtonClick')
+                this.props.router.go('/profile')}
+        });
+    }
+
     protected getStateFromProps() {
         this.state = {
             values: {
@@ -49,10 +69,7 @@ export class Dialogs extends Block {
             },
             onChange: () => {
                 this.state.updateDialogData();
-            },
-            profileButtonClick: () => {
-                redirect('profileDescription');
-            },
+            }
         };
     }
 
@@ -73,7 +90,7 @@ export class Dialogs extends Block {
                             <div>
                                 {{{Avatar style="dialogs__profile__box__img"
                                           src="img/animals.png"}}}
-                                {{{ImageButton onClick=profileButtonClick
+                                {{{ImageButton link="/profilex" onClick=this.props.onProfileButtonClick
                                                src="img/profile-edit(32x32)@1x.png"}}}
                             </div>
                             {{{Input style="dialogs__search"
@@ -117,3 +134,5 @@ export class Dialogs extends Block {
         `;
     }
 }
+
+export default withRouter(withStore(Dialogs))

@@ -1,7 +1,25 @@
-import Block from '../../utils/Block';
-import { redirect } from '../../utils/redirect';
+import Block from '../../core/Block';
+import {withRouter, withStore} from "../../utils";
+import {BrowserRouter} from "../../core/Route";
+import {Store} from "../../core/Store";
+
+type ProfileDescriptionPageProps = {
+    router: BrowserRouter;
+    store: Store<AppState>;
+    formError?: () => string | null;
+    isLoading?: () => boolean;
+};
 
 export class ProfileDescription extends Block {
+    constructor(props:ProfileDescriptionPageProps) {
+        super(props);
+        this.setProps({
+            formError: () => this.props.store.getState().loginFormError,
+            isLoading: () => Boolean(this.props.store.getState().isLoading),
+            onEditButtonClick: () => this.props.router.go('/profile-settings'),
+            onBackArrowClick: () => this.props.router.go('/dialogs')
+        });
+    }
     protected getStateFromProps() {
         this.state = {
             values: {
@@ -18,12 +36,6 @@ export class ProfileDescription extends Block {
                 email: '',
                 phone: '',
             },
-            onEditButtonClick: () => {
-                redirect('profileSettings');
-            },
-            onBackArrowClick: () => {
-                redirect('dialogs');
-            },
         };
     }
 
@@ -33,7 +45,7 @@ export class ProfileDescription extends Block {
         return `
             <main>
             <div class="profile__box">
-                {{{ BackArrow onClick=onBackArrowClick}}}
+                {{{ BackArrow onClick=this.props.onBackArrowClick}}}
                 {{{ Avatar style="profileImg" src="img/animals.png"}}}
                 <h1 class="profile__description__header && text">{{name}}</h1>
                 <div class="profile__description__formData">
@@ -70,7 +82,7 @@ export class ProfileDescription extends Block {
                                   style="profile"}}}
                 </div>
                 <div class="profile__description__linkBox">
-                    {{{Link text="Изменить данные" onClick=onEditButtonClick}}}
+                    {{{Link text="Изменить данные" onClick=props.onEditButtonClick.onEditButtonClick}}}
                     {{{Link text="Изменить пароль" }}}
                 </div>
             </div>
@@ -78,3 +90,5 @@ export class ProfileDescription extends Block {
         `;
     }
 }
+
+export default withRouter(withStore(ProfileDescription))

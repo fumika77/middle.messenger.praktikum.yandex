@@ -1,4 +1,4 @@
-import Block from '../../../utils/Block';
+import Block from '../../../core/Block';
 
 interface ImageButtonProps {
     src: string;
@@ -17,7 +17,7 @@ export class ImageButton extends Block<any> {
     render() {
         // language=hbs
         return `
-            <a class="{{style}}">{{text}}
+            <a class="{{style}}" href="{{link}}">{{text}}
             <img src="{{src}}">
         </a>
         `;

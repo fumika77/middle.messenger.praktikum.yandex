@@ -1,11 +1,13 @@
-import Block from '../../utils/Block';
+import Block from '../../core/Block';
+import {withRouter, withStore} from "../../utils";
+import {ProfileSettings} from "../profileSettings/profileSettings";
 
 interface IErrorPageProps {
     errorNumber: number;
     errorDescription: string;
 }
 
-export class ErrorPage extends Block<IErrorPageProps> {
+export class ErrorPage extends Block{
     protected getStateFromProps(props: IErrorPageProps) {
         this.state = {
             values: {
@@ -29,3 +31,5 @@ export class ErrorPage extends Block<IErrorPageProps> {
         `;
     }
 }
+
+export default withRouter(withStore(ErrorPage))

@@ -1,7 +1,8 @@
-import { Block, Store } from '../core';
+import Block from '../core/Block';
+import Store from '../core/Store';
 
 export function withStore<T>(Component: typeof Block) {
-    return class extends Component<T> {
+    return class extends Component{
         public static componentName = Component.name;
 
         constructor(props: T & { store: Store<AppState> }) {
@@ -11,10 +12,7 @@ export function withStore<T>(Component: typeof Block) {
         componentDidMount(props: T & { store: Store<AppState> }) {
             super.componentDidMount(props);
 
-            // TODO: Утечка памяти, так как событие не убирается
-            // после пересоздания компонента
-
-            window.store.on('changed', () => {
+            window.store.on('change', () => {
                 this.setProps({
                     ...this.props,
                     store: window.store,

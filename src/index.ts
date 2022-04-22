@@ -1,22 +1,24 @@
-import { Login } from './views/login/login';
-import { ProfileSettings } from './views/profileSettings/profileSettings';
 import { renderDOM } from './utils/renderDOM';
 import Button from './common/components/button/index';
 import registerComponents from './utils/registerComponents';
 import { BackArrow } from './common/components/backArrow/backArrow';
 import InputLabel from './common/components/inputLabel';
 import Avatar from './common/components/avatar';
-import ProfileDescription from './views/profileDescription';
-import Error from './views/error';
-import SignUp from './views/signUp';
-import Block from './utils/Block';
 import { ErrorText } from './common/components/errorText/errorText';
 import { ImageButton } from './common/components/imageButton/imageButton';
 import { DialogItem } from './common/components/dialogItem/dialogItem';
 import Input from './common/components/input';
 import Link from './common/components/link';
-import Dialogs from './views/dialogs';
-import {Router} from "express";
+import {BrowserRouter} from "./core/Route";
+import {Store} from "./core/Store";
+import {getScreenComponent} from "./utils";
+import {defaultState} from "./store/state";
+import Login from './views/login';
+import Dialogs from "./views/dialogs";
+import ProfileDescription from "./views/profileDescription";
+import ProfileSettings from "./views/profileSettings";
+import SignUp from "./views/signUp";
+import ErrorPage from "./views/error";
 
 registerComponents(ErrorText);
 registerComponents(Button);
@@ -29,26 +31,51 @@ registerComponents(ImageButton);
 registerComponents(DialogItem);
 registerComponents(Link);
 
-export function addEventListner() {
-    const key = window.location.hash.substr(1);
-    const page = key == '' ? 'login' : key;
 
-    document.addEventListener('DOMContentLoaded', () => {
-        const pageCollection: { [key: string]: typeof Block } = {};
-        pageCollection.login = new Login();
-        pageCollection.profileSettings = new ProfileSettings();
-        pageCollection.profileDescription = new ProfileDescription();
-        pageCollection.signUp = new SignUp();
-        pageCollection.dialogs = new Dialogs();
-        pageCollection.error = new Error({
-            errorNumber: 404,
-            errorDescription: 'Упс, ошибочка вышла...',
-        });
-        if (pageCollection[page] != null) {
-            renderDOM('#app', pageCollection[page]);
-        }
-    });
-    document.dispatchEvent(new Event('DOMContentLoaded'));
+declare global {
+    interface Window {
+        store: Store<AppState>;
+        router: BrowserRouter;
+    }
 }
 
-Router router = new Router();
+
+document.addEventListener('DOMContentLoaded', () => {
+    const store = new Store<AppState>(defaultState);
+    const router = new BrowserRouter();
+
+    window.router = router;
+    window.store = store;
+
+    /**
+     * Глобальный слушатель изменений в сторе
+     * для переключения активного экрана
+     */
+    store.on('change', (prevState, nextState) => {
+        // router.go(window.location.pathname);
+        if (prevState.screen !== nextState.screen) {
+            const Page = getScreenComponent(nextState.screen);
+            renderDOM(new Page());
+        }
+    });
+
+    /**
+     * Инициализируем роутинг
+     */
+    router
+        .use('/', Login, {})
+        .use('/login', Login, {})
+        .use('/dialogs', Dialogs, {})
+        .use('/profile', ProfileDescription, {})
+        .use('/profile-settings', ProfileSettings, {})
+        .use('/sign-up', SignUp, {})
+        .use('/*', ErrorPage, {})
+        .start();
+
+    /**
+     * Загружаем данные для приложения
+     */
+    setTimeout(() => {
+        // store.dispatch(initApp);
+    }, 100);
+});

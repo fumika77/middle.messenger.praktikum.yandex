@@ -1,8 +1,28 @@
-import Block from '../../utils/Block';
+import Block from '../../core/Block';
 import { IError, Validation } from '../../utils/validation';
 import { redirect } from '../../utils/redirect';
+import {withStore} from "../../utils";
+import {withRouter} from "../../utils";
+import {BrowserRouter} from "../../core/Route";
+import {Store} from "../../core/Store";
+
+
+type SignUpPageProps = {
+    router: BrowserRouter;
+    store: Store<AppState>;
+    formError?: () => string | null;
+    isLoading?: () => boolean;
+};
 
 export class SignUp extends Block {
+    constructor(props:SignUpPageProps) {
+        super(props);
+        this.setProps({
+            formError: () => this.props.store.getState().loginFormError,
+            isLoading: () => Boolean(this.props.store.getState().isLoading),
+            onClick: () => this.props.router.go('/login')
+        });
+    }
     protected getStateFromProps() {
         this.state = {
             values: {
@@ -130,11 +150,13 @@ export class SignUp extends Block {
                                       style="signUp"
                                       onChange=onChange
                         }}}
-                        {{{Button text="Зарегистрироваться" onClick=onClick}}}
-                        <a href="" class="textLink" click=onClick>Войти</a>
+                        {{{Button text="Зарегистрироваться" onClick=this.props.onClick}}}
+                        <a class="textLink" onclick=this.props.onClick>Войти</a>
                     </div>
                 </div>
             </main>
         `;
     }
 }
+
+export default withRouter(withStore(SignUp))

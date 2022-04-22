@@ -1,8 +1,27 @@
-import Block from '../../utils/Block';
+import Block from '../../core/Block';
 import { IError, Validation } from '../../utils/validation';
 import { redirect } from '../../utils/redirect';
+import {withRouter, withStore} from "../../utils";
+import {BrowserRouter} from "../../core/Route";
+import {Store} from "../../core/Store";
+
+
+type ProfileSettingsPageProps = {
+    router: BrowserRouter;
+    store: Store<AppState>;
+    formError?: () => string | null;
+    isLoading?: () => boolean;
+};
 
 export class ProfileSettings extends Block {
+    constructor(props:ProfileSettingsPageProps) {
+        super(props);
+        this.setProps({
+            formError: () => this.props.store.getState().loginFormError,
+            isLoading: () => Boolean(this.props.store.getState().isLoading),
+            onBackArrowClick: () => this.props.router.go('/profile-description')
+        });
+    }
     protected getStateFromProps() {
         this.state = {
             values: {
@@ -47,14 +66,11 @@ export class ProfileSettings extends Block {
                 this.state.updateProfileSettingsData();
                 console.log('profileSettingsData', this.state.values);
                 if (Object.keys(this.state.errors).find((key) => this.state.errors[key] !== '') == null) {
-                    redirect('profileDescription');
+                    this.props.onBackArrowClick()
                 }
             },
             onChange: () => {
                 this.state.updateProfileSettingsData();
-            },
-            onBackArrowClick: () => {
-                redirect('profileDescription');
             },
         };
     }
@@ -65,7 +81,7 @@ export class ProfileSettings extends Block {
         return `
             <main>
                 <div class="profile__box">
-                    {{{BackArrow onClick=onBackArrowClick}}}
+                    {{{BackArrow onClick=this.props.onBackArrowClick}}}
                     {{{Avatar style="profileImg" src="img/animals.png"}}}
                     <img class="profile__settings__editImg" src="img/image-edit(40x40)@1x.png">
                     <h1 class="profile__settings__header && text">Настройки профиля</h1>
@@ -117,3 +133,4 @@ export class ProfileSettings extends Block {
         `;
     }
 }
+export default withRouter(withStore(ProfileSettings))

@@ -12,4 +12,9 @@ declare global {
         login: string;
         firstName: string;
     }
+
+    export interface Window {
+        store: any;
+        router: any;
+    }
 }

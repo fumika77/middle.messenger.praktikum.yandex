@@ -37,6 +37,7 @@ export default class Block {
         this.getStateFromProps(props);
 
         this.props = this._makePropsProxy(props || ({} as any));
+
         this.state = this._makePropsProxy(this.state);
 
         this.eventBus = () => eventBus;

@@ -1,13 +1,16 @@
 import Block from "./Block";
-import renderDOM from "./renderDOM";
+import {renderDOM} from "../utils/renderDOM";
 
+function isEqual (value1, value2){
+    return value1 === value2;
+}
 class Route {
     protected _pathname;
     protected _blockClass;
     protected _block;
     protected _props;
 
-    constructor(pathname: string, view: Block, props: any) {
+    constructor(pathname: string, view: typeof Block, props: any) {
         this._pathname = pathname;
         this._blockClass = view;
         this._block = null;
@@ -20,7 +23,7 @@ class Route {
     }
     leave() {
         if (this._block) {
-            this._block.hide();
+            this._block.onHide();
         }
     }
     match(pathname: string) {
@@ -32,7 +35,7 @@ class Route {
             renderDOM(this._block)
             return;
         }
-        this._block.show();
+        this._block.onShow();
     }
 }
 
@@ -43,6 +46,7 @@ export class BrowserRouter {
     private __instance;
 
     constructor() {
+        console.log('Создается роутер')
         if (BrowserRouter.__instance) {
             return BrowserRouter.__instance;
         }
@@ -54,7 +58,8 @@ export class BrowserRouter {
         BrowserRouter.__instance = this;
     }
 
-    use(pathname: string, block: Block, props: any) {
+    use(pathname: string, block: typeof Block, props: any) {
+        console.log('Добавляем pathname в роутер ', pathname)
         const route = new Route(pathname, block, props);
 
         this.routes!.push(route);
@@ -63,6 +68,8 @@ export class BrowserRouter {
     }
 
     start() {
+        console.log('Стартует роутер')
+
         window.onpopstate = (event => {
             this._onRoute(event.currentTarget.location.pathname);
         }).bind(this);
@@ -71,6 +78,7 @@ export class BrowserRouter {
     }
 
     _onRoute(pathname:string) {
+        console.log('_onRoute pathname: ', pathname)
         let route = this.getRoute(pathname);
         if (!route) {
             return;
@@ -98,7 +106,7 @@ export class BrowserRouter {
     }
 
     getRoute(pathname:string) {
-        const route = this.routes.find(route => route.match(pathname));
-        return route || this.routes.find(route => route.match('*'));
+        const route = this.routes!.find(route => route.match(pathname));
+        return route || this.routes!.find(route => route.match('*'));
     }
 }

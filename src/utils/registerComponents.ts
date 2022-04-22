@@ -1,6 +1,6 @@
 import Handlebars, { HelperOptions } from 'handlebars';
 
-import Block from './Block';
+import Block from '../core/Block';
 
 export default function registerComponents(Component: typeof Block) {
     Handlebars.registerHelper(

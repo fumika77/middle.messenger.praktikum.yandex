@@ -1,13 +1,39 @@
-import Block from '../../utils/Block';
+import Block from '../../core/Block';
 import { redirect } from '../../utils/redirect';
 import { IError, Validation } from '../../utils/validation';
+import {withRouter} from "../../utils";
+import {withStore} from "../../utils";
+import {Store} from "../../core/Store";
+import {BrowserRouter} from "../../core/Route";
 
 interface ILoginData {
     login: string;
     password: string;
 }
+type LoginPageProps = {
+    router: BrowserRouter;
+    store: Store<AppState>;
+    formError?: () => string | null;
+    isLoading?: () => boolean;
+};
 
-export class Login extends Block {
+class Login extends Block {
+    constructor(props: LoginPageProps) {
+        super(props);
+        this.setProps({
+            formError: () => this.props.store.getState().loginFormError,
+            isLoading: () => Boolean(this.props.store.getState().isLoading),
+            onSignInClick: () => this.props.router.go('/dialogs'),
+            onSignUpClick: () => this.props.router.go('/sign-up')
+        });
+    }
+
+    componentDidMount() {
+        if (this.props.store.getState().user) {
+            this.props.router.go('/dialogs');
+        }
+    }
+
     protected getStateFromProps() {
         this.state = {
             values: {
@@ -37,12 +63,7 @@ export class Login extends Block {
             onLogin: () => {
                 this.state.updateLoginData();
                 console.log('loginData', this.state.values);
-                if (this.state.errors.login == '' && this.state.errors.password == '') {
-                    redirect('dialogs');
-                }
-            },
-            onSignUpClick: () => {
-                redirect('signUp');
+                this.props.onSignInClick()
             },
             onChange: () => {
                 this.state.updateLoginData();
@@ -76,9 +97,11 @@ export class Login extends Block {
                               onChange=onChange
                 }}}
                 {{{ Button text="Войти" onClick=onLogin}}}
-                {{{ Link link="#signUp" style="textLink"  text="Нет аккаунта?" onClick=onSignUpClick}}}
+                {{{ Link link="/sign-up" style="textLink"  text="Нет аккаунта?" onClick=this.props.onSignUpClick}}}
             </div>
         </main>
         `;
     }
 }
+
+export default withRouter(withStore(Login))

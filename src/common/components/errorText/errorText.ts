@@ -1,4 +1,5 @@
 import Block from '../../../core/Block';
+import {withStore} from "../../../utils";
 
 interface IErrorTextProps {
     errorText?: string;
@@ -18,3 +19,5 @@ export class ErrorText extends Block {
         `;
     }
 }
+
+export default withStore(ErrorText)

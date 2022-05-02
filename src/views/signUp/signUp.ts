@@ -1,10 +1,10 @@
 import Block from '../../core/Block';
 import { IError, Validation } from '../../utils/validation';
-import { redirect } from '../../utils/redirect';
 import {withStore} from "../../utils";
 import {withRouter} from "../../utils";
 import {BrowserRouter} from "../../core/Route";
 import {Store} from "../../core/Store";
+import {signUp} from "../../services/AuthService";
 
 
 type SignUpPageProps = {
@@ -26,14 +26,23 @@ export class SignUp extends Block {
     protected getStateFromProps() {
         this.state = {
             values: {
-                login: '',
-                first_name: '',
-                second_name: '',
-                password: '',
-                password_repeat: '',
-                email: '',
-                phone: '',
+                login: 'super_archi',
+                first_name: 'Арчибальд',
+                second_name: 'Котиков',
+                password: 'Qwerty12345',
+                password_repeat: 'Qwerty12345',
+                email: 'kotikoff@yandex.ru',
+                phone: '88008001111',
             },
+            // values: {
+            //     login: '',
+            //     first_name: '',
+            //     second_name: '',
+            //     password: '',
+            //     password_repeat: '',
+            //     email: '',
+            //     phone: '',
+            // },
             errors: {
                 login: '',
                 first_name: '',
@@ -69,14 +78,18 @@ export class SignUp extends Block {
                         phone: validationResults.phone.status ? '' : validationResults.phone.errorText,
                     },
                     values: { ...signUpData },
+                    hasError: !validationResults.login.status && !validationResults.first_name.status && !validationResults.second_name.status
+                        && !validationResults.password.status && !validationResults.password_repeat.status
+                        && !validationResults.email.status && !validationResults.phone.status
                 };
 
                 this.setState(nextState);
             },
-            onClick: () => {
+            onSignUpButtonClick: () => {
                 this.state.updateSignUpData();
-                if (Object.keys(this.state.errors).find((key) => this.state.errors[key] !== '') == null) {
-                    redirect('login');
+                this.props.onSignUpButtonClick()
+                if (!this.state.hasError) {
+                    this.props.store.dispatch(signUp, this.state.values);
                 }
             },
             onChange: () => {
@@ -150,8 +163,8 @@ export class SignUp extends Block {
                                       style="signUp"
                                       onChange=onChange
                         }}}
-                        {{{Button text="Зарегистрироваться" onClick=this.props.onClick}}}
-                        <a class="textLink" onclick=this.props.onClick>Войти</a>
+                        {{{Button text="Зарегистрироваться" onClick=onSignUpButtonClick}}}
+                        {{{Link class="textLink" text="Войти" link="/profile-settings" onClick=onClick}}}
                     </div>
                 </div>
             </main>

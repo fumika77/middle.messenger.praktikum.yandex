@@ -17,9 +17,7 @@ export class Dialogs extends Block {
         this.setProps({
             formError: () => this.props.store.getState().loginFormError,
             isLoading: () => Boolean(this.props.store.getState().isLoading),
-            onProfileButtonClick: () => {
-                console.log('onProfileButtonClick')
-                this.props.router.go('/profile')}
+            onProfileButtonClick: () => this.props.router.go('/profile')
         });
     }
 
@@ -90,7 +88,7 @@ export class Dialogs extends Block {
                             <div>
                                 {{{Avatar style="dialogs__profile__box__img"
                                           src="img/animals.png"}}}
-                                {{{ImageButton link="/profilex" onClick=this.props.onProfileButtonClick
+                                {{{ImageButton link="/profile" onClick=onProfileButtonClick
                                                src="img/profile-edit(32x32)@1x.png"}}}
                             </div>
                             {{{Input style="dialogs__search"

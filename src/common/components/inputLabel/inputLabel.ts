@@ -4,6 +4,7 @@ interface InputLabelProps {
     type: 'text' | 'password' | 'email';
     id: string;
     placeholder?: string;
+    // value: string;
     value: string;
     error?: string;
     style: string;

@@ -1,4 +1,4 @@
-enum EMethods {
+export enum EMethods {
     GET = 'GET',
     PUT = 'PUT',
     POST = 'POST',
@@ -6,8 +6,8 @@ enum EMethods {
 }
 
 export interface IRequestOptions {
-    timeout: number;
-    method: EMethods;
+    timeout?: number;
+    method?: EMethods;
     data?: any;
     headers?: { [key: string]: string };
     retries?: number;
@@ -34,31 +34,35 @@ function queryStringify(data: { [key: string]: any }) {
 }
 
 export class BaseService {
-    get = (url: string, options: IRequestOptions) =>
-        this.request(url, { ...options, method: EMethods.GET }, options.timeout);
+    public get (url: string, options: IRequestOptions) {
+        return this.request(url, { ...options, method: EMethods.GET }, options.timeout);
+}
+    public post (url: string, options: IRequestOptions) {
+        return this.request(url, { ...options, method: EMethods.POST }, options.timeout);
+    }
+    public put (url: string, options: IRequestOptions) {
+        return this.request(url, { ...options, method: EMethods.PUT }, options.timeout);
+    }
 
-    post = (url: string, options: IRequestOptions) =>
-        this.request(url, { ...options, method: EMethods.POST }, options.timeout);
+    public delete  (url: string, options: IRequestOptions) {
+        return this.request(url, { ...options, method: EMethods.DELETE }, options.timeout).then;
+    }
 
-    put = (url: string, options: IRequestOptions) =>
-        this.request(url, { ...options, method: EMethods.PUT }, options.timeout);
-
-    delete = (url: string, options: IRequestOptions) =>
-        this.request(url, { ...options, method: EMethods.DELETE }, options.timeout);
-
-    request = (url: string, options: IRequestOptions, timeout = 5000) =>
-        new Promise((resolve, reject) => {
+    private request (url: string, options: IRequestOptions, timeout = 5000) {
+            const host = 'https://ya-praktikum.tech/api/v2/';
+           return new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();
             if (options.method === EMethods.GET && options.data) {
-                xhr.open(options.method, url + queryStringify(options.data), true);
+                xhr.open(options.method, host + url + queryStringify(options.data), true);
             } else {
-                xhr.open(options.method, url, true);
+                xhr.open(options.method as string, host + url, true);
             }
 
             xhr.onload = function () {
-                resolve(xhr);
+              //  resolve(JSON.parse(xhr.response));
+                resolve(xhr.response);
             };
-
+            xhr.withCredentials = true;
             xhr.onabort = reject;
             xhr.onerror = reject;
 
@@ -68,8 +72,7 @@ export class BaseService {
             xhr.onerror = () => {
                 reject({
                     status: xhr.status,
-                    statusText: xhr.statusText,
-                    description: 'load error',
+                    statusText: xhr.statusText
                 });
             };
 
@@ -87,6 +90,7 @@ export class BaseService {
                 xhr.send();
             }
         });
+    }
 }
 
 function fetchWithRetry(url: string, options: IRequestOptions): Promise<any> {

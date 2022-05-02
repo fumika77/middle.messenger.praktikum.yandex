@@ -1,4 +1,5 @@
 import Block from '../../../core/Block';
+import {withStore} from "../../../utils";
 
 interface InputProps {
     type: 'text' | 'password' | 'email';
@@ -45,9 +46,11 @@ export class Input extends Block {
                        placeholder="{{placeholder}}" 
                        type={{type}} 
                        size="40" 
-                       value="{{value}}" 
+                       value="{{value}}"
                         {{#if disabled}}disabled=true{{/if}}
                 />
         `;
     }
 }
+
+export default withStore(Input)

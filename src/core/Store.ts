@@ -16,7 +16,6 @@ export class Store<State extends Record<string, any>> extends EventBus {
 
     constructor(defaultState: State) {
         super();
-        console.log('State создан')
         this.state = defaultState;
     }
 

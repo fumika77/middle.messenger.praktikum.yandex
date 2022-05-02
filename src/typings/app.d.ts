@@ -10,7 +10,12 @@ declare global {
     export type User = {
         id: number;
         login: string;
-        firstName: string;
+        first_name: string;
+        second_name: string;
+        email: string;
+        phone: string;
+        display_name: string;
+        avatar: string;
     }
 
     export interface Window {

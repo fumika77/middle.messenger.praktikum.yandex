@@ -34,12 +34,11 @@ export default class Block {
         this._meta = {
             props,
         };
-        this.getStateFromProps(props);
 
         this.props = this._makePropsProxy(props || ({} as any));
 
         this.state = this._makePropsProxy(this.state);
-
+        this.getStateFromProps(props);
         this.eventBus = () => eventBus;
 
         this._registerEvents(eventBus);
@@ -55,7 +54,7 @@ export default class Block {
     }
 
     protected getStateFromProps(props: any): void {
-        this.state = {} as any;
+        this.state = {...props} as any;
     }
 
     init() {

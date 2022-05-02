@@ -12,7 +12,8 @@ export function withStore<T>(Component: typeof Block) {
         componentDidMount(props: T & { store: Store<AppState> }) {
             super.componentDidMount(props);
 
-            window.store.on('change', () => {
+            this.props.store.on('change', () => {
+                console.log('store changed')
                 this.setProps({
                     ...this.props,
                     store: window.store,

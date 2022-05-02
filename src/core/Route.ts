@@ -46,7 +46,6 @@ export class BrowserRouter {
     private __instance;
 
     constructor() {
-        console.log('Создается роутер')
         if (BrowserRouter.__instance) {
             return BrowserRouter.__instance;
         }
@@ -59,7 +58,6 @@ export class BrowserRouter {
     }
 
     use(pathname: string, block: typeof Block, props: any) {
-        console.log('Добавляем pathname в роутер ', pathname)
         const route = new Route(pathname, block, props);
 
         this.routes!.push(route);
@@ -68,8 +66,6 @@ export class BrowserRouter {
     }
 
     start() {
-        console.log('Стартует роутер')
-
         window.onpopstate = (event => {
             this._onRoute(event.currentTarget.location.pathname);
         }).bind(this);
@@ -78,7 +74,6 @@ export class BrowserRouter {
     }
 
     _onRoute(pathname:string) {
-        console.log('_onRoute pathname: ', pathname)
         let route = this.getRoute(pathname);
         if (!route) {
             return;

@@ -1,5 +1,5 @@
 import Block from '../../core/Block';
-import { redirect } from '../../utils/redirect';
+import {getProfileInfo, login, logout} from '../../services/AuthService';
 import { IError, Validation } from '../../utils/validation';
 import {withRouter} from "../../utils";
 import {withStore} from "../../utils";
@@ -23,12 +23,12 @@ class Login extends Block {
         this.setProps({
             formError: () => this.props.store.getState().loginFormError,
             isLoading: () => Boolean(this.props.store.getState().isLoading),
-            onSignInClick: () => this.props.router.go('/dialogs'),
             onSignUpClick: () => this.props.router.go('/sign-up')
         });
     }
 
     componentDidMount() {
+        //this.props.store.dispatch(getProfileInfo)
         if (this.props.store.getState().user) {
             this.props.router.go('/dialogs');
         }
@@ -44,6 +44,7 @@ class Login extends Block {
                 login: '',
                 password: '',
             },
+            hasError: null,
             updateLoginData: () => {
                 const loginData: ILoginData = {
                     login: (this.refs.login.childNodes[3] as HTMLInputElement)?.value,
@@ -57,13 +58,16 @@ class Login extends Block {
                         password: validationResults.password.status ? '' : validationResults.password.errorText,
                     },
                     values: { ...loginData },
+                    hasError: !validationResults.login.status && !validationResults.password.status
                 };
                 this.setState(nextState);
             },
             onLogin: () => {
                 this.state.updateLoginData();
                 console.log('loginData', this.state.values);
-                this.props.onSignInClick()
+                if (!this.state.hasError) {
+                    this.props.store.dispatch(login, this.state.values);
+                }
             },
             onChange: () => {
                 this.state.updateLoginData();
@@ -97,6 +101,7 @@ class Login extends Block {
                               onChange=onChange
                 }}}
                 {{{ Button text="Войти" onClick=onLogin}}}
+                {{#if this.props.formError}}{{{ ErrorText errorText = this.props.formError}}}{{/if}}
                 {{{ Link link="/sign-up" style="textLink"  text="Нет аккаунта?" onClick=this.props.onSignUpClick}}}
             </div>
         </main>

@@ -1,9 +1,10 @@
 import Block from '../../core/Block';
 import { IError, Validation } from '../../utils/validation';
-import { redirect } from '../../utils/redirect';
 import {withRouter, withStore} from "../../utils";
 import {BrowserRouter} from "../../core/Route";
 import {Store} from "../../core/Store";
+import {getProfileInfo} from "../../services/AuthService";
+import {hasError} from "../../utils/apiHasError";
 
 
 type ProfileSettingsPageProps = {
@@ -17,19 +18,24 @@ export class ProfileSettings extends Block {
     constructor(props:ProfileSettingsPageProps) {
         super(props);
         this.setProps({
-            formError: () => this.props.store.getState().loginFormError,
+            formError: () => this.props.store.getState().profileSettingsFormError,
             isLoading: () => Boolean(this.props.store.getState().isLoading),
-            onBackArrowClick: () => this.props.router.go('/profile-description')
+            onBackArrowClick: () => this.props.router.back()
         });
     }
+
+    componentDidMount() {
+        this.props.store.dispatch(getProfileInfo)
+    }
+
     protected getStateFromProps() {
         this.state = {
             values: {
-                login: 'SuperArchi',
-                first_name: 'Арчибальд',
-                second_name: 'Котиков',
-                email: 'kotikoff@kotomail.ru',
-                phone: '88005678286',
+                login: this.props.store.getState().login,
+                first_name: this.props.store.getState().first_name,
+                second_name: this.props.store.getState().second_name,
+                email: this.props.store.getState().email,
+                phone: this.props.store.getState().phone,
             },
             errors: {
                 login: '',
@@ -58,7 +64,7 @@ export class ProfileSettings extends Block {
                         email: validationResults.email.status ? '' : validationResults.email.errorText,
                         phone: validationResults.phone.status ? '' : validationResults.phone.errorText,
                     },
-                    values: { ...profileSettingsData },
+                    values: { ...profileSettingsData }
                 };
                 this.setState(nextState);
             },
@@ -81,7 +87,7 @@ export class ProfileSettings extends Block {
         return `
             <main>
                 <div class="profile__box">
-                    {{{BackArrow onClick=this.props.onBackArrowClick}}}
+                    {{{BackArrow onClick=onBackArrowClick}}}
                     {{{Avatar style="profileImg" src="img/animals.png"}}}
                     <img class="profile__settings__editImg" src="img/image-edit(40x40)@1x.png">
                     <h1 class="profile__settings__header && text">Настройки профиля</h1>
@@ -126,7 +132,8 @@ export class ProfileSettings extends Block {
                                       onChange=onChange
                                       label="Телефон"  
                                       style="profile"}}}
-                        {{{Button link="" text="Сохранить" onClick=onClick}}}
+                        {{{Button text="Сохранить" onClick=onClick}}}
+                        {{#if this.props.formError}}{{{ ErrorText errorText = this.props.formError}}}{{/if}}
                     </div>
                 </div>
             </main>

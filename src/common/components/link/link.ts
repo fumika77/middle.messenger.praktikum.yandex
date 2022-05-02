@@ -17,7 +17,7 @@ export class Link extends Block {
     render() {
         // language=hbs
         return `
-            <a href={{link}} class={{style}}>{{text}}</a>
+            <a href="{{link}}" class="{{style}}">{{text}}</a>
         `;
     }
 }

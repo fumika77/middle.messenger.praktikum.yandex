@@ -2,6 +2,10 @@ import Block from '../../core/Block';
 import {withRouter, withStore} from "../../utils";
 import {BrowserRouter} from "../../core/Route";
 import {Store} from "../../core/Store";
+import {getProfileInfo, login} from "../../services/AuthService";
+import {default as AuthAPI} from "../../api/Auth";
+import {transformUser} from "../../utils/apiTransformers";
+import {UserDTO} from "../../api/types";
 
 type ProfileDescriptionPageProps = {
     router: BrowserRouter;
@@ -17,72 +21,57 @@ export class ProfileDescription extends Block {
             formError: () => this.props.store.getState().loginFormError,
             isLoading: () => Boolean(this.props.store.getState().isLoading),
             onEditButtonClick: () => this.props.router.go('/profile-settings'),
-            onBackArrowClick: () => this.props.router.go('/dialogs')
+            onBackArrowClick: () => this.props.router.back()
         });
     }
-    protected getStateFromProps() {
-        this.state = {
-            values: {
-                login: 'SuperArchi',
-                first_name: 'Арчибальд',
-                second_name: 'Котиков',
-                email: 'kotikoff@kotomail.ru',
-                phone: '88005678286',
-            },
-            errors: {
-                login: '',
-                first_name: '',
-                second_name: '',
-                email: '',
-                phone: '',
-            },
-        };
-    }
 
+    componentDidMount() {
+        this.props.store.dispatch(getProfileInfo)
+    }
     render() {
-        const { values } = this.state;
+        const userData: User = {...this.props.store.getState().user};
         // language=hbs
         return `
             <main>
             <div class="profile__box">
-                {{{ BackArrow onClick=this.props.onBackArrowClick}}}
+                {{{ BackArrow onClick=onBackArrowClick}}}
                 {{{ Avatar style="profileImg" src="img/animals.png"}}}
-                <h1 class="profile__description__header && text">{{name}}</h1>
+                <h1 class="profile__description__header && text">{{login}}</h1>
                 <div class="profile__description__formData">
                     {{{InputLabel ref="first_name" 
                                   id="first_name" 
                                   type="text" 
-                                  value="${values.first_name}"
+                                  value="${userData.first_name || '' }"
                                   label="Имя" 
                                   disabled="disabled" 
                                   style="profile"}}}
                     {{{InputLabel id="second_name"
                                   type="text" 
-                                  value="${values.second_name}"
+                                  value="${userData.second_name || '' }"
                                   label="Фамилия" 
                                   disabled="disabled" 
                                   style="profile"}}}
                     {{{InputLabel id="login" 
                                   type="text" 
-                                  value="${values.login}"
+                                  value="${userData.login || '' }"
                                   label="Логин"
                                   disabled="disabled" 
                                   style="profile"}}}
                     {{{InputLabel id="email" 
                                   type="text" 
-                                  value="${values.email}"
+                                  value="${userData.email || '' }"
                                   label="Почта" 
                                   disabled="disabled" 
                                   style="profile"}}}
                     {{{InputLabel id="phone" 
                                   type="number" 
-                                  value="${values.phone}"
+                                  value="${userData.phone || '' }"
                                   label="Телефон" 
                                   disabled="disabled" 
                                   style="profile"}}}
                 </div>
                 <div class="profile__description__linkBox">
-                    {{{Link text="Изменить данные" onClick=props.onEditButtonClick.onEditButtonClick}}}
+                    {{{Link text="Изменить данные" link="/profile-settings" onClick=onEditButtonClick}}}
                     {{{Link text="Изменить пароль" }}}
                 </div>
             </div>

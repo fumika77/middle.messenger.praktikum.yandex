@@ -13,6 +13,7 @@ export class ErrorText extends Block {
     static componentName = 'ErrorText';
 
     render() {
+        console.log('ErrorText rerender')
         // language=hbs
         return `
             <div class="input__error">{{errorText}}</div>

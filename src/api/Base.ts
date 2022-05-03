@@ -33,7 +33,7 @@ function queryStringify(data: { [key: string]: any }) {
     return `?${array.join('&')}`;
 }
 
-export class BaseService {
+export class Base {
     public get (url: string, options: IRequestOptions) {
         return this.request(url, { ...options, method: EMethods.GET }, options.timeout);
 }

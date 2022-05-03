@@ -2,10 +2,7 @@ import Block from '../../core/Block';
 import {withRouter, withStore} from "../../utils";
 import {BrowserRouter} from "../../core/Route";
 import {Store} from "../../core/Store";
-import {getProfileInfo, login} from "../../services/AuthService";
-import {default as AuthAPI} from "../../api/Auth";
-import {transformUser} from "../../utils/apiTransformers";
-import {UserDTO} from "../../api/types";
+import {getProfileInfo} from "../../services/AuthService";
 
 type ProfileDescriptionPageProps = {
     router: BrowserRouter;

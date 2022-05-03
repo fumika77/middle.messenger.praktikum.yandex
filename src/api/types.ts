@@ -3,12 +3,12 @@ export type APIError = {
 };
 
 export type UserDTO = {
-    id: number;
+    id?: number;
     login: string;
     first_name: string;
     second_name: string;
     display_name: string;
-    avatar: string;
+    avatar?: string;
     email: string;
     phone: string;
 };

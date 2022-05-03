@@ -79,5 +79,4 @@ export const getProfileInfo = async (
 ) => {
     const responseUser = await AuthAPI.profileInfo();
     dispatch({ user: transformUser(JSON.parse(responseUser)  as UserDTO) });
-    console.log(window.store)
 };

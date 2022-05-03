@@ -1,11 +1,11 @@
-import {BaseService} from "./BaseService";
+import {Base} from "./Base";
 
-class Auth extends BaseService{
+class Auth extends Base{
     private baseUrl = 'auth';
 
     public login(data){
         return super.post(this.baseUrl + '/signin',{data: {...data}} ).then((response) => {
-            return JSON.parse(response.data);
+            return response;
         })
     }
 

@@ -1,4 +1,5 @@
 import Block from '../../../core/Block';
+import {withStore} from "../../../utils";
 
 interface InputLabelProps {
     type: 'text' | 'password' | 'email';
@@ -38,3 +39,5 @@ export class InputLabel extends Block {
         `;
     }
 }
+
+export default withStore(InputLabel)

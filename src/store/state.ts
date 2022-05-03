@@ -1,10 +1,27 @@
-import login from "../views/login";
 
 export const defaultState: AppState = {
     screen: null,
     isLoading: false,
-    loginFormError: null,
-    user: null,
+    loginFormError: "",
+    profileSettingsFormError: "",
+    user: {
+        login: '',
+        first_name: '',
+        second_name: '',
+        email: '',
+        phone: '',
+        avatar: '',
+        display_name: '',
+    },
+    userErrors: {
+        login: '',
+        first_name: '',
+        second_name: '',
+        email: '',
+        phone: '',
+        avatar: '',
+        display_name: '',
+    },
     loginData: {
         errors:{
             password: '',

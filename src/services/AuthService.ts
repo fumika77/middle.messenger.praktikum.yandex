@@ -19,15 +19,6 @@ type SignUpPayload = {
     phone: string;
 };
 
-type SignUpPayload = {
-    login: string;
-    first_name: string;
-    second_name: string;
-    password: string;
-    password_repeat: string;
-    email: string;
-    phone: string;
-};
 
 export const login = async (
     dispatch: Dispatch<AppState>,

@@ -12,3 +12,8 @@ export type UserDTO = {
     email: string;
     phone: string;
 };
+
+export type UserPassword = {
+    oldPassword: string;
+    newPassword: string;
+}

@@ -3,6 +3,7 @@ import { IError, Validation } from '../../utils/validation';
 import {withRouter, withStore} from "../../utils";
 import {BrowserRouter} from "../../core/Route";
 import {Store} from "../../core/Store";
+import {logout} from "../../services/AuthService";
 
 type DialogsPageProps = {
     router: BrowserRouter;
@@ -17,7 +18,10 @@ export class Dialogs extends Block {
         this.setProps({
             formError: () => this.props.store.getState().loginFormError,
             isLoading: () => Boolean(this.props.store.getState().isLoading),
-            onProfileButtonClick: () => this.props.router.go('/profile')
+            onProfileButtonClick: () => this.props.router.go('/profile'),
+            onLogoutClick: () => {
+                this.props.store.dispatch(logout)
+            }
         });
     }
 
@@ -67,7 +71,11 @@ export class Dialogs extends Block {
             },
             onChange: () => {
                 this.state.updateDialogData();
-            }
+            },
+            // onLogoutClick: () => {
+            //     console.log('onLogoutClick')
+            //     this.props.store.dispatch(logout)
+            // }
         };
     }
 
@@ -79,9 +87,10 @@ export class Dialogs extends Block {
             <main>
                 <div class="dialogs__wrapper">
                     <div class="dialogs__header">
-                        {{{ Avatar style="dialogs__item__img"
+                        {{{Avatar style="dialogs__item__img"
                                    src="img/negative-space-kitten-series-brown-portrait-2048x1474.jpg"}}}
                         <div class="dialogs__header__person__name && text">${values.activeDialogSenderName}</div>
+                        {{{ImageButton style="logout__button" src="img/logout(40x40)@1x.png" onClick=onLogoutClick}}}
                     </div>
                     <div class="dialogs__sidebar">
                         <div class="dialogs__profile__box">

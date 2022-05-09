@@ -1,7 +1,8 @@
 export interface IValidationFields {
     login?: string;
+    old_password?: string;
     password?: string;
-    repeatPassword?: string;
+    repeat_password?: string;
     email?: string;
     first_name?: string;
     second_name?: string;

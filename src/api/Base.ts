@@ -11,6 +11,7 @@ export interface IRequestOptions {
     data?: any;
     headers?: { [key: string]: string };
     retries?: number;
+    file?: boolean;
 }
 /**
  * На входе: объект. Пример: {a: 1, b: 2, c: {d: 123}, k: [1, 2, 3]}
@@ -55,7 +56,7 @@ export class Base {
             if (options.method === EMethods.GET && options.data) {
                 xhr.open(options.method, host + url + queryStringify(options.data), true);
             } else {
-                xhr.open(options.method as string, host + url, true);
+                xhr.open(options.method, host + url, true);
             }
 
             xhr.onload = function () {
@@ -80,12 +81,20 @@ export class Base {
                 Object.keys(options.headers).forEach((key) => {
                     xhr.setRequestHeader(key, options.headers[key]);
                 });
-            } else {
-                xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+            }
+            else if (options.file){
+            }
+            else {
+                xhr.setRequestHeader('Content-Type', 'application/json');
             }
 
             if (options.data) {
-                xhr.send(JSON.stringify(options.data));
+                if (options.file) {
+                    xhr.send(options.data as unknown as FormData);
+                }
+                else {
+                    xhr.send(JSON.stringify(options.data));
+                };
             } else {
                 xhr.send();
             }

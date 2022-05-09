@@ -3,8 +3,6 @@ import { IError, Validation } from '../../utils/validation';
 import {withRouter, withStore} from "../../utils";
 import {BrowserRouter} from "../../core/Route";
 import {Store} from "../../core/Store";
-import {getProfileInfo, login} from "../../services/AuthService";
-import {hasError} from "../../utils/apiHasError";
 import {updateProfileInfo} from "../../services/ProfileService";
 
 
@@ -19,28 +17,24 @@ export class ProfileSettings extends Block {
     constructor(props:ProfileSettingsPageProps) {
         super(props);
         this.setProps({
-            onBackArrowClick: () => this.props.router.back()
+            onBackArrowClick: () => this.props.router.go('/profile'),
+            onEditImageClick: () => this.props.router.go('/profile-image'),
+            login: () => this.props.store.getState().user?.login,
+            first_name: () => this.props.store.getState().user?.first_name,
+            second_name: () => this.props.store.getState().user?.second_name,
+            display_name: () => this.props.store.getState().user?.display_name,
+            email: () => this.props.store.getState().user?.email,
+            phone: () => this.props.store.getState().user?.phone,
+            formError: () => this.props.store.getState().profileSettingsFormError,
         });
     }
 
     componentDidMount() {
-        this.props.store.dispatch(getProfileInfo)
-        this.props.store.on('change', () => {
-            this.getStateFromProps()
-            }
-        )
+        console.log(this.props.store.getState())
     }
 
     protected getStateFromProps() {
         this.state = {
-            values: {
-                login: this.props.store.getState().user?.login,
-                first_name: this.props.store.getState().user?.first_name,
-                second_name: this.props.store.getState().user?.second_name,
-                display_name: this.props.store.getState().user?.display_name,
-                email: this.props.store.getState().user?.email,
-                phone: this.props.store.getState().user?.phone,
-            },
             errors: {
                 login: this.props.store.getState().userErrors?.login,
                 first_name: this.props.store.getState().userErrors?.first_name,
@@ -49,15 +43,14 @@ export class ProfileSettings extends Block {
                 email: this.props.store.getState().userErrors?.email,
                 phone: this.props.store.getState().userErrors?.phone,
             },
-            formError: this.props.store.getState().profileSettingsFormError,
             updateProfileSettingsData: () => {
                 const profileSettingsData = {
-                    login: (this.refs.login.childNodes[3] as HTMLInputElement)?.value,
-                    first_name: (this.refs.first_name.childNodes[3] as HTMLInputElement)?.value,
-                    second_name: (this.refs.second_name.childNodes[3] as HTMLInputElement)?.value,
-                    display_name: (this.refs.display_name.childNodes[3] as HTMLInputElement)?.value,
-                    email: (this.refs.email.childNodes[3] as HTMLInputElement)?.value,
-                    phone: (this.refs.phone.childNodes[3] as HTMLInputElement)?.value,
+                    login: (document.getElementById('login') as HTMLInputElement)?.value,
+                    first_name: (document.getElementById('first_name') as HTMLInputElement)?.value,
+                    second_name: (document.getElementById('second_name') as HTMLInputElement)?.value,
+                    display_name: (document.getElementById('display_name') as HTMLInputElement)?.value,
+                    email: (document.getElementById('email') as HTMLInputElement)?.value,
+                    phone: (document.getElementById('phone') as HTMLInputElement)?.value,
                 };
 
                 const validationResults: { [id: string]: IError } = Validation({ ...profileSettingsData });
@@ -76,7 +69,6 @@ export class ProfileSettings extends Block {
                     },
                     values: { ...profileSettingsData }
                 };
-                console.log(nextState.values)
 
                 this.props.store.dispatch({user: {
                     ...nextState.values
@@ -89,76 +81,71 @@ export class ProfileSettings extends Block {
             onClick: () => {
                 this.state.updateProfileSettingsData();
                 if (Object.keys(this.state.errors).find((key) => this.state.errors[key] !== '') == null) {
-                    this.props.store.dispatch(updateProfileInfo, this.state.values);
+                    this.props.store.dispatch(updateProfileInfo, this.props.store.getState().user);
                 }
             },
             onChange: () => {
-                this.state.updateProfileSettingsData();
+                // this.state.updateProfileSettingsData();
             },
         };
     }
 
     render() {
-        const { errors, values , formError} = this.state;
+        const { errors , formError} = this.state;
+        const userData = {...this.props.store.getState().user};
         // language=hbs
         return `
             <main>
                 <div class="profile__box">
-                    {{{BackArrow onClick=onBackArrowClick}}}
+                    {{{BackArrow link="/profile" onClick=onBackArrowClick}}}
                     {{{Avatar style="profileImg" src="img/animals.png"}}}
-                    <img class="profile__settings__editImg" src="img/image-edit(40x40)@1x.png">
+                    {{{ImageButton style="profile__settings__editImg" src="img/image-edit(40x40)@1x.png" onClick=onEditImageClick}}}
                     <h1 class="profile__settings__header && text">Настройки профиля</h1>
                     <div class="profile__settings__formData">
-                        {{{InputLabel ref ="first_name" 
-                                      id="first_name" 
+                        {{{InputLabel id="first_name" 
                                       type="text" 
-                                      value="${values.first_name}"
+                                      value=first_name
                                       error="${errors.first_name}"
                                       onChange=onChange
                                       label="Имя"  
                                       style="profile"}}}
-                        {{{InputLabel ref ="second_name" 
-                                      id="second_name" 
+                        {{{InputLabel id="second_name" 
                                       type="text" 
-                                      value="${values.second_name}" 
+                                      value=second_name
                                       error="${errors.second_name}"
                                       onChange=onChange
                                       label="Фамилия" 
                                       style="profile"}}}
-                        {{{InputLabel ref ="login" 
-                                      id="login" 
+                        {{{InputLabel id="login" 
                                       type="text" 
-                                      value="${values.login}" 
+                                      value=login
                                       error="${errors.login}"
                                       onChange=onChange
                                       label="Логин"  
                                       style="profile"}}}
-                        {{{InputLabel ref ="display_name" 
-                                      id="display_name" 
+                        {{{InputLabel id="display_name" 
                                       type="text" 
-                                      value="${values.display_name}" 
+                                      value=display_name
                                       error="${errors.display_name}"
                                       onChange=onChange
                                       label="Ник"  
                                       style="profile"}}}
-                        {{{InputLabel ref ="email" 
-                                      id="email" 
+                        {{{InputLabel id="email" 
                                       type="text" 
-                                      value="${values.email}" 
+                                      value=email
                                       error="${errors.email}"
                                       onChange=onChange
                                       label="Почта"  
                                       style="profile"}}}
-                        {{{InputLabel ref ="phone" 
-                                      id="phone" 
+                        {{{InputLabel id="phone" 
                                       type="number" 
-                                      value="${values.phone}" 
+                                      value=phone
                                       error="${errors.phone}"
                                       onChange=onChange
                                       label="Телефон"  
                                       style="profile"}}}
                         {{{Button text="Сохранить" onClick=onClick}}}
-                        {{{ErrorText errorText = "${formError}" }}}
+                        {{{ErrorText errorText=formError}}}
                     </div>
                 </div>
             </main>

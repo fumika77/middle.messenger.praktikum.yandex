@@ -17,8 +17,10 @@ export class ProfileDescription extends Block {
         this.setProps({
             formError: () => this.props.store.getState().loginFormError,
             isLoading: () => Boolean(this.props.store.getState().isLoading),
-            onEditButtonClick: () => this.props.router.go('/profile-settings'),
-            onBackArrowClick: () => this.props.router.back()
+            onEditButtonClick: () => {
+                this.props.router.go('/profile-settings')},
+            onBackArrowClick: () => this.props.router.go('/dialogs'),
+            onEditPasswordClick: () => this.props.router.go('/profile-password'),
         });
     }
 
@@ -31,45 +33,51 @@ export class ProfileDescription extends Block {
         return `
             <main>
             <div class="profile__box">
-                {{{ BackArrow onClick=onBackArrowClick}}}
+                {{{ BackArrow link="/dialogs" onClick=onBackArrowClick}}}
                 {{{ Avatar style="profileImg" src="img/animals.png"}}}
-                <h1 class="profile__description__header && text">{{login}}</h1>
+                <h1 class="profile__description__header && text">${userData.first_name}</h1>
                 <div class="profile__description__formData">
                     {{{InputLabel ref="first_name" 
                                   id="first_name" 
                                   type="text" 
-                                  value="${userData.first_name || '' }"
+                                  value="${userData.first_name}"
                                   label="Имя" 
                                   disabled="disabled" 
                                   style="profile"}}}
                     {{{InputLabel id="second_name"
                                   type="text" 
-                                  value="${userData.second_name || '' }"
+                                  value="${userData.second_name}"
                                   label="Фамилия" 
+                                  disabled="disabled" 
+                                  style="profile"}}}
+                    {{{InputLabel id="display_name"
+                                  type="text" 
+                                  value="${userData.display_name}"
+                                  label="Ник" 
                                   disabled="disabled" 
                                   style="profile"}}}
                     {{{InputLabel id="login" 
                                   type="text" 
-                                  value="${userData.login || '' }"
+                                  value="${userData.login}"
                                   label="Логин"
                                   disabled="disabled" 
                                   style="profile"}}}
                     {{{InputLabel id="email" 
                                   type="text" 
-                                  value="${userData.email || '' }"
+                                  value="${userData.email}"
                                   label="Почта" 
                                   disabled="disabled" 
                                   style="profile"}}}
                     {{{InputLabel id="phone" 
                                   type="number" 
-                                  value="${userData.phone || '' }"
+                                  value="${userData.phone}"
                                   label="Телефон" 
                                   disabled="disabled" 
                                   style="profile"}}}
                 </div>
                 <div class="profile__description__linkBox">
-                    {{{Link text="Изменить данные" link="/profile-settings" onClick=onEditButtonClick}}}
-                    {{{Link text="Изменить пароль" }}}
+                     {{{Link text="Изменить данные" link="/profile-settings" onClick=onEditButtonClick}}}
+                    {{{Link text="Изменить пароль" link="/profile-password" onClick=onEditPasswordClick}}}
                 </div>
             </div>
             </main>

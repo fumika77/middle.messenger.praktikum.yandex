@@ -47,6 +47,7 @@ export class Input extends Block {
                        type={{type}} 
                        size="40" 
                        value="{{value}}"
+                       id="{{idForError}}"
                         {{#if disabled}}disabled=true{{/if}}
                 />
         `;

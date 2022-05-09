@@ -6,7 +6,6 @@ export function renderDOM(component: Block) {
         throw new Error('Root not found');
     }
 
-    root.innerHTML = '';
-
-    root.append(component.getContent());
+    // root.innerHTML = '';
+    root!.appendChild(component.getContent())
 }

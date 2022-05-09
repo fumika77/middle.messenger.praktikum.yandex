@@ -42,7 +42,7 @@ class Route {
 export class BrowserRouter {
     private routes;
     private history;
-    private _currentRoute;
+    private _currentRoute: Route;
     private __instance;
 
     constructor() {

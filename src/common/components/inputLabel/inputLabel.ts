@@ -40,4 +40,3 @@ export class InputLabel extends Block {
     }
 }
 
-export default withStore(InputLabel)

@@ -9,7 +9,11 @@ interface ButtonProps {
 
 export class Button extends Block {
     constructor({ text, link, style, onClick }: ButtonProps) {
-        super({ text, link, style, events: { click: onClick } });
+        const buttonClick = (e: MouseEvent) => {
+            e.preventDefault()
+            onClick!()
+        };
+        super({ text, link, style, events: { click: buttonClick } });
     }
 
     static componentName = 'Button';
@@ -17,7 +21,7 @@ export class Button extends Block {
     render() {
         // language=hbs
         return `
-        <a class="text && button && {{style}}">{{text}}</a>
+        <a class="text && button && {{style}}" href="{{link}}">{{text}}</a>
         `;
     }
 }

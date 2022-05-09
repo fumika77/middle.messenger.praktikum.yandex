@@ -69,6 +69,9 @@ export default class Block {
     protected componentDidMount(props: any) {}
 
     _componentDidUpdate(oldProps: any, newProps: any) {
+        if (this._element && this._element.style.display === 'none'){
+            return;
+        }
         const response = this.componentDidUpdate(oldProps, newProps);
         if (!response) {
             return;

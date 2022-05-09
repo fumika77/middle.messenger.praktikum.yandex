@@ -13,8 +13,6 @@ interface ILoginData {
 type LoginPageProps = {
     router: BrowserRouter;
     store: Store<AppState>;
-    formError?: () => string | null;
-    isLoading?: () => boolean;
 };
 
 class Login extends Block {
@@ -29,7 +27,7 @@ class Login extends Block {
 
     componentDidMount() {
         //this.props.store.dispatch(getProfileInfo)
-        if (this.props.store.getState().user) {
+        if (this.props.store.getState().user.id) {
             this.props.router.go('/dialogs');
         }
     }
@@ -47,8 +45,8 @@ class Login extends Block {
             hasError: null,
             updateLoginData: () => {
                 const loginData: ILoginData = {
-                    login: (this.refs.login.childNodes[3] as HTMLInputElement)?.value,
-                    password: (this.refs.password.childNodes[3] as HTMLInputElement)?.value,
+                    login: (document.getElementById('login') as HTMLInputElement)?.value,
+                    password: (document.getElementById('password') as HTMLInputElement)?.value,
                 };
 
                 const validationResults: { [id: string]: IError } = Validation({ ...loginData });
@@ -82,8 +80,7 @@ class Login extends Block {
         <main>
             <div class="login">
                 <img class="login__img" src="img/user(144x144)@1x.png" alt="login">
-                {{{InputLabel ref="login"
-                              id="login"
+                {{{InputLabel id="login"
                               value="${values.login}"
                               error="${errors.login}"
                               style="login"
@@ -91,8 +88,7 @@ class Login extends Block {
                               type="text"
                               onChange=onChange
                 }}}
-                {{{InputLabel ref="password"
-                              id="password"
+                {{{InputLabel id="password"
                               value="${values.password}"
                               error="${errors.password}"
                               style="login"
@@ -100,7 +96,7 @@ class Login extends Block {
                               type="password"
                               onChange=onChange
                 }}}
-                {{{ Button text="Войти" onClick=onLogin}}}
+                {{{ Button text="Войти" link="/dialogs" onClick=onLogin}}}
                 {{#if this.props.formError}}{{{ ErrorText errorText = this.props.formError}}}{{/if}}
                 {{{ Link link="/sign-up" style="textLink"  text="Нет аккаунта?" onClick=this.props.onSignUpClick}}}
             </div>

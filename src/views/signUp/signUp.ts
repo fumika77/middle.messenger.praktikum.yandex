@@ -34,15 +34,6 @@ export class SignUp extends Block {
                 email: 'kotikoff@yandex.ru',
                 phone: '88008001111',
             },
-            // values: {
-            //     login: '',
-            //     first_name: '',
-            //     second_name: '',
-            //     password: '',
-            //     password_repeat: '',
-            //     email: '',
-            //     phone: '',
-            // },
             errors: {
                 login: '',
                 first_name: '',

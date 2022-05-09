@@ -4,12 +4,16 @@ interface ImageButtonProps {
     src: string;
     link: string;
     style: string;
-    onClick: (pageValues: any) => void;
+    onClick: () => void;
 }
 
 export class ImageButton extends Block<any> {
     constructor({ src, link, style, onClick }: ImageButtonProps) {
-        super({ src, link, style, events: { click: onClick } });
+        const buttonClick = (e: MouseEvent) => {
+            e.preventDefault()
+            onClick()
+        };
+        super({ src, link, style, events: { click: buttonClick } });
     }
 
     static componentName = 'ImageButton';

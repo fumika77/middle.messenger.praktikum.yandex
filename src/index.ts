@@ -17,8 +17,11 @@ import Login from './views/login';
 import Dialogs from "./views/dialogs";
 import ProfileDescription from "./views/profileDescription";
 import ProfileSettings from "./views/profileSettings";
+import ProfileImage from "./views/profileImage";
 import SignUp from "./views/signUp";
 import ErrorPage from "./views/error";
+import InputFile from "./common/components/inputFile";
+import ProfilePassword from "./views/profilePassword";
 
 registerComponents(ErrorText);
 registerComponents(Button);
@@ -30,6 +33,7 @@ registerComponents(ErrorText);
 registerComponents(ImageButton);
 registerComponents(DialogItem);
 registerComponents(Link);
+registerComponents(InputFile);
 
 
 declare global {
@@ -52,7 +56,6 @@ document.addEventListener('DOMContentLoaded', () => {
      * для переключения активного экрана
      */
     store.on('change', (prevState, nextState) => {
-        // router.go(window.location.pathname);
         if (prevState.screen !== nextState.screen) {
             const Page = getScreenComponent(nextState.screen);
             renderDOM(new Page());
@@ -64,10 +67,13 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     router
         .use('/', Login, {})
+        .use('', Login, {})
         .use('/login', Login, {})
         .use('/dialogs', Dialogs, {})
         .use('/profile', ProfileDescription, {})
         .use('/profile-settings', ProfileSettings, {})
+        .use('/profile-image', ProfileImage, {})
+        .use('/profile-password', ProfilePassword, {})
         .use('/sign-up', SignUp, {})
         .use('/*', ErrorPage, {})
         .start();

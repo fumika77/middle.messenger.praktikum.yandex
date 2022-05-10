@@ -5,6 +5,7 @@ declare global {
         screen: Screens | null;
         isLoading: boolean;
         loginFormError: string|null;
+        createChatFormError: string|null;
         user: User|null;
         userError: User|null;
     }

@@ -1,5 +1,6 @@
 export interface IValidationFields {
     login?: string;
+    chat_name?: string;
     old_password?: string;
     password?: string;
     repeat_password?: string;
@@ -115,6 +116,8 @@ export function Validation(fields: IValidationFields): { [id: string]: IError } 
         } else if (key == 'email') {
             checkEmail(validationResults, key, value);
         } else if (key == 'message') {
+            checkMessage(validationResults, key, value);
+        } else if (key == 'chat_name') {
             checkMessage(validationResults, key, value);
         }
         if (!validationResults[key]) {

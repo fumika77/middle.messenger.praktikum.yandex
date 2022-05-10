@@ -2,7 +2,7 @@ export type APIError = {
     reason: string;
 };
 
-export type UserDTO = {
+export type User = {
     id?: number;
     login: string;
     first_name: string;
@@ -16,4 +16,33 @@ export type UserDTO = {
 export type UserPassword = {
     oldPassword: string;
     newPassword: string;
+}
+
+
+export type UserSearch = {
+    login: string;
+}
+
+export type ChatListRequest = {
+    offset: number,
+    limit: number,
+    title: string,
+}
+
+export type ChatCreateRequest = {
+    title: string,
+}
+
+export type ChatDeleteRequest = {
+    id: number,
+}
+
+export type ModifyChatUserRequest = {
+    users: number[],
+    chatId: number,
+}
+
+export type initWebSocketRequest = {
+    chatId: number,
+    userId: number,
 }

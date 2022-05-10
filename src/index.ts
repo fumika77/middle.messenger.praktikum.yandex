@@ -6,7 +6,7 @@ import InputLabel from './common/components/inputLabel';
 import Avatar from './common/components/avatar';
 import { ErrorText } from './common/components/errorText/errorText';
 import { ImageButton } from './common/components/imageButton/imageButton';
-import { DialogItem } from './common/components/dialogItem/dialogItem';
+import { DialogItem } from './common/components/dialogItem';
 import Input from './common/components/input';
 import Link from './common/components/link';
 import {BrowserRouter} from "./core/Route";
@@ -22,6 +22,8 @@ import SignUp from "./views/signUp";
 import ErrorPage from "./views/error";
 import InputFile from "./common/components/inputFile";
 import ProfilePassword from "./views/profilePassword";
+import CreateChat from "./views/createChat/createChat";
+import createChat from "./views/createChat/createChat";
 
 registerComponents(ErrorText);
 registerComponents(Button);
@@ -34,6 +36,7 @@ registerComponents(ImageButton);
 registerComponents(DialogItem);
 registerComponents(Link);
 registerComponents(InputFile);
+registerComponents(CreateChat);
 
 
 declare global {
@@ -74,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .use('/profile-settings', ProfileSettings, {})
         .use('/profile-image', ProfileImage, {})
         .use('/profile-password', ProfilePassword, {})
+        .use('/create-chat', createChat, {})
         .use('/sign-up', SignUp, {})
         .use('/*', ErrorPage, {})
         .start();

@@ -1,6 +1,6 @@
-import { UserDTO } from '../api/types';
+import { User } from '../api/types';
 
-export const transformUser = (data: UserDTO): User => {
+export const transformUser = (data: User): User => {
     return {
         login: data.login,
         first_name: data.first_name,

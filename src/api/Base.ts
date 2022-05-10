@@ -46,7 +46,7 @@ export class Base {
     }
 
     public delete  (url: string, options: IRequestOptions) {
-        return this.request(url, { ...options, method: EMethods.DELETE }, options.timeout).then;
+        return this.request(url, { ...options, method: EMethods.DELETE }, options.timeout);
     }
 
     private request (url: string, options: IRequestOptions, timeout = 5000) {

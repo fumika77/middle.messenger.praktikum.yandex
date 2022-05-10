@@ -85,14 +85,13 @@ export class ProfileSettings extends Block {
                 }
             },
             onChange: () => {
-                // this.state.updateProfileSettingsData();
+                this.state.updateProfileSettingsData();
             },
         };
     }
 
     render() {
-        const { errors , formError} = this.state;
-        const userData = {...this.props.store.getState().user};
+        const { errors } = this.state;
         // language=hbs
         return `
             <main>

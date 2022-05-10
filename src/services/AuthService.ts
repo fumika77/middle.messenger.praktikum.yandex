@@ -1,7 +1,7 @@
 import { default as AuthAPI } from '../api/Auth';
 import {Dispatch} from "../core/Store";
 import {hasError} from "../utils/apiHasError";
-import {UserDTO} from "../api/types";
+import {User} from "../api/types";
 import {transformUser} from "../utils/apiTransformers";
 
 type LoginPayload = {
@@ -66,8 +66,9 @@ export const signUp = async (
 export const getProfileInfo = async (
     dispatch: Dispatch<AppState>,
     state: AppState,
-    payload: {},
 ) => {
     const responseUser = await AuthAPI.profileInfo();
-    dispatch({ user: transformUser(JSON.parse(responseUser)  as UserDTO) });
+    dispatch({ user: transformUser(JSON.parse(responseUser)  as User) });
+    //console.log('responseUser')
+    //console.log(JSON.parse(responseUser))
 };

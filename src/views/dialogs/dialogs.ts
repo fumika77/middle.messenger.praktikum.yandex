@@ -3,7 +3,8 @@ import { IError, Validation } from '../../utils/validation';
 import {withRouter, withStore} from "../../utils";
 import {BrowserRouter} from "../../core/Route";
 import {Store} from "../../core/Store";
-import {logout} from "../../services/AuthService";
+import {getChats, initChatWebSocket} from "../../services/ChatService";
+import {getProfileInfo, logout} from "../../services/AuthService";
 
 type DialogsPageProps = {
     router: BrowserRouter;
@@ -19,35 +20,26 @@ export class Dialogs extends Block {
             formError: () => this.props.store.getState().loginFormError,
             isLoading: () => Boolean(this.props.store.getState().isLoading),
             onProfileButtonClick: () => this.props.router.go('/profile'),
+            onCreateChatButtonClick: () => this.props.router.go('/create-chat'),
             onLogoutClick: () => {
                 this.props.store.dispatch(logout)
-            }
+            },
+            dialogs: () => this.props.store.getState().dialogsFormData.dialogs,
+            activeDialogAvatar: () => this.props.store.getState().dialogsFormData?.activeDialog?.avatar
         });
     }
-
+    componentDidMount() {
+        this.props.store.dispatch(getChats)
+        this.props.store.dispatch(getProfileInfo)
+        //this.props.store.dispatch(initChatWebSocket)
+    }
     protected getStateFromProps() {
         this.state = {
             values: {
                 message: '',
                 searchValue: '',
-                activeDialogSenderName: 'Муся',
-                dialogs: [
-                    {
-                        senderImg: 'img/animals-2.png',
-                        senderName: 'Барсик',
-                        messageText: 'Вы: мои кожаные ушли, приходи, на шторах повисим',
-                    },
-                    {
-                        senderImg: 'img/negative-space-kitten-series-brown-portrait-2048x1474.jpg',
-                        senderName: 'Муся',
-                        messageText: ':3',
-                    },
-                    {
-                        senderImg: 'img/negative-space-small-purple-flowers-2048x1367.jpg',
-                        senderName: 'Садовод',
-                        messageText: ':3',
-                    },
-                ],
+                activeDialogSenderName: this.props.store.getState().dialogsFormData.activeDialog.title,
+
             },
             errors: {
                 message: '',
@@ -72,24 +64,23 @@ export class Dialogs extends Block {
             onChange: () => {
                 this.state.updateDialogData();
             },
-            // onLogoutClick: () => {
-            //     console.log('onLogoutClick')
-            //     this.props.store.dispatch(logout)
-            // }
+            onLogoutClick: () => {
+                this.props.store.dispatch(logout)
+            },
         };
     }
 
     render() {
-        const { errors, values } = this.state;
-
+        const { errors, values} = this.state;
+        const activeDialog = this.props.store.getState().dialogsFormData;
         // language=hbs
         return `
             <main>
                 <div class="dialogs__wrapper">
                     <div class="dialogs__header">
                         {{{Avatar style="dialogs__item__img"
-                                   src="img/negative-space-kitten-series-brown-portrait-2048x1474.jpg"}}}
-                        <div class="dialogs__header__person__name && text">${values.activeDialogSenderName}</div>
+                                   src=activeDialogAvatar}}}
+                        <div class="dialogs__header__person__name && text">${activeDialog.activeDialogSenderName}</div>
                         {{{ImageButton style="logout__button" src="img/logout(40x40)@1x.png" onClick=onLogoutClick}}}
                     </div>
                     <div class="dialogs__sidebar">
@@ -100,23 +91,25 @@ export class Dialogs extends Block {
                                 {{{ImageButton link="/profile" onClick=onProfileButtonClick
                                                src="img/profile-edit(32x32)@1x.png"}}}
                             </div>
-                            {{{Input style="dialogs__search"
-                                     ref="search"
-                                     placeholder="Поиск"
-                                     type="text"
-                                     value="${values.searchValue}"}}}
+                            <div style="display: flex">
+                                {{{Input style="dialogs__search"
+                                         ref="search"
+                                         placeholder="Поиск"
+                                         type="text"
+                                         value="${values.searchValue}"}}}
+                                {{{ImageButton link="/create-chat" onClick=onCreateChatButtonClick
+                                               src="img/round-chat-3(40x40)@1x.png"}}}
+                            </div>
                         </div>
                         <div class="dialogs__dialogs__box">
-                            {{{DialogItem src="${values.dialogs?.[0]?.senderImg}"
-                                          senderName="${values.dialogs?.[0]?.senderName}"
-                                          messageText="${values.dialogs?.[0]?.messageText}"}}}
-                            {{{DialogItem src="${values.dialogs?.[1]?.senderImg}"
-                                          senderName="${values.dialogs?.[1]?.senderName}"
-                                          messageText="${values.dialogs?.[1]?.messageText}"}}}
-                            {{{DialogItem src="${values.dialogs?.[2]?.senderImg}"
-                                          senderName="${values.dialogs?.[2]?.senderName}"
-                                          messageText="${values.dialogs?.[2]?.messageText}"}}}
-                            
+                            {{#each dialogs}}
+                                {{#with this}}
+                                {{{DialogItem src=avatar
+                                              senderName=title
+                                              id=id
+                                              messageText=last_message}}}
+                                {{/with}}
+                            {{/each}}
                         </div>
                     </div>
                     <div class="dialogs__content">

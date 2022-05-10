@@ -1,13 +1,13 @@
 import {Dispatch} from "../core/Store";
 import {default as UserAPI} from "../api/User";
-import {UserDTO, UserPassword} from "../api/types";
+import {User, UserPassword} from "../api/types";
 import {hasError} from "../utils/apiHasError";
 import {transformUser} from "../utils/apiTransformers";
 
 export const updateProfileInfo = async (
     dispatch: Dispatch<AppState>,
     state: AppState,
-    payload: UserDTO,
+    payload: User,
 ) => {
     const updateUser = await UserAPI.updateProfile(payload);
     if (hasError(updateUser)) {
@@ -15,7 +15,7 @@ export const updateProfileInfo = async (
         dispatch({profileSettingsFormError: reason});
         return;
     }
-    dispatch({ user: transformUser(JSON.parse(updateUser)  as UserDTO) });
+    dispatch({ user: transformUser(JSON.parse(updateUser)  as User) });
 };
 
 
@@ -30,7 +30,7 @@ export const updateProfileAvatar = async (
         dispatch({updateAvatarFormError: reason});
         return;
     }
-    dispatch({ user: transformUser(JSON.parse(responseUserImage)  as UserDTO) });
+    dispatch({ user: transformUser(JSON.parse(responseUserImage)  as User) });
 };
 
 

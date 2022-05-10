@@ -1,26 +1,23 @@
 import { default as ChatApi } from '../api/Chats';
-import { default as AuthApi } from '../api/Auth';
+import { default as UserApi } from '../api/User';
 import {Dispatch} from "../core/Store";
 import {hasError} from "../utils/apiHasError";
-import {ChatCreateRequest, ChatListRequest, initWebSocketRequest, TokenRequest} from "../api/types";
-import {initWebSocket} from "../api/Socket";
-import {getProfileInfo} from "./AuthService";
+import {
+    ChatCreateRequest,
+    ChatListRequest,
+    initWebSocketRequest,
+    MessageDTO,
+    messageRequest,
+    TokenRequest
+} from "../api/types";
 
-type LoginPayload = {
-    login: string;
-    password: string;
-};
-
-type SignUpPayload = {
-    login: string;
-    first_name: string;
-    second_name: string;
-    password: string;
-    password_repeat: string;
-    email: string;
-    phone: string;
-};
-
+export type Message = {
+    time: Date,
+    content: string,
+    userId: number,
+    userLogin: Nullable<string>,
+    isMy: boolean,
+}
 
 export const createChat = async (
     dispatch: Dispatch<AppState>,
@@ -55,25 +52,60 @@ export const getChats = async (
     dispatch({dialogsFormData: { dialogsError: null, dialogs: chats}});
 };
 
-
 export const initChatWebSocket = async (
     dispatch: Dispatch<AppState>,
     state: AppState,
     payload: initWebSocketRequest,
 ) => {
-    const chatId = state.dialogsFormData?.activeDialog.id;
+    const chatId = state.dialogsFormData.activeDialog.id;
+    const userId = state.user.id;
     const request = {
-        id: state.dialogsFormData?.activeDialog.id
+        id: chatId
     }
-    const chats = await ChatApi.getToken(request);
-    if (hasError(chats)) {
-        dispatch({ dialogsFormData: {dialogsError: chats.reason} });
+    const chatsResponse = await ChatApi.getToken(request);
+    if (hasError(chatsResponse)) {
+        dispatch({ dialogsFormData: {...state.dialogsFormData, dialogsError: chatsResponse.reason} });
         return;
     }
-    const token = chats.token;
-   // console.log(state.user)
-   // console.log( chatId)
+    const token = chatsResponse.token;
+    function saveHistoryData (data: MessageDTO[]|MessageDTO) {
+        const history: Message[] = state.dialogsFormData.history||[];
+        if (Array.isArray(data)){
+        data?.forEach(data => {
+            const message = {
+                time: new Date(data.time),
+                content: data.content,
+                userId: parseInt(data.user_id),
+                userLogin: null,
+                isMy: parseInt(data.user_id) === userId,
+            }
+            history.push(message)
+        })
+        } else {
+            const message = {
+                time: new Date(data.time),
+                content: data.content,
+                userId: parseInt(data.user_id),
+                userLogin: null,
+                isMy: parseInt(data.user_id) === userId,
+            }
+            history.push(message)
+        }
+        dispatch({ dialogsFormData: {...state.dialogsFormData, history: history} });
+    }
+    //если сокета не существует
+    if (!state.socket!.checkExist(chatId)){
+        state.socket!.addSocket(userId, chatId, token, saveHistoryData);
+    }
+    state.socket!.setActive(chatId)
+};
 
-   // console.log(chats.token)
-    initWebSocket(state.user?.id, chatId, token)
+
+export const sendMessage = async (
+    dispatch: Dispatch<AppState>,
+    state: AppState,
+    payload: messageRequest,
+) => {
+    console.log(state.dialogsFormData)
+    state.socket?.sendMessage(state.dialogsFormData.message)
 };

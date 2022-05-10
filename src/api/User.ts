@@ -1,5 +1,5 @@
 import {Base} from "./Base";
-import {User, UserPassword, UserSearch} from "./types";
+import {User, UserPassword, UserSearchById, UserSearchByLogin} from "./types";
 
 class User extends Base {
     private baseUrl = 'user';
@@ -24,8 +24,14 @@ class User extends Base {
         })
     }
 
-    public searchUser(data: UserSearch) {
+    public searchUserByLogin(data: UserSearchByLogin) {
         return super.post(this.baseUrl + '/search', {data: data}).then((response) => {
+            return JSON.parse(response);
+        })
+    }
+
+    public getUserById(data: UserSearchById) {
+        return super.get(this.baseUrl + `${data.id}`, {data: data}).then((response) => {
             return JSON.parse(response);
         })
     }

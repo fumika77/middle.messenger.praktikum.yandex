@@ -84,6 +84,8 @@
   &__content {
     grid-area: c;
     background-color: var(--box-background-color);
+     display: flex;
+     flex-direction: column;
   }
 
   &__item {

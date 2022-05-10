@@ -6,6 +6,7 @@
 @import "../components/input/input.css";
 @import "../components/inputFile/inputFile.css";
 @import "../components/logoutButton/logoutButton.css";
+@import "../components/messageItem/messageItem.css";
 @import "../../views/login/login.css";
 @import "../../views/profileSettings/profileSettings.css";
 @import "../../views/profileDescription/profileDescription.css";

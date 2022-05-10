@@ -1,6 +1,7 @@
 
 export const defaultState: AppState = {
     screen: null,
+    socket: null,
     isLoading: false,
     loginFormError: "",
     profileSettingsFormError: "",
@@ -11,11 +12,14 @@ export const defaultState: AppState = {
     dialogsFormData: {
         dialogsError: "",
         dialogs: [],
+        history: [],
         activeDialog: {
             id: 0,
-            title: "",
-            avatar: ""
-        }
+            title: null,
+            avatar: null,
+        },
+        message: '',
+        messageError:'',
     },
 
     file: null,

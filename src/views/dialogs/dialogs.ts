@@ -3,14 +3,12 @@ import { IError, Validation } from '../../utils/validation';
 import {withRouter, withStore} from "../../utils";
 import {BrowserRouter} from "../../core/Route";
 import {Store} from "../../core/Store";
-import {getChats, initChatWebSocket} from "../../services/ChatService";
+import {getChats, sendMessage} from "../../services/ChatService";
 import {getProfileInfo, logout} from "../../services/AuthService";
 
 type DialogsPageProps = {
     router: BrowserRouter;
     store: Store<AppState>;
-    formError?: () => string | null;
-    isLoading?: () => boolean;
 };
 
 export class Dialogs extends Block {
@@ -25,44 +23,48 @@ export class Dialogs extends Block {
                 this.props.store.dispatch(logout)
             },
             dialogs: () => this.props.store.getState().dialogsFormData.dialogs,
-            activeDialogAvatar: () => this.props.store.getState().dialogsFormData?.activeDialog?.avatar
+            dialogHistory: () => this.props.store.getState().dialogsFormData.history,
+            activeDialogAvatar: () => this.props.store.getState().dialogsFormData?.activeDialog?.avatar,
+            activeDialogTitle: () => this.props.store.getState().dialogsFormData?.activeDialog?.title,
+            message: () => this.props.store.getState().dialogsFormData?.message,
+            messageError: () => this.props.store.getState().dialogsFormData?.messageError,
         });
     }
     componentDidMount() {
-        this.props.store.dispatch(getChats)
         this.props.store.dispatch(getProfileInfo)
-        //this.props.store.dispatch(initChatWebSocket)
+        if (this.props.store.getState().user.id === null){
+            this.props.router.go('/login');
+            return;
+        }
+        this.props.store.dispatch(getChats)
     }
     protected getStateFromProps() {
         this.state = {
             values: {
-                message: '',
-                searchValue: '',
-                activeDialogSenderName: this.props.store.getState().dialogsFormData.activeDialog.title,
-
+                message: this.props.store.getState().dialogsFormData?.message,
             },
             errors: {
-                message: '',
+                message: this.props.store.getState().dialogsFormData?.messageError,
             },
-            updateDialogData: () => {
-                const dialogData = {
-                    message: (this.refs.message.childNodes[3] as HTMLInputElement)?.value,
+            updateDialogData: (messageDefault?:string) => {
+                const message = messageDefault||(document.getElementById('message')  as HTMLInputElement)?.value;
+                console.log('message (document.getElementById(\'message\')  as HTMLInputElement)?.value;')
+                console.log((document.getElementById('message')  as HTMLInputElement)?.value)
+                const validationResults: { [id: string]: IError } = Validation({ message: message});
+                const nextDialogsFormData = {
+                    ...this.props.store.getState().dialogsFormData,
+                    message: message,
+                    messageError: validationResults.message.status ? '' : validationResults.message.errorText,
                 };
-                const validationResults: { [id: string]: IError } = Validation({ ...dialogData });
-                const nextState = {
-                    errors: {
-                        message: validationResults.message.status ? '' : validationResults.message.errorText,
-                    },
-                    values: { ...this.state.values, ...dialogData },
-                };
-                this.setState(nextState);
+                this.props.store.dispatch({dialogsFormData: nextDialogsFormData})
             },
             onClick: () => {
-                this.state.updateDialogData();
-                console.log('message:', this.state.values.message);
-            },
-            onChange: () => {
-                this.state.updateDialogData();
+                this.state.updateDialogData()
+                this.props.store.dispatch(sendMessage)
+                // this.props.store.dispatch(sendMessage,{message: this.props.store.getState().dialogsFormData.message})
+                console.log('this.props.store.getState().dialogsFormData')
+                console.log(this.props.store.getState().dialogsFormData)
+               // this.state.updateDialogData(' ');
             },
             onLogoutClick: () => {
                 this.props.store.dispatch(logout)
@@ -72,15 +74,15 @@ export class Dialogs extends Block {
 
     render() {
         const { errors, values} = this.state;
-        const activeDialog = this.props.store.getState().dialogsFormData;
+        const activeDialogSenderName = this.props.store.getState().dialogsFormData?.activeDialog?.title||"";
         // language=hbs
         return `
             <main>
                 <div class="dialogs__wrapper">
                     <div class="dialogs__header">
-                        {{{Avatar style="dialogs__item__img"
-                                   src=activeDialogAvatar}}}
-                        <div class="dialogs__header__person__name && text">${activeDialog.activeDialogSenderName}</div>
+                        {{#if activeDialogAvatar}}{{{Avatar style="dialogs__item__img"
+                                   src=activeDialogAvatar}}}{{/if}}
+                        <div class="dialogs__header__person__name && text">${activeDialogSenderName}</div>
                         {{{ImageButton style="logout__button" src="img/logout(40x40)@1x.png" onClick=onLogoutClick}}}
                     </div>
                     <div class="dialogs__sidebar">
@@ -107,29 +109,40 @@ export class Dialogs extends Block {
                                 {{{DialogItem src=avatar
                                               senderName=title
                                               id=id
-                                              messageText=last_message}}}
+                                              lastMessage=last_message}}}
                                 {{/with}}
                             {{/each}}
                         </div>
                     </div>
                     <div class="dialogs__content">
+                        {{#each dialogHistory}}
+                            {{#with this}}
+                                {{{MessageItem time=time
+                                            message=content
+                                            userId=userId
+                                            userLogin=userLogin
+                                            isMy=isMy
+                                }}}
+                            {{/with}}
+                        {{/each}}
                     </div>
-                    <div class="dialogs__footer">
-                        {{{InputLabel ref="message"
-                                 id="message"
-                                 style="dialogs__input"
-                                 placeholder="Написать сообщение"
-                                 type="text"
-                                 value="${values.message}"
-                                 error="${errors.message}"
-                                 onChange=onChange
-                        }}}
-                        {{{ImageButton class="dialogs__send__button"
-                                       href=""
-                                       src="img/send-button-3(40x40)@1x.png"
-                                       onClick=onClick
-                        }}}
-                    </div>
+                    {{#if activeDialogTitle}}
+                        <div class="dialogs__footer">
+                            {{{InputLabel id="message"
+                                     style="dialogs__input"
+                                     placeholder="Написать сообщение"
+                                     type="text"
+                                     value="${values.message}"
+                                     error="${errors.message}"
+                                     onChange=onChange
+                            }}}
+                            {{{ImageButton class="dialogs__send__button"
+                                           href=""
+                                           src="img/send-button-3(40x40)@1x.png"
+                                           onClick=onClick
+                            }}}
+                        </div>
+                    {{/if}}
             </main>
         `;
     }

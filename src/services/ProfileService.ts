@@ -1,6 +1,6 @@
 import {Dispatch} from "../core/Store";
 import {default as UserAPI} from "../api/User";
-import {User, UserPassword} from "../api/types";
+import {User, UserPassword, UserSearchById} from "../api/types";
 import {hasError} from "../utils/apiHasError";
 import {transformUser} from "../utils/apiTransformers";
 
@@ -45,6 +45,20 @@ export const updateProfilePassword = async (
         dispatch({updatePasswordFormError: reason});
         return;
     }
-    console.log('responseUserPassword')
-    console.log(responseUserPassword)
+};
+
+
+export const getUserById = async (
+    dispatch: Dispatch<AppState>,
+    state: AppState,
+    payload: UserSearchById,
+) => {
+    const responseUser = await UserAPI.getUserById(payload);
+    const user = responseUser  as User;
+    const messageData = state.dialogsFormData.history.forEach(message => {
+        if (user.id == message.userId){
+            message.userLogin = user.login;
+        }
+    })
+    dispatch({...state.dialogsFormData, history: messageData});
 };

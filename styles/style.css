@@ -191,6 +191,16 @@
   right: 2%;
 }
 
+.message__item {
+  background: var(--button-background-color);
+  width: 40%;
+  border-radius: 12px;
+  flex-direction: column;
+  display: flex;
+  right: 2%;
+  box-shadow: 0 0 4px #00000040;
+}
+
 .login {
   width: 340px;
   height: 450px;
@@ -413,7 +423,9 @@
 
 .dialogs__content {
   background-color: var(--box-background-color);
+  flex-direction: column;
   grid-area: c;
+  display: flex;
 }
 
 .dialogs__item {
@@ -504,6 +516,32 @@
 }
 
 .profile__password__input {
+  background: var(--button-text-color);
+  box-shadow: 0 0 2px #00000040;
+}
+
+.create__chat__box {
+  width: 379px;
+  height: 315px;
+  background: var(--box-background-color);
+  border-radius: 12px;
+  flex-direction: column;
+  align-items: center;
+  display: flex;
+  position: absolute;
+  top: 300px;
+  left: 50%;
+  transform: translate3d(-50%, 0, 0);
+  box-shadow: 0 0 4px #00000040;
+}
+
+.create__chat__button {
+  margin-top: 20px;
+  position: static;
+  left: 0;
+}
+
+.create__chat__input {
   background: var(--button-text-color);
   box-shadow: 0 0 2px #00000040;
 }

@@ -24,6 +24,8 @@ import InputFile from "./common/components/inputFile";
 import ProfilePassword from "./views/profilePassword";
 import CreateChat from "./views/createChat/createChat";
 import createChat from "./views/createChat/createChat";
+import {ChatWebSocket} from "./core/ChatWebSocket";
+import {MessageItem} from "./common/components/messageItem";
 
 registerComponents(ErrorText);
 registerComponents(Button);
@@ -37,6 +39,7 @@ registerComponents(DialogItem);
 registerComponents(Link);
 registerComponents(InputFile);
 registerComponents(CreateChat);
+registerComponents(MessageItem);
 
 
 declare global {
@@ -50,12 +53,12 @@ declare global {
 document.addEventListener('DOMContentLoaded', () => {
     const store = new Store<AppState>(defaultState);
     const router = new BrowserRouter();
+    const socket = new ChatWebSocket();
 
     window.router = router;
     window.store = store;
 
     /**
-     * Глобальный слушатель изменений в сторе
      * для переключения активного экрана
      */
     store.on('change', (prevState, nextState) => {
@@ -64,6 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
             renderDOM(new Page());
         }
     });
+
+    store.dispatch({socket: socket})
 
     /**
      * Инициализируем роутинг

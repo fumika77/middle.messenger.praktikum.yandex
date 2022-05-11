@@ -1,11 +1,9 @@
 import Block from '../../core/Block';
 import { IError, Validation } from '../../utils/validation';
-import {withStore} from "../../utils";
-import {withRouter} from "../../utils";
-import {BrowserRouter} from "../../core/Route";
-import {Store} from "../../core/Store";
-import {signUp} from "../../services/AuthService";
-
+import { withStore, withRouter } from '../../utils';
+import { BrowserRouter } from '../../core/Route';
+import { Store } from '../../core/Store';
+import { signUp } from '../../services/AuthService';
 
 type SignUpPageProps = {
     router: BrowserRouter;
@@ -15,24 +13,25 @@ type SignUpPageProps = {
 };
 
 export class SignUp extends Block {
-    constructor(props:SignUpPageProps) {
+    constructor(props: SignUpPageProps) {
         super(props);
         this.setProps({
             formError: () => this.props.store.getState().loginFormError,
             isLoading: () => Boolean(this.props.store.getState().isLoading),
-            onClick: () => this.props.router.go('/login')
+            onClick: () => this.props.router.go('/login'),
         });
     }
+
     protected getStateFromProps() {
         this.state = {
             values: {
-                login: 'super_archi',
-                first_name: 'Арчибальд',
-                second_name: 'Котиков',
-                password: 'Qwerty12345',
-                password_repeat: 'Qwerty12345',
-                email: 'kotikoff@yandex.ru',
-                phone: '88008001111',
+                login: '',
+                first_name: '',
+                second_name: '',
+                password: '',
+                password_repeat: '',
+                email: '',
+                phone: '',
             },
             errors: {
                 login: '',
@@ -45,13 +44,13 @@ export class SignUp extends Block {
             },
             updateSignUpData: () => {
                 const signUpData = {
-                    login: (this.refs.login.childNodes[3] as HTMLInputElement)?.value,
-                    first_name: (this.refs.first_name.childNodes[3] as HTMLInputElement)?.value,
-                    second_name: (this.refs.second_name.childNodes[3] as HTMLInputElement)?.value,
-                    password: (this.refs.password.childNodes[3] as HTMLInputElement)?.value,
-                    password_repeat: (this.refs.password_repeat.childNodes[3] as HTMLInputElement)?.value,
-                    email: (this.refs.email.childNodes[3] as HTMLInputElement)?.value,
-                    phone: (this.refs.phone.childNodes[3] as HTMLInputElement)?.value,
+                    login: (document.getElementById('login') as HTMLInputElement)?.value,
+                    first_name: (document.getElementById('first_name') as HTMLInputElement)?.value,
+                    second_name: (document.getElementById('second_name') as HTMLInputElement)?.value,
+                    password: (document.getElementById('password') as HTMLInputElement)?.value,
+                    password_repeat: (document.getElementById('password_repeat') as HTMLInputElement)?.value,
+                    email: (document.getElementById('email') as HTMLInputElement)?.value,
+                    phone: (document.getElementById('phone') as HTMLInputElement)?.value,
                 };
                 const validationResults: { [id: string]: IError } = Validation({ ...signUpData });
                 const nextState = {
@@ -69,16 +68,20 @@ export class SignUp extends Block {
                         phone: validationResults.phone.status ? '' : validationResults.phone.errorText,
                     },
                     values: { ...signUpData },
-                    hasError: !validationResults.login.status && !validationResults.first_name.status && !validationResults.second_name.status
-                        && !validationResults.password.status && !validationResults.password_repeat.status
-                        && !validationResults.email.status && !validationResults.phone.status
+                    hasError:
+                        !validationResults.login.status &&
+                        !validationResults.first_name.status &&
+                        !validationResults.second_name.status &&
+                        !validationResults.password.status &&
+                        !validationResults.password_repeat.status &&
+                        !validationResults.email.status &&
+                        !validationResults.phone.status,
                 };
 
                 this.setState(nextState);
             },
             onSignUpButtonClick: () => {
                 this.state.updateSignUpData();
-                this.props.onSignUpButtonClick()
                 if (!this.state.hasError) {
                     this.props.store.dispatch(signUp, this.state.values);
                 }
@@ -98,7 +101,6 @@ export class SignUp extends Block {
                     <div class="signUp__formBox">
                         <h1 class="header && text">Регистрация</h1>
                         {{{InputLabel id="first_name"
-                                      ref="first_name"
                                       type="text"
                                       value="${values.first_name}"
                                       error="${errors.first_name}"
@@ -106,7 +108,6 @@ export class SignUp extends Block {
                                       style="signUp"
                                       onChange=onChange}}}
                         {{{InputLabel id="second_name"
-                                      ref="second_name"
                                       type="text"
                                       value="${values.second_name}"
                                       error="${errors.second_name}"
@@ -114,7 +115,6 @@ export class SignUp extends Block {
                                       style="signUp"
                                       onChange=onChange}}}
                         {{{InputLabel id="login"
-                                      ref="login"
                                       type="text"
                                       value="${values.login}"
                                       error="${errors.login}"
@@ -122,7 +122,6 @@ export class SignUp extends Block {
                                       style="signUp"
                                       onChange=onChange}}}
                         {{{InputLabel id="password"
-                                      ref="password"
                                       type="password"
                                       value="${values.password}"
                                       error="${errors.password}"
@@ -130,7 +129,6 @@ export class SignUp extends Block {
                                       style="signUp"
                                       onChange=onChange}}}
                         {{{InputLabel id="password_repeat"
-                                      ref="password_repeat"
                                       type="password"
                                       value="${values.password_repeat}"
                                       error="${errors.password_repeat}"
@@ -138,7 +136,6 @@ export class SignUp extends Block {
                                       style="signUp"
                                       onChange=onChange}}}
                         {{{InputLabel id="email"
-                                      ref="email"
                                       type="text"
                                       value="${values.email}"
                                       error="${errors.email}"
@@ -146,7 +143,6 @@ export class SignUp extends Block {
                                       style="signUp"
                                       onChange=onChange}}}
                         {{{InputLabel id="phone"
-                                      ref="phone"
                                       type="number"
                                       value="${values.phone}"
                                       error="${errors.phone}"
@@ -163,4 +159,4 @@ export class SignUp extends Block {
     }
 }
 
-export default withRouter(withStore(SignUp))
+export default withRouter(withStore(SignUp));

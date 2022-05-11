@@ -1,5 +1,5 @@
 import { default as ChatApi } from '../api/Chats';
-import { default as UserApi } from '../api/User';
+import {default as UserAPI} from '../api/User';
 import {Dispatch} from "../core/Store";
 import {hasError} from "../utils/apiHasError";
 import {
@@ -7,17 +7,8 @@ import {
     ChatListRequest,
     initWebSocketRequest,
     MessageDTO,
-    messageRequest,
-    TokenRequest
 } from "../api/types";
-
-export type Message = {
-    time: Date,
-    content: string,
-    userId: number,
-    userLogin: Nullable<string>,
-    isMy: boolean,
-}
+import {transformMessage} from "../utils/apiTransformers";
 
 export const createChat = async (
     dispatch: Dispatch<AppState>,
@@ -37,6 +28,27 @@ export const createChat = async (
     window.router.go('/dialogs');
 };
 
+export const addChatUser = async (
+    dispatch: Dispatch<AppState>,
+    state: AppState,
+) => {
+    const userId = state.addUserFormData.user?.id;
+    if (!userId){
+        return;
+    }
+    const chatId = state.dialogsFormData.activeDialog.id;
+
+    const response = await ChatApi.addChatUser({users: [userId], chatId: chatId});
+
+    if (hasError(response)) {
+        dispatch({ createChatFormError: response.reason });
+        return;
+    }
+
+    dispatch(getChats);
+    window.router.go('/dialogs');
+};
+
 export const getChats = async (
     dispatch: Dispatch<AppState>,
     state: AppState,
@@ -46,11 +58,38 @@ export const getChats = async (
     const chats = await ChatApi.getChats(request);
 
     if (hasError(chats)) {
-        dispatch({ dialogsFormData: {dialogsError: chats.reason} });
+        dispatch({ dialogsFormData: {...state.dialogsFormData, dialogsError: chats.reason} });
         return;
     }
-    dispatch({dialogsFormData: { dialogsError: null, dialogs: chats}});
+    dispatch({dialogsFormData: { ...state.dialogsFormData, dialogsError: '', dialogs: chats}});
 };
+
+const saveHistoryData = async (dispatch: Dispatch<AppState>, state: AppState, data: MessageDTO[]|MessageDTO) =>  {
+    const history: Message[] = state.dialogsFormData.history;
+    const userId = state.user.id;
+    if (Array.isArray(data)){
+        data?.forEach(data => {
+            const message = transformMessage(data, userId)
+            history.push(message)
+        })
+    } else {
+        const message = transformMessage(data, userId)
+        history.push(message)
+    }
+    await Promise.all(history?.map(async (message) => {
+        const id = message.userId;
+        if (id&&message.isOtherUser){
+            const responseUser = await UserAPI.getUserById({id});
+            console.log(responseUser)
+            if (hasError(responseUser)) {
+                dispatch({ dialogsFormData: {...state.dialogsFormData, dialogsError: responseUser.reason} });
+                return;
+            }
+            message.userLogin = responseUser.login;
+        }
+    }));
+    dispatch({ dialogsFormData: {...state.dialogsFormData, history: history.sort((a,b) => a.time - b.time)} });
+}
 
 export const initChatWebSocket = async (
     dispatch: Dispatch<AppState>,
@@ -68,34 +107,10 @@ export const initChatWebSocket = async (
         return;
     }
     const token = chatsResponse.token;
-    function saveHistoryData (data: MessageDTO[]|MessageDTO) {
-        const history: Message[] = state.dialogsFormData.history||[];
-        if (Array.isArray(data)){
-        data?.forEach(data => {
-            const message = {
-                time: new Date(data.time),
-                content: data.content,
-                userId: parseInt(data.user_id),
-                userLogin: null,
-                isMy: parseInt(data.user_id) === userId,
-            }
-            history.push(message)
-        })
-        } else {
-            const message = {
-                time: new Date(data.time),
-                content: data.content,
-                userId: parseInt(data.user_id),
-                userLogin: null,
-                isMy: parseInt(data.user_id) === userId,
-            }
-            history.push(message)
-        }
-        dispatch({ dialogsFormData: {...state.dialogsFormData, history: history} });
-    }
+
     //если сокета не существует
     if (!state.socket!.checkExist(chatId)){
-        state.socket!.addSocket(userId, chatId, token, saveHistoryData);
+        state.socket!.addSocket(userId, chatId, token, dispatch, state, saveHistoryData);
     }
     state.socket!.setActive(chatId)
 };
@@ -104,8 +119,6 @@ export const initChatWebSocket = async (
 export const sendMessage = async (
     dispatch: Dispatch<AppState>,
     state: AppState,
-    payload: messageRequest,
 ) => {
-    console.log(state.dialogsFormData)
     state.socket?.sendMessage(state.dialogsFormData.message)
 };

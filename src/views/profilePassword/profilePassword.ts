@@ -1,10 +1,10 @@
 import Block from '../../core/Block';
-import {withRouter, withStore} from "../../utils";
-import {BrowserRouter} from "../../core/Route";
-import {Store} from "../../core/Store";
-import {updateProfilePassword} from "../../services/ProfileService";
-import {IError, Validation} from "../../utils/validation";
-import {UserPassword} from "../../api/types";
+import { withRouter, withStore } from '../../utils';
+import { BrowserRouter } from '../../core/Route';
+import { Store } from '../../core/Store';
+import { updateProfilePassword } from '../../services/ProfileService';
+import { IError, Validation } from '../../utils/validation';
+import { UserPassword } from '../../api/types';
 
 type ProfilePasswordPageProps = {
     router: BrowserRouter;
@@ -12,7 +12,7 @@ type ProfilePasswordPageProps = {
 };
 
 export class ProfilePassword extends Block {
-    constructor(props:ProfilePasswordPageProps) {
+    constructor(props: ProfilePasswordPageProps) {
         super(props);
         this.setProps({
             onBackArrowClick: () => this.props.router.go('/profile'),
@@ -25,39 +25,44 @@ export class ProfilePassword extends Block {
             password_repeat_error: () => this.props.store.getState().passwordFormData.errors.password_repeat,
         });
     }
+
     protected getStateFromProps() {
         this.state = {
-            updateFormData : () => {
+            updateFormData: () => {
                 const formData = {
                     old_password: (document.getElementById('old_password') as HTMLInputElement)?.value,
                     password: (document.getElementById('new_password') as HTMLInputElement)?.value,
-                    password_repeat: (document.getElementById('password_repeat') as HTMLInputElement)?.value
-                }
+                    password_repeat: (document.getElementById('password_repeat') as HTMLInputElement)?.value,
+                };
                 const validationResults: { [id: string]: IError } = Validation({ ...formData });
                 const nextState = {
                     errors: {
-                        old_password: validationResults.old_password.status ? '' : validationResults.old_password.errorText,
+                        old_password: validationResults.old_password.status
+                            ? ''
+                            : validationResults.old_password.errorText,
                         password: validationResults.password.status ? '' : validationResults.password.errorText,
                         password_repeat: validationResults.password_repeat.status
                             ? ''
-                            : validationResults.password_repeat.errorText
+                            : validationResults.password_repeat.errorText,
                     },
-                    values: { ...formData }
+                    values: { ...formData },
                 };
-                this.props.store.dispatch({passwordFormData: nextState})
+                this.props.store.dispatch({ passwordFormData: nextState });
             },
-            onClick : () => {
-                this.state.updateFormData()
-                const {passwordFormData} = this.props;
+            onClick: () => {
+                this.state.updateFormData();
+                const { passwordFormData } = this.props;
                 if (Object.keys(passwordFormData?.errors).find((key) => passwordFormData?.errors[key] !== '') == null) {
-                    this.props.store.dispatch(updateProfilePassword,
-                        {oldPassword: passwordFormData?.values.old_password, newPassword:passwordFormData?.values.password} as UserPassword);
+                    this.props.store.dispatch(updateProfilePassword, {
+                        oldPassword: passwordFormData?.values.old_password,
+                        newPassword: passwordFormData?.values.password,
+                    } as UserPassword);
                 }
             },
             onChange: () => {
-                this.state.updateFormData()
-            }
-        }
+                this.state.updateFormData();
+            },
+        };
     }
 
     render() {
@@ -94,4 +99,4 @@ export class ProfilePassword extends Block {
     }
 }
 
-export default withRouter(withStore(ProfilePassword))
+export default withRouter(withStore(ProfilePassword));

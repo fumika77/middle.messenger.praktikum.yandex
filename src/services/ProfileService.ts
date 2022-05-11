@@ -15,7 +15,7 @@ export const updateProfileInfo = async (
         dispatch({profileSettingsFormError: reason});
         return;
     }
-    dispatch({ user: transformUser(JSON.parse(updateUser)  as User) });
+    dispatch({ user: (transformUser(updateUser)  as User) });
 };
 
 
@@ -30,7 +30,7 @@ export const updateProfileAvatar = async (
         dispatch({updateAvatarFormError: reason});
         return;
     }
-    dispatch({ user: transformUser(JSON.parse(responseUserImage)  as User) });
+    dispatch({ user: (transformUser(responseUserImage)  as User) });
 };
 
 
@@ -47,18 +47,31 @@ export const updateProfilePassword = async (
     }
 };
 
-
 export const getUserById = async (
     dispatch: Dispatch<AppState>,
     state: AppState,
     payload: UserSearchById,
 ) => {
     const responseUser = await UserAPI.getUserById(payload);
-    const user = responseUser  as User;
-    const messageData = state.dialogsFormData.history.forEach(message => {
-        if (user.id == message.userId){
-            message.userLogin = user.login;
-        }
-    })
-    dispatch({...state.dialogsFormData, history: messageData});
+    if (hasError(responseUser)) {
+        const {reason}  = responseUser;
+        dispatch({dialogsFormData: {...state.dialogsFormData, dialogsError: reason}});
+        return;
+    }
+    const user = transformUser(responseUser)  as User;
+    return user.login;
+};
+
+export const getUserByLogin = async (
+    dispatch: Dispatch<AppState>,
+    state: AppState,
+) => {
+    const login:string = state.addUserFormData.userLogin
+    const responseUser = await UserAPI.getUserByLogin({login});
+    if (hasError(responseUser)) {
+        const {reason}  = responseUser;
+        dispatch({...state.addUserFormData, error: reason});
+        return;
+    }
+    responseUser?.forEach(user => dispatch({addUserFormData: {...state.addUserFormData, user: user}}));
 };

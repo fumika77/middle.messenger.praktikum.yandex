@@ -1,8 +1,8 @@
 import Block from '../../core/Block';
-import {withRouter, withStore} from "../../utils";
-import {BrowserRouter} from "../../core/Route";
-import {Store} from "../../core/Store";
-import {getProfileInfo} from "../../services/AuthService";
+import { withRouter, withStore } from '../../utils';
+import { BrowserRouter } from '../../core/Route';
+import { Store } from '../../core/Store';
+import { getProfileInfo } from '../../services/AuthService';
 
 type ProfileDescriptionPageProps = {
     router: BrowserRouter;
@@ -12,23 +12,25 @@ type ProfileDescriptionPageProps = {
 };
 
 export class ProfileDescription extends Block {
-    constructor(props:ProfileDescriptionPageProps) {
+    constructor(props: ProfileDescriptionPageProps) {
         super(props);
         this.setProps({
             formError: () => this.props.store.getState().loginFormError,
             isLoading: () => Boolean(this.props.store.getState().isLoading),
             onEditButtonClick: () => {
-                this.props.router.go('/profile-settings')},
+                this.props.router.go('/profile-settings');
+            },
             onBackArrowClick: () => this.props.router.go('/dialogs'),
             onEditPasswordClick: () => this.props.router.go('/profile-password'),
         });
     }
 
     componentDidMount() {
-        this.props.store.dispatch(getProfileInfo)
+        this.props.store.dispatch(getProfileInfo);
     }
+
     render() {
-        const userData: User = {...this.props.store.getState().user};
+        const userData: User = { ...this.props.store.getState().user };
         // language=hbs
         return `
             <main>
@@ -85,4 +87,4 @@ export class ProfileDescription extends Block {
     }
 }
 
-export default withRouter(withStore(ProfileDescription))
+export default withRouter(withStore(ProfileDescription));

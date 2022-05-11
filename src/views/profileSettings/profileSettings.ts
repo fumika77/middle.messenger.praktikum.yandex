@@ -1,10 +1,9 @@
 import Block from '../../core/Block';
 import { IError, Validation } from '../../utils/validation';
-import {withRouter, withStore} from "../../utils";
-import {BrowserRouter} from "../../core/Route";
-import {Store} from "../../core/Store";
-import {updateProfileInfo} from "../../services/ProfileService";
-
+import { withRouter, withStore } from '../../utils';
+import { BrowserRouter } from '../../core/Route';
+import { Store } from '../../core/Store';
+import { updateProfileInfo } from '../../services/ProfileService';
 
 type ProfileSettingsPageProps = {
     router: BrowserRouter;
@@ -14,7 +13,7 @@ type ProfileSettingsPageProps = {
 };
 
 export class ProfileSettings extends Block {
-    constructor(props:ProfileSettingsPageProps) {
+    constructor(props: ProfileSettingsPageProps) {
         super(props);
         this.setProps({
             onBackArrowClick: () => this.props.router.go('/profile'),
@@ -30,7 +29,7 @@ export class ProfileSettings extends Block {
     }
 
     componentDidMount() {
-        console.log(this.props.store.getState())
+        console.log(this.props.store.getState());
     }
 
     protected getStateFromProps() {
@@ -67,16 +66,17 @@ export class ProfileSettings extends Block {
                         email: validationResults.email.status ? '' : validationResults.email.errorText,
                         phone: validationResults.phone.status ? '' : validationResults.phone.errorText,
                     },
-                    values: { ...profileSettingsData }
+                    values: { ...profileSettingsData },
                 };
 
-                this.props.store.dispatch({user: {
-                    ...nextState.values
+                this.props.store.dispatch({
+                    user: {
+                        ...nextState.values,
                     },
                     userErrors: {
-                    ...nextState.errors
-                    }
-                })
+                        ...nextState.errors,
+                    },
+                });
             },
             onClick: () => {
                 this.state.updateProfileSettingsData();
@@ -151,4 +151,4 @@ export class ProfileSettings extends Block {
         `;
     }
 }
-export default withRouter(withStore(ProfileSettings))
+export default withRouter(withStore(ProfileSettings));

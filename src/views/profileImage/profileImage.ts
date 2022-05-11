@@ -1,9 +1,9 @@
 import Block from '../../core/Block';
-import {withRouter, withStore} from "../../utils";
-import {BrowserRouter} from "../../core/Route";
-import {Store} from "../../core/Store";
-import {getProfileInfo} from "../../services/AuthService";
-import {updateProfileAvatar} from "../../services/ProfileService";
+import { withRouter, withStore } from '../../utils';
+import { BrowserRouter } from '../../core/Route';
+import { Store } from '../../core/Store';
+import { getProfileInfo } from '../../services/AuthService';
+import { updateProfileAvatar } from '../../services/ProfileService';
 
 type ProfileImagePageProps = {
     router: BrowserRouter;
@@ -11,28 +11,31 @@ type ProfileImagePageProps = {
 };
 
 export class ProfileImage extends Block {
-    constructor(props:ProfileImagePageProps) {
+    constructor(props: ProfileImagePageProps) {
         super(props);
         this.setProps({
             filename: () => this.props.store.getState().file?.name,
-            onBackArrowClick: () => this.props.router.go('/profile-settings')
+            onBackArrowClick: () => this.props.router.go('/profile-settings'),
         });
     }
+
     protected getStateFromProps() {
         this.state = {
-            onChange : () => {
+            onChange: () => {
                 const file = document.getElementById('inputFile')!.files![0];
-                this.props.store.dispatch({file: file})
+                this.props.store.dispatch({ file });
             },
-            onClick : () => {
-                const file = this.props.store.getState().file;
-                file && this.props.store.dispatch(updateProfileAvatar,file)
-            }
-        }
+            onClick: () => {
+                const { file } = this.props.store.getState();
+                file && this.props.store.dispatch(updateProfileAvatar, file);
+            },
+        };
     }
+
     componentDidMount() {
-        this.props.store.dispatch(getProfileInfo)
+        this.props.store.dispatch(getProfileInfo);
     }
+
     render() {
         // language=hbs
         return `
@@ -47,4 +50,4 @@ export class ProfileImage extends Block {
     }
 }
 
-export default withRouter(withStore(ProfileImage))
+export default withRouter(withStore(ProfileImage));

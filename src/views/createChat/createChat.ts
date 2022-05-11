@@ -1,9 +1,9 @@
 import Block from '../../core/Block';
-import {withRouter, withStore} from "../../utils";
-import {BrowserRouter} from "../../core/Route";
-import {Store} from "../../core/Store";
-import {IError, Validation} from "../../utils/validation";
-import {createChat} from "../../services/ChatService";
+import { withRouter, withStore } from '../../utils';
+import { BrowserRouter } from '../../core/Route';
+import { Store } from '../../core/Store';
+import { IError, Validation } from '../../utils/validation';
+import { createChat } from '../../services/ChatService';
 
 type CreateChatPageProps = {
     router: BrowserRouter;
@@ -11,7 +11,7 @@ type CreateChatPageProps = {
 };
 
 export class CreateChat extends Block {
-    constructor(props:CreateChatPageProps) {
+    constructor(props: CreateChatPageProps) {
         super(props);
         this.setProps({
             onBackArrowClick: () => this.props.router.go('/dialogs'),
@@ -20,32 +20,33 @@ export class CreateChat extends Block {
             chatFormError: () => this.props.store.getState().createChatFormError,
         });
     }
+
     protected getStateFromProps() {
         this.state = {
-            updateFormData : () => {
+            updateFormData: () => {
                 const formData = {
                     chatName: (document.getElementById('chat_name') as HTMLInputElement)?.value,
-                }
+                };
                 const validationResults: { [id: string]: IError } = Validation({ ...formData });
                 const nextState = {
                     errors: {
-                        chatName: validationResults.chatName.status ? '' : validationResults.chatName.errorText
+                        chatName: validationResults.chatName.status ? '' : validationResults.chatName.errorText,
                     },
-                    values: { ...formData }
+                    values: { ...formData },
                 };
-                this.props.store.dispatch({createChatFormData: nextState})
+                this.props.store.dispatch({ createChatFormData: nextState });
             },
-            onClick : () => {
-                this.state.updateFormData()
+            onClick: () => {
+                this.state.updateFormData();
                 if (this.props.chatNameError() === '') {
-                    console.log('Создается чат ', this.props.chatName())
-                    this.props.store.dispatch(createChat,{title: this.props.chatName()});
+                    console.log('Создается чат ', this.props.chatName());
+                    this.props.store.dispatch(createChat, { title: this.props.chatName() });
                 }
             },
             onChange: () => {
-                this.state.updateFormData()
-            }
-        }
+                this.state.updateFormData();
+            },
+        };
     }
 
     render() {
@@ -69,4 +70,4 @@ export class CreateChat extends Block {
     }
 }
 
-export default withRouter(withStore(CreateChat))
+export default withRouter(withStore(CreateChat));

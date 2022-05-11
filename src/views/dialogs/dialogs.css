@@ -1,8 +1,6 @@
 .dialogs {
   &__wrapper {
     display: grid;
-
-    /* width: 1200px; */
     margin: auto;
     grid-template:
       "n h"
@@ -76,7 +74,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: var(--dialogs-sidebar-color);
+    background: var(--box-background-color);
     height: auto;
     padding: 5px;
   }
@@ -86,6 +84,8 @@
     background-color: var(--box-background-color);
      display: flex;
      flex-direction: column;
+     align-items: flex-end;
+     max-height:100%;
   }
 
   &__item {
@@ -121,7 +121,8 @@
   }
 
   &__message__text {
-    padding-top: 25px;
+     padding-top: 30px;
+     padding-bottom: 5px;
   }
 
   &__send__button {

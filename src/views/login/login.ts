@@ -1,10 +1,9 @@
 import Block from '../../core/Block';
-import {getProfileInfo, login, logout} from '../../services/AuthService';
+import { getProfileInfo, login, logout } from '../../services/AuthService';
 import { IError, Validation } from '../../utils/validation';
-import {withRouter} from "../../utils";
-import {withStore} from "../../utils";
-import {Store} from "../../core/Store";
-import {BrowserRouter} from "../../core/Route";
+import { withRouter, withStore } from '../../utils';
+import { Store } from '../../core/Store';
+import { BrowserRouter } from '../../core/Route';
 
 interface ILoginData {
     login: string;
@@ -21,12 +20,12 @@ class Login extends Block {
         this.setProps({
             formError: () => this.props.store.getState().loginFormError,
             isLoading: () => Boolean(this.props.store.getState().isLoading),
-            onSignUpClick: () => this.props.router.go('/sign-up')
+            onSignUpClick: () => this.props.router.go('/sign-up'),
         });
     }
 
     componentDidMount() {
-        //this.props.store.dispatch(getProfileInfo)
+        this.props.store.dispatch(getProfileInfo);
         if (this.props.store.getState().user.id) {
             this.props.router.go('/dialogs');
         }
@@ -56,7 +55,7 @@ class Login extends Block {
                         password: validationResults.password.status ? '' : validationResults.password.errorText,
                     },
                     values: { ...loginData },
-                    hasError: !validationResults.login.status && !validationResults.password.status
+                    hasError: !validationResults.login.status && !validationResults.password.status,
                 };
                 this.setState(nextState);
             },
@@ -98,11 +97,11 @@ class Login extends Block {
                 }}}
                 {{{ Button text="Войти" link="/dialogs" onClick=onLogin}}}
                 {{#if this.props.formError}}{{{ ErrorText errorText = this.props.formError}}}{{/if}}
-                {{{ Link link="/sign-up" style="textLink"  text="Нет аккаунта?" onClick=this.props.onSignUpClick}}}
+                {{{Link link="/sign-up" style="textLink"  text="Нет аккаунта?" onClick=onSignUpClick}}}
             </div>
         </main>
         `;
     }
 }
 
-export default withRouter(withStore(Login))
+export default withRouter(withStore(Login));

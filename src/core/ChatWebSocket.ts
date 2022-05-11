@@ -1,4 +1,5 @@
 import {MessageDTO} from "../api/types";
+import {Dispatch} from "./Store";
 
 export class ChatWebSocket{
     private __instance;
@@ -15,11 +16,13 @@ export class ChatWebSocket{
         ChatWebSocket.__instance = this;
     }
 
-    public addSocket(userId:number, chatId: number, token: string, saveHistoryData: (data: MessageDTO[]) => void){
+    public addSocket(userId:number, chatId: number, token: string, dispatch: Dispatch<AppState>,
+                     state: AppState, saveHistoryData: (dispatch: Dispatch<AppState>, state: AppState,data: MessageDTO[]) => void){
         if (this.__socketMap[chatId]) {
             return;
         }
         const socket = this.__socketMap[chatId] = new WebSocket(`wss://ya-praktikum.tech/ws/chats/${userId}/${chatId}/${token}`);
+        const saveMessageData =saveHistoryData.bind(null, dispatch,state);
         socket.addEventListener('open', () => {
             console.log('Соединение установлено');
         });
@@ -33,8 +36,13 @@ export class ChatWebSocket{
             console.log(`Код: ${event.code} | Причина: ${event.reason}`);
         });
         socket.addEventListener('message', event => {
-            // @ts-ignore
-            saveHistoryData(JSON.parse(event.data))
+            const data = JSON.parse(event.data);
+            if(data.type == "error"){
+                console.log('Ошибка', event.data);
+                return;
+            }
+            saveMessageData(data);
+            //saveHistoryData(dispatch, state, data);
         });
         socket.addEventListener('error', event => {
             console.log('Ошибка', event.message);
@@ -55,7 +63,7 @@ export class ChatWebSocket{
 
     }
 
-    public keepAlive(timeout = 50000) {
+    public keepAlive(timeout = 20000) {
         if (this.__activeSocket.readyState == WebSocket.OPEN) {
             this.__activeSocket.send({
                 type: "ping",
@@ -75,7 +83,6 @@ export class ChatWebSocket{
     }
 
     public sendMessage(text:string){
-        console.log('sendMessage ',text)
             this.__activeSocket.send(JSON.stringify({
             content: text,
             type: 'message',
@@ -86,7 +93,7 @@ export class ChatWebSocket{
         setTimeout(() => this.__activeSocket.send(JSON.stringify({
             content: '0',
             type: 'get old',
-        })), 100);
+        })), 120);
     }
 
 }

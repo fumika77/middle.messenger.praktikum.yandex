@@ -1,10 +1,10 @@
 import Block from '../../core/Block';
 import { IError, Validation } from '../../utils/validation';
-import {withRouter, withStore} from "../../utils";
-import {BrowserRouter} from "../../core/Route";
-import {Store} from "../../core/Store";
-import {getChats, sendMessage} from "../../services/ChatService";
-import {getProfileInfo, logout} from "../../services/AuthService";
+import { withRouter, withStore } from '../../utils';
+import { BrowserRouter } from '../../core/Route';
+import { Store } from '../../core/Store';
+import { getChats, sendMessage } from '../../services/ChatService';
+import { getProfileInfo, logout } from '../../services/AuthService';
 
 type DialogsPageProps = {
     router: BrowserRouter;
@@ -12,15 +12,16 @@ type DialogsPageProps = {
 };
 
 export class Dialogs extends Block {
-    constructor(props:DialogsPageProps) {
+    constructor(props: DialogsPageProps) {
         super(props);
         this.setProps({
             formError: () => this.props.store.getState().loginFormError,
             isLoading: () => Boolean(this.props.store.getState().isLoading),
             onProfileButtonClick: () => this.props.router.go('/profile'),
             onCreateChatButtonClick: () => this.props.router.go('/create-chat'),
+            onAddUserButtonClick: () => this.props.router.go('/add-user-chat'),
             onLogoutClick: () => {
-                this.props.store.dispatch(logout)
+                this.props.store.dispatch(logout);
             },
             dialogs: () => this.props.store.getState().dialogsFormData.dialogs,
             dialogHistory: () => this.props.store.getState().dialogsFormData.history,
@@ -30,51 +31,46 @@ export class Dialogs extends Block {
             messageError: () => this.props.store.getState().dialogsFormData?.messageError,
         });
     }
+
     componentDidMount() {
-        this.props.store.dispatch(getProfileInfo)
-        if (this.props.store.getState().user.id === null){
+        this.props.store.dispatch(getProfileInfo);
+        if (this.props.store.getState().user.id === null) {
             this.props.router.go('/login');
             return;
         }
-        this.props.store.dispatch(getChats)
+        this.props.store.dispatch(getChats);
     }
+
     protected getStateFromProps() {
         this.state = {
             values: {
                 message: this.props.store.getState().dialogsFormData?.message,
+                searchValue: '',
             },
             errors: {
                 message: this.props.store.getState().dialogsFormData?.messageError,
             },
-            updateDialogData: (messageDefault?:string) => {
-                const message = messageDefault||(document.getElementById('message')  as HTMLInputElement)?.value;
-                console.log('message (document.getElementById(\'message\')  as HTMLInputElement)?.value;')
-                console.log((document.getElementById('message')  as HTMLInputElement)?.value)
-                const validationResults: { [id: string]: IError } = Validation({ message: message});
+            updateDialogData: (messageDefault?: string) => {
+                const message = messageDefault || (document.getElementById('message') as HTMLInputElement)?.value;
+                const validationResults: { [id: string]: IError } = Validation({ message });
                 const nextDialogsFormData = {
                     ...this.props.store.getState().dialogsFormData,
-                    message: message,
+                    message,
                     messageError: validationResults.message.status ? '' : validationResults.message.errorText,
                 };
-                this.props.store.dispatch({dialogsFormData: nextDialogsFormData})
+                this.props.store.dispatch({ dialogsFormData: nextDialogsFormData });
             },
             onClick: () => {
-                this.state.updateDialogData()
-                this.props.store.dispatch(sendMessage)
-                // this.props.store.dispatch(sendMessage,{message: this.props.store.getState().dialogsFormData.message})
-                console.log('this.props.store.getState().dialogsFormData')
-                console.log(this.props.store.getState().dialogsFormData)
-               // this.state.updateDialogData(' ');
-            },
-            onLogoutClick: () => {
-                this.props.store.dispatch(logout)
+                this.state.updateDialogData();
+                this.props.store.dispatch(sendMessage);
+                this.state.updateDialogData(' ');
             },
         };
     }
 
     render() {
-        const { errors, values} = this.state;
-        const activeDialogSenderName = this.props.store.getState().dialogsFormData?.activeDialog?.title||"";
+        const { errors, values } = this.state;
+        const activeDialog = this.props.store.getState().dialogsFormData?.activeDialog;
         // language=hbs
         return `
             <main>
@@ -82,7 +78,12 @@ export class Dialogs extends Block {
                     <div class="dialogs__header">
                         {{#if activeDialogAvatar}}{{{Avatar style="dialogs__item__img"
                                    src=activeDialogAvatar}}}{{/if}}
-                        <div class="dialogs__header__person__name && text">${activeDialogSenderName}</div>
+                        {{#if activeDialogTitle}}
+                            <div class="dialogs__header__person__name && text">${activeDialog?.title}</div>
+                        {{/if}}
+                        {{#if activeDialogTitle}}
+                            {{{ImageButton style="add__contact__button" src="img/user-add(40x40)@1x.png" onClick=onAddUserButtonClick}}}
+                        {{/if}}
                         {{{ImageButton style="logout__button" src="img/logout(40x40)@1x.png" onClick=onLogoutClick}}}
                     </div>
                     <div class="dialogs__sidebar">
@@ -117,11 +118,12 @@ export class Dialogs extends Block {
                     <div class="dialogs__content">
                         {{#each dialogHistory}}
                             {{#with this}}
-                                {{{MessageItem time=time
+                                {{{MessageItem timeString=timeString
+                                            id=id
                                             message=content
                                             userId=userId
                                             userLogin=userLogin
-                                            isMy=isMy
+                                            isOtherUser=isOtherUser
                                 }}}
                             {{/with}}
                         {{/each}}
@@ -148,4 +150,4 @@ export class Dialogs extends Block {
     }
 }
 
-export default withRouter(withStore(Dialogs))
+export default withRouter(withStore(Dialogs));

@@ -19,7 +19,7 @@ export class Store<State extends Record<string, any>> extends EventBus {
         this.state = defaultState;
     }
 
-    public getState() {
+    public getState(): State {
         return this.state;
     }
 

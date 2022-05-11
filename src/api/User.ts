@@ -1,10 +1,10 @@
 import {Base} from "./Base";
-import {User, UserPassword, UserSearchById, UserSearchByLogin} from "./types";
+import {User as UserType, UserPassword, UserSearchById, UserSearchByLogin} from "./types";
 
 class User extends Base {
     private baseUrl = 'user';
 
-    public updateProfile(data: User) {
+    public updateProfile(data: UserType) {
         return super.put(this.baseUrl + '/profile', {data: {...data}}).then((response) => {
             return JSON.parse(response);
         })
@@ -24,14 +24,14 @@ class User extends Base {
         })
     }
 
-    public searchUserByLogin(data: UserSearchByLogin) {
+    public getUserByLogin(data: UserSearchByLogin) {
         return super.post(this.baseUrl + '/search', {data: data}).then((response) => {
             return JSON.parse(response);
         })
     }
 
     public getUserById(data: UserSearchById) {
-        return super.get(this.baseUrl + `${data.id}`, {data: data}).then((response) => {
+        return super.get(this.baseUrl + `/${data.id}`, {data: data}).then((response) => {
             return JSON.parse(response);
         })
     }

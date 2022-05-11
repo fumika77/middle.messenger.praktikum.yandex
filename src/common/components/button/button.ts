@@ -11,7 +11,7 @@ export class Button extends Block {
     constructor({ text, link, style, onClick }: ButtonProps) {
         const buttonClick = (e: MouseEvent) => {
             e.preventDefault()
-            onClick!()
+            onClick()
         };
         super({ text, link, style, events: { click: buttonClick } });
     }

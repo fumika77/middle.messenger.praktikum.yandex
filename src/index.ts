@@ -26,6 +26,7 @@ import CreateChat from "./views/createChat/createChat";
 import createChat from "./views/createChat/createChat";
 import {ChatWebSocket} from "./core/ChatWebSocket";
 import {MessageItem} from "./common/components/messageItem";
+import {AddUserChat} from "./views/addUserChat";
 
 registerComponents(ErrorText);
 registerComponents(Button);
@@ -83,6 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .use('/profile-image', ProfileImage, {})
         .use('/profile-password', ProfilePassword, {})
         .use('/create-chat', createChat, {})
+        .use('/add-user-chat', AddUserChat, {})
         .use('/sign-up', SignUp, {})
         .use('/*', ErrorPage, {})
         .start();

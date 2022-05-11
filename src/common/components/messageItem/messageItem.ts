@@ -1,40 +1,35 @@
 import Block from '../../../core/Block';
 import {withStore} from "../../../utils";
 import {Store} from "../../../core/Store";
-import {getUserById} from "../../../services/ProfileService";
 
 interface MessageItemProps {
-    time: Date,
+    timeString: string,
     message: string,
     userId: number,
-    userLogin: string,
-    isMy: boolean,
+    userLogin: Nullable<string>,
+    isOtherUser: boolean,
     store: Store<AppState>
 }
 
 export class MessageItem extends Block {
     constructor(props: MessageItemProps) {
-        const isOtherUser = !props.isMy;
-        const timeString = props.time.toLocaleString("ru-RU");
-        super({ ...props
-            ,timeString: timeString
-            ,isOtherUser: isOtherUser
-            });
+        super({ ...props});
     }
 
     static componentName = 'MessageItem';
 
     protected componentDidMount() {
-        if (this.props.isOtherUser){
-            this.props.store.dispatch(getUserById, {id: this.props.user_id})
+        if (!this.props.userLogin){
+            return;
         }
     }
 
     render() {
         // language=hbs
         return `
-        <div class="message__item">
-            <div class="dialogs__person-name && text">{{#if isOtherUser}}{{senderName}}{{else}}Вы{{/if}}:{{time}}</div>
+        <div class="message__item{{#if isOtherUser}} && message__item__other{{/if}}">
+            <div>{{timeString}}</div>
+            <div class="dialogs__person__name && text">{{#if isOtherUser}}{{userLogin}}{{else}}Вы{{/if}}:</div>
             <div class="dialogs__message__text && text">{{message}}</div>
         </div>
         `;

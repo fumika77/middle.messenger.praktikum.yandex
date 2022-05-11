@@ -1,6 +1,6 @@
 import Block from '../../../core/Block';
 import {withRouter, withStore} from "../../../utils";
-import {CreateChat} from "../../../views/createChat/createChat";
+import {AddUserChat} from "../../../views/addUserChat/createChat";
 import {Store} from "../../../core/Store";
 import {initChatWebSocket} from "../../../services/ChatService";
 

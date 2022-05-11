@@ -14,14 +14,18 @@ export const defaultState: AppState = {
         dialogs: [],
         history: [],
         activeDialog: {
-            id: 0,
+            id: null,
             title: null,
             avatar: null,
         },
         message: '',
         messageError:'',
     },
-
+    addUserFormData: {
+        userLogin: '',
+        user: null,
+        error: '',
+    },
     file: null,
     user: {
         id: null,

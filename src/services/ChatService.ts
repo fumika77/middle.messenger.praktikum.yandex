@@ -1,4 +1,4 @@
-import { default as ChatApi } from '../api/Chats';
+import {default as ChatApi } from '../api/Chats';
 import {default as UserAPI} from '../api/User';
 import {Dispatch} from "../core/Store";
 import {hasError} from "../utils/apiHasError";
@@ -8,7 +8,7 @@ import {
     initWebSocketRequest,
     MessageDTO,
 } from "../api/types";
-import {transformMessage} from "../utils/apiTransformers";
+import {transformDialog, transformMessage} from "../utils/apiTransformers";
 
 export const createChat = async (
     dispatch: Dispatch<AppState>,
@@ -56,12 +56,13 @@ export const getChats = async (
 ) => {
     const request = payload? payload : {} as Partial<ChatListRequest>;
     const chats = await ChatApi.getChats(request);
-
     if (hasError(chats)) {
         dispatch({ dialogsFormData: {...state.dialogsFormData, dialogsError: chats.reason} });
         return;
     }
-    dispatch({dialogsFormData: { ...state.dialogsFormData, dialogsError: '', dialogs: chats}});
+    const dialogs: Dialog[] = []
+    chats?.forEach(chat => dialogs.push(transformDialog(chat)))
+    dispatch({dialogsFormData: { ...state.dialogsFormData, dialogsError: '', dialogs: dialogs }});
 };
 
 const saveHistoryData = async (dispatch: Dispatch<AppState>, state: AppState, data: MessageDTO[]|MessageDTO) =>  {
@@ -101,6 +102,7 @@ export const initChatWebSocket = async (
     const request = {
         id: chatId
     }
+    dispatch({ dialogsFormData: {...state.dialogsFormData, history: []} });
     const chatsResponse = await ChatApi.getToken(request);
     if (hasError(chatsResponse)) {
         dispatch({ dialogsFormData: {...state.dialogsFormData, dialogsError: chatsResponse.reason} });

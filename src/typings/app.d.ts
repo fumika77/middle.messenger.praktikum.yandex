@@ -25,18 +25,26 @@ declare global {
             messageError: string,
         },
         profileImageFormData:{
-            status: Nullable<boolean>
-            errorDescription: Nullable<string>
+            status?: Nullable<boolean>
+            errorDescription?: Nullable<string>
+            file: Nullable<File>
         }
-        updatePasswordFormData:{
-            status: Nullable<boolean>
-            errorDescription: Nullable<string>
+        passwordFormData:{
+            values: {
+                old_password: string,
+                password: string,
+                password_repeat: string,
+            }
+            errors: {
+                old_password: string,
+                password: string,
+                password_repeat: string,
+            }
+            status?: Nullable<boolean>
+            errorDescription?: Nullable<string>
         }
-        updatePasswordFormError: string;
-        updateAvatarFormError: string;
         addUserFormData: any;
         profileSettingsFormError: string;
-        profileImageFormError: string;
     }
     export type User = {
         id?: number;
@@ -56,15 +64,26 @@ declare global {
         userLogin: Nullable<string>,
         isOtherUser: boolean,
     }
-    export type Dialog = {
+    export type DialogDTO = {
         id: number,
         title: string,
         avatar: string,
-        unread_count: 15,
+        unread_count: number,
         last_message: {
             user: User,
             time: string,
             content: string
         }
+    }
+    export type Dialog = {
+        id: number,
+        title: string,
+        avatar: string,
+        unreadCnt: number,
+        content: string,
+        userLogin: string,
+        userAvatar: string,
+        time: Date,
+        timeString:string
     }
 }

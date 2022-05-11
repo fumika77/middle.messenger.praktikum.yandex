@@ -218,6 +218,10 @@
   right: 6%;
 }
 
+.done {
+  margin-top: 10px;
+}
+
 .login {
   width: 340px;
   height: 450px;

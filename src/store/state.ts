@@ -1,13 +1,9 @@
-
 export const defaultState: AppState = {
     screen: null,
     socket: null,
     isLoading: false,
     loginFormError: "",
     profileSettingsFormError: "",
-    profileImageFormError: "",
-    updateAvatarFormError: "",
-    updatePasswordFormError: "",
     createChatFormError: "",
     dialogsFormData: {
         dialogsError: "",
@@ -26,7 +22,11 @@ export const defaultState: AppState = {
         user: null,
         error: '',
     },
-    file: null,
+    profileImageFormData: {
+        status: null,
+        errorDescription: null,
+        file: null,
+    },
     user: {
         id: null,
         login: '',
@@ -56,7 +56,9 @@ export const defaultState: AppState = {
             old_password: '',
             password: '',
             password_repeat: ''
-        }
+        },
+        status: null,
+        errorDescription: ''
     },
     createChatFormData: {
         values: {

@@ -4,6 +4,7 @@ import { withRouter, withStore } from '../../utils';
 import { BrowserRouter } from '../../core/Route';
 import { Store } from '../../core/Store';
 import { updateProfileInfo } from '../../services/ProfileService';
+import {getProfileInfo} from "../../services/AuthService";
 
 type ProfileSettingsPageProps = {
     router: BrowserRouter;
@@ -29,7 +30,7 @@ export class ProfileSettings extends Block {
     }
 
     componentDidMount() {
-        console.log(this.props.store.getState());
+        this.props.store.dispatch(getProfileInfo);
     }
 
     protected getStateFromProps() {
@@ -92,12 +93,14 @@ export class ProfileSettings extends Block {
 
     render() {
         const { errors } = this.state;
+        const avatar = this.props.store.getState().user.avatar;
+        // const user = {...this.props.store.getState().user};
         // language=hbs
         return `
             <main>
                 <div class="profile__box">
                     {{{BackArrow link="/profile" onClick=onBackArrowClick}}}
-                    {{{Avatar style="profileImg" src="img/animals.png"}}}
+                    {{{Avatar style="profileImg" src="${avatar}"}}}
                     {{{ImageButton style="profile__settings__editImg" src="img/image-edit(40x40)@1x.png" onClick=onEditImageClick}}}
                     <h1 class="profile__settings__header && text">Настройки профиля</h1>
                     <div class="profile__settings__formData">

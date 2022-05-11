@@ -5,30 +5,26 @@ import {Store} from "../../../core/Store";
 import {initChatWebSocket} from "../../../services/ChatService";
 
 interface DialogItemProps {
-    src: string;
-    senderName: string;
-    lastMessage: {
-        user: User,
-        time: string,
-        content: string,
-        id:number,
-    };
+    avatar: string;
+    title: string;
+    content: string;
     id: number;
     store: Store<AppState>;
 }
 
 export class DialogItem extends Block {
     constructor(props: DialogItemProps) {
-        super({ ...props,
-            lastMessage : props.lastMessage?.content
+        const link = props.avatar!==null ? `https://ya-praktikum.tech/api/v2/resources/${props.avatar}` : '';
+        super({ ...props, link
             , events: { click: () => {
+                    this.props.store.dispatch({ dialogsFormData: {...this.props.store.getState().dialogsFormData, history: []} });
                     this.props.store.dispatch({
                         dialogsFormData: {
                             ...this.props.store.getState().dialogsFormData,
                             activeDialog: {
                                 id: this.props.id,
-                                title: this.props.senderName,
-                                avatar: this.props.src
+                                title: this.props.title,
+                                avatar: this.props.link
                             }
                         }
                     })
@@ -45,10 +41,10 @@ export class DialogItem extends Block {
         // language=hbs
         return `
         <div class="dialogs__item">
-            <img class="dialogs__item__img" src="{{src}}">
+            <img class="dialogs__item__img" src="{{link}}">
             <div class="dialogs__message">
-                <div class="dialogs__person-name && text">{{senderName}}</div>
-                <div class="dialogs__message__text && text">{{lastMessage}}</div>
+                <div class="dialogs__person-name && text">{{title}}</div>
+                <div class="dialogs__message__text && text">{{content}}</div>
             </div>
         </div>
         `;

@@ -27,10 +27,10 @@ export const updateProfileAvatar = async (
     const responseUserImage = await UserAPI.updateAvatar(payload);
     if (hasError(responseUserImage)) {
         const {reason}  = responseUserImage;
-        dispatch({updateAvatarFormError: reason});
+        dispatch({profileImageFormData:{...state.profileImageFormData, errorDescription: reason, status: false}});
         return;
     }
-    dispatch({ user: (transformUser(responseUserImage)  as User) });
+    dispatch({ user: (transformUser(responseUserImage)  as User), profileImageFormData:{...state.profileImageFormData, status: true} });
 };
 
 
@@ -42,9 +42,10 @@ export const updateProfilePassword = async (
     const responseUserPassword = await UserAPI.updatePassword(payload);
     if (hasError(responseUserPassword)) {
         const {reason}  = responseUserPassword;
-        dispatch({updatePasswordFormError: reason});
+        dispatch({passwordFormData:{...state.passwordFormData, errorDescription: reason, status: false}});
         return;
     }
+    dispatch({passwordFormData:{...state.passwordFormData, status: true}});
 };
 
 export const getUserById = async (

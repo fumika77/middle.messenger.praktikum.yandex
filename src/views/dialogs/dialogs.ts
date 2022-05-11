@@ -70,6 +70,7 @@ export class Dialogs extends Block {
 
     render() {
         const { errors, values } = this.state;
+        const avatar = this.props.store.getState().user.avatar;
         const activeDialog = this.props.store.getState().dialogsFormData?.activeDialog;
         // language=hbs
         return `
@@ -77,11 +78,9 @@ export class Dialogs extends Block {
                 <div class="dialogs__wrapper">
                     <div class="dialogs__header">
                         {{#if activeDialogAvatar}}{{{Avatar style="dialogs__item__img"
-                                   src=activeDialogAvatar}}}{{/if}}
+                                   src=${activeDialog?.avatar}}}}{{/if}}
                         {{#if activeDialogTitle}}
                             <div class="dialogs__header__person__name && text">${activeDialog?.title}</div>
-                        {{/if}}
-                        {{#if activeDialogTitle}}
                             {{{ImageButton style="add__contact__button" src="img/user-add(40x40)@1x.png" onClick=onAddUserButtonClick}}}
                         {{/if}}
                         {{{ImageButton style="logout__button" src="img/logout(40x40)@1x.png" onClick=onLogoutClick}}}
@@ -90,7 +89,7 @@ export class Dialogs extends Block {
                         <div class="dialogs__profile__box">
                             <div>
                                 {{{Avatar style="dialogs__profile__box__img"
-                                          src="img/animals.png"}}}
+                                          src="${avatar}"}}}
                                 {{{ImageButton link="/profile" onClick=onProfileButtonClick
                                                src="img/profile-edit(32x32)@1x.png"}}}
                             </div>
@@ -107,10 +106,10 @@ export class Dialogs extends Block {
                         <div class="dialogs__dialogs__box">
                             {{#each dialogs}}
                                 {{#with this}}
-                                {{{DialogItem src=avatar
-                                              senderName=title
+                                {{{DialogItem avatar=avatar
+                                              title=title
                                               id=id
-                                              lastMessage=last_message}}}
+                                              content=content}}}
                                 {{/with}}
                             {{/each}}
                         </div>

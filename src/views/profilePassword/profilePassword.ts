@@ -23,6 +23,7 @@ export class ProfilePassword extends Block {
             old_password_error: () => this.props.store.getState().passwordFormData.errors.old_password,
             password_error: () => this.props.store.getState().passwordFormData.errors.password,
             password_repeat_error: () => this.props.store.getState().passwordFormData.errors.password_repeat,
+            status: () => this.props.store.getState().passwordFormData.status,
         });
     }
 
@@ -92,7 +93,11 @@ export class ProfilePassword extends Block {
                               label="Повторите пароль"
                               style="signUp"
                               onChange=onChange}}}
+            {{#if status}}{{{ImageButton link="/profile" onClick=onBackArrowClick
+                                         style="done" src="img/like-1(32x32)@1x.png"}}}
+            {{else}}
                 {{{Button text="Сохранить" onClick=onClick}}}
+            {{/if}}
             </div>
             </main>
         `;

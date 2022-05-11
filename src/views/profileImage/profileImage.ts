@@ -2,7 +2,6 @@ import Block from '../../core/Block';
 import { withRouter, withStore } from '../../utils';
 import { BrowserRouter } from '../../core/Route';
 import { Store } from '../../core/Store';
-import { getProfileInfo } from '../../services/AuthService';
 import { updateProfileAvatar } from '../../services/ProfileService';
 
 type ProfileImagePageProps = {
@@ -14,7 +13,8 @@ export class ProfileImage extends Block {
     constructor(props: ProfileImagePageProps) {
         super(props);
         this.setProps({
-            filename: () => this.props.store.getState().file?.name,
+            filename: () => this.props.store.getState().profileImageFormData.file?.name,
+            status: () => this.props.store.getState().profileImageFormData.status,
             onBackArrowClick: () => this.props.router.go('/profile-settings'),
         });
     }
@@ -23,17 +23,13 @@ export class ProfileImage extends Block {
         this.state = {
             onChange: () => {
                 const file = document.getElementById('inputFile')!.files![0];
-                this.props.store.dispatch({ file });
+                this.props.store.dispatch({profileImageFormData:{ file }});
             },
             onClick: () => {
-                const { file } = this.props.store.getState();
+                const { file } = this.props.store.getState().profileImageFormData;
                 file && this.props.store.dispatch(updateProfileAvatar, file);
             },
         };
-    }
-
-    componentDidMount() {
-        this.props.store.dispatch(getProfileInfo);
     }
 
     render() {
@@ -42,8 +38,11 @@ export class ProfileImage extends Block {
             <main> 
             <div class="profile__image__box">
                 {{{BackArrow onClick=onBackArrowClick}}}
-                {{{InputFile onChange=onChange filename=filename}}} 
-                {{{Button text="Сохранить" onClick=onClick}}}
+                {{{InputFile onChange=onChange filename=filename}}}
+                {{#if status}}{{{ImageButton link="/profile-settings" onClick=onBackArrowClick
+                                 style="done" src="img/like-1(32x32)@1x.png"}}}
+                    {{else}}{{{Button text="Сохранить" onClick=onClick}}}
+                {{/if}}
             </div>
             </main>
         `;

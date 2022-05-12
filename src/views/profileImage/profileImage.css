@@ -20,8 +20,8 @@
     margin-top: 20px;
   }
 
-   &__input {
-        background: var(--button-text-color);
-        box-shadow: 0 0 2px rgb(0 0 0 / 25%);
-    }
+  &__input {
+    background: var(--button-text-color);
+    box-shadow: 0 0 2px rgb(0 0 0 / 25%);
+  }
 }

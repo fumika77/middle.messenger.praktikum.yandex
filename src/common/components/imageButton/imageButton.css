@@ -1,16 +1,17 @@
 .imageButton {
   display: block;
 }
+
 .logout__button {
   right: 2%;
   position: absolute;
 }
 
-.add__contact__button{
+.add__contact__button {
   right: 6%;
   position: absolute;
 }
 
-.done{
+.done {
   margin-top: 10px;
 }

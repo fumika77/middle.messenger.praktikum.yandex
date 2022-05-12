@@ -31,7 +31,7 @@ export class AddUserChat extends Block {
                 this.props.store.dispatch({
                     addUserFormData: {
                         ...this.props.store.getState().addUserFormData,
-                        userLogin: userLogin,
+                        userLogin,
                     },
                 });
             },
@@ -45,8 +45,8 @@ export class AddUserChat extends Block {
     }
 
     render() {
-        const user = this.props.store.getState().addUserFormData.user;
-        //console.log(this.props.store.getState().addUserFormData?.user)
+        const {user} = this.props.store.getState().addUserFormData;
+        // console.log(this.props.store.getState().addUserFormData?.user)
         // language=hbs
         return `
             <main> 

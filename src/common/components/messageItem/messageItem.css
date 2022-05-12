@@ -9,11 +9,11 @@
     right: 2%;
     padding: 10px;
     margin: 5px;
-   }
+  }
 
-   &__item__other{
-        background: var(--button-background-color);
-        left: 2%;
-        align-self: flex-start;
-    }
+  &__item__other {
+    background: var(--button-background-color);
+    left: 2%;
+    align-self: flex-start;
+  }
 }

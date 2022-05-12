@@ -83,7 +83,7 @@ export class ProfileSettings extends Block {
 
     render() {
         const errors = { ...this.props.store.getState().userErrors };
-        const avatar = this.props.store.getState().user.avatar;
+        const {avatar} = this.props.store.getState().user;
         // language=hbs
         return `
             <main>

@@ -4,7 +4,6 @@ import { withStore, withRouter } from '../../utils';
 import { BrowserRouter } from '../../core/Route';
 import { Store } from '../../core/Store';
 import { getProfileInfo, signUp } from '../../services/AuthService';
-import { getChats } from '../../services/ChatService';
 
 type SignUpPageProps = {
     router: BrowserRouter;
@@ -27,13 +26,15 @@ export class SignUp extends Block {
             password_repeat: () => this.props.store.getState().signUpFormData.user.password_repeat,
         });
     }
+
     componentDidMount() {
         this.props.store.dispatch(getProfileInfo);
         if (!this.props.store.getState().user.id === null) {
             this.props.router.go('/dialogs');
-            return;
+            
         }
     }
+
     protected getStateFromProps() {
         this.state = {
             updateSignUpData: () => {

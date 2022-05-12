@@ -7,7 +7,6 @@ export class ChatWebSocket{
     private __activeSocket
     private __timerId
     constructor() {
-        console.log('создается сокет')
         if (ChatWebSocket.__instance) {
             return ChatWebSocket.__instance;
         }
@@ -52,10 +51,11 @@ export class ChatWebSocket{
     }
 
     public setActive(chatId: number){
+        if (this.__activeSocket){
+            this.cancelKeepAlive();
+            this.__activeSocket.disconnect();
+        }
         if (this.__socketMap[chatId]){
-            if (this.__activeSocket) {
-                this.cancelKeepAlive();
-            }
             this.__activeSocket = this.__socketMap[chatId];
             this.keepAlive()
             this.getHistory()

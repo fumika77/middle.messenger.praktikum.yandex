@@ -11,6 +11,7 @@ declare global {
         loginFormError: Nullable<string>;
         userErrorRequest: Nullable<string>;
         createChatFormError: Nullable<string>;
+        loadUserDataError: string;
         user: Nullable<User>;
         userError:Nullable<User>;
         signUpFormData: {

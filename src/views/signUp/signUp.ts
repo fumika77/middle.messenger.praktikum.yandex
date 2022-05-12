@@ -3,7 +3,7 @@ import { IError, Validation } from '../../utils/validation';
 import { withStore, withRouter } from '../../utils';
 import { BrowserRouter } from '../../core/Route';
 import { Store } from '../../core/Store';
-import { getProfileInfo, signUp } from '../../services/AuthService';
+import { signUp } from '../../services/AuthService';
 
 type SignUpPageProps = {
     router: BrowserRouter;
@@ -28,10 +28,8 @@ export class SignUp extends Block {
     }
 
     componentDidMount() {
-        this.props.store.dispatch(getProfileInfo);
         if (!this.props.store.getState().user.id === null) {
             this.props.router.go('/dialogs');
-            
         }
     }
 
@@ -39,17 +37,17 @@ export class SignUp extends Block {
         this.state = {
             updateSignUpData: () => {
                 const signUpData = {
-                    login: (document.getElementById('login') as HTMLInputElement)?.value,
-                    first_name: (document.getElementById('first_name') as HTMLInputElement)?.value,
-                    second_name: (document.getElementById('second_name') as HTMLInputElement)?.value,
-                    password: (document.getElementById('password') as HTMLInputElement)?.value,
-                    password_repeat: (document.getElementById('password_repeat') as HTMLInputElement)?.value,
-                    email: (document.getElementById('email') as HTMLInputElement)?.value,
-                    phone: (document.getElementById('phone') as HTMLInputElement)?.value,
+                    login: (document.getElementById('loginSignUp') as HTMLInputElement)?.value,
+                    first_name: (document.getElementById('first_nameSignUp') as HTMLInputElement)?.value,
+                    second_name: (document.getElementById('second_nameSignUp') as HTMLInputElement)?.value,
+                    password: (document.getElementById('passwordSignUp') as HTMLInputElement)?.value,
+                    password_repeat: (document.getElementById('password_repeatSignUp') as HTMLInputElement)?.value,
+                    email: (document.getElementById('emailSignUp') as HTMLInputElement)?.value,
+                    phone: (document.getElementById('phoneSignUp') as HTMLInputElement)?.value,
                 };
                 const validationResults: { [id: string]: IError } = Validation({ ...signUpData });
                 const nextState = {
-                    errors: {
+                    userErrors: {
                         login: validationResults.login.status ? '' : validationResults.login.errorText,
                         first_name: validationResults.first_name.status ? '' : validationResults.first_name.errorText,
                         second_name: validationResults.second_name.status
@@ -62,31 +60,14 @@ export class SignUp extends Block {
                         email: validationResults.email.status ? '' : validationResults.email.errorText,
                         phone: validationResults.phone.status ? '' : validationResults.phone.errorText,
                     },
-                    values: { ...signUpData },
-                    hasError:
-                        !validationResults.login.status &&
-                        !validationResults.first_name.status &&
-                        !validationResults.second_name.status &&
-                        !validationResults.password.status &&
-                        !validationResults.password_repeat.status &&
-                        !validationResults.email.status &&
-                        !validationResults.phone.status,
+                    user: { ...signUpData },
                 };
-
-                this.props.store.dispatch({
-                    signUpFormData: {
-                        user: {
-                            ...nextState.values,
-                        },
-                        userErrors: {
-                            ...nextState.errors,
-                        },
-                    },
-                });
+                this.props.store.dispatch({signUpFormData: {...nextState}});
             },
             onSignUpButtonClick: () => {
                 this.state.updateSignUpData();
-                if (!this.props.store.getState().signUpFormData.userErrors.hasError) {
+                const {userErrors} =  this.props.store.getState().signUpFormData;
+                if ((Object.keys(userErrors).find((key) => userErrors[key] !== '') == null) ) {
                     this.props.store.dispatch(signUp, this.props.store.getState().signUpFormData.user);
                 }
             },
@@ -106,49 +87,49 @@ export class SignUp extends Block {
                 <div class="signUp__box">
                     <div class="signUp__formBox">
                         <h1 class="header && text">Регистрация</h1>
-                        {{{InputLabel id="first_name"
+                        {{{InputLabel id="first_nameSignUp"
                                       type="text"
                                       value="${values.first_name}"
                                       error="${errors.first_name}"
                                       label="Имя"
                                       style="signUp"
                                       onChange=onChange}}}
-                        {{{InputLabel id="second_name"
+                        {{{InputLabel id="second_nameSignUp"
                                       type="text"
                                       value="${values.second_name}"
                                       error="${errors.second_name}"
                                       label="Фамилия"
                                       style="signUp"
                                       onChange=onChange}}}
-                        {{{InputLabel id="login"
+                        {{{InputLabel id="loginSignUp"
                                       type="text"
                                       value="${values.login}"
                                       error="${errors.login}"
                                       label="Логин"
                                       style="signUp"
                                       onChange=onChange}}}
-                        {{{InputLabel id="password"
+                        {{{InputLabel id="passwordSignUp"
                                       type="password"
                                       value="${values.password}"
                                       error="${errors.password}"
                                       label="Пароль"
                                       style="signUp"
                                       onChange=onChange}}}
-                        {{{InputLabel id="password_repeat"
+                        {{{InputLabel id="password_repeatSignUp"
                                       type="password"
                                       value="${values.password_repeat}"
                                       error="${errors.password_repeat}"
                                       label="Повторите пароль"
                                       style="signUp"
                                       onChange=onChange}}}
-                        {{{InputLabel id="email"
+                        {{{InputLabel id="emailSignUp"
                                       type="text"
                                       value="${values.email}"
                                       error="${errors.email}"
                                       label="Почта"
                                       style="signUp"
                                       onChange=onChange}}}
-                        {{{InputLabel id="phone"
+                        {{{InputLabel id="phoneSignUp"
                                       type="number"
                                       value="${values.phone}"
                                       error="${errors.phone}"

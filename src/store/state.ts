@@ -6,6 +6,7 @@ export const defaultState: AppState = {
     profileSettingsFormError: "",
     createChatFormError: "",
     signUpFormError: "",
+    loadUserDataError:"",
     signUpFormData:{
         user: {
             login: '',
@@ -97,6 +98,7 @@ export const defaultState: AppState = {
         values: {
             password: '',
             login: '',
-        }
+        },
+        hasError: null,
     }
 }

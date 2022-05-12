@@ -17,6 +17,7 @@ export class DialogItem extends Block {
         const link = (props.avatar!=='null') ? `https://ya-praktikum.tech/api/v2/resources/${props.avatar}` : 'img/user(144x144)@1x.png';
         super({ ...props, link
             , events: { click: () => {
+                console.log('click dialogItem ', this.props.title)
                     this.props.store.dispatch({ dialogsFormData: {...this.props.store.getState().dialogsFormData, history: []} });
                     this.props.store.dispatch({
                         dialogsFormData: {

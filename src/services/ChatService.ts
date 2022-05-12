@@ -67,7 +67,7 @@ export const getChats = async (
 
 const saveHistoryData = async (dispatch: Dispatch<AppState>, state: AppState, data: MessageDTO[]|MessageDTO) =>  {
     const history: Message[] = state.dialogsFormData.history;
-    const userId = state.user.id;
+    const userId = state.user?.id;
     if (Array.isArray(data)){
         data?.forEach(data => {
             const message = transformMessage(data, userId)
@@ -79,7 +79,7 @@ const saveHistoryData = async (dispatch: Dispatch<AppState>, state: AppState, da
     }
     await Promise.all(history?.map(async (message) => {
         const id = message.userId;
-        if (id&&message.isOtherUser){
+        if (id && message.isOtherUser){
             const responseUser = await UserAPI.getUserById({id});
             if (hasError(responseUser)) {
                 dispatch({ dialogsFormData: {...state.dialogsFormData, dialogsError: responseUser.reason} });
@@ -97,7 +97,7 @@ export const initChatWebSocket = async (
     payload: initWebSocketRequest,
 ) => {
     const chatId = state.dialogsFormData.activeDialog.id;
-    const userId = state.user.id;
+    const userId = state.user?.id;
     const request = {
         id: chatId
     }

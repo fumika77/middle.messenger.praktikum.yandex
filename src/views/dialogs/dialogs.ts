@@ -28,15 +28,18 @@ export class Dialogs extends Block {
             activeDialogTitle: () => this.props.store.getState().dialogsFormData?.activeDialog?.title,
             message: () => this.props.store.getState().dialogsFormData?.message,
             messageError: () => this.props.store.getState().dialogsFormData?.messageError,
+            avatar: () => this.props.store.getState().user?.avatar,
         });
     }
 
     componentDidMount() {
         this.props.store.dispatch(getProfileInfo);
-        if (this.props.store.getState().user.id === null) {
-            this.props.router.go('/login');
-            return;
-        }
+        setTimeout(() => {
+            if (this.props.store.getState().user?.id === null) {
+                this.props.router.go('/login');
+                return;
+            }
+        }, 100);
         this.props.store.dispatch(getChats);
     }
 
@@ -87,10 +90,12 @@ export class Dialogs extends Block {
                     <div class="dialogs__sidebar">
                         <div class="dialogs__profile__box">
                             <div>
+                            {{#if avatar}}
                                 {{{Avatar style="dialogs__profile__box__img"
                                           src="${avatar}"}}}
                                 {{{ImageButton link="/profile" onClick=onProfileButtonClick
                                                src="img/profile-edit(32x32)@1x.png"}}}
+                            {{/if}}
                             </div>
                             <div style="display: flex">
                                 {{{Input style="dialogs__search"

@@ -35,14 +35,12 @@ export const login = async (
 
     dispatch({ loginFormError: null });
 
-    getProfileInfo(dispatch, state, payload)
+    getProfileInfo(dispatch, state)
 
     if (hasError(response)) {
         dispatch(logout);
         return;
     }
-
-    window.router.go('/dialogs');
 };
 
 export const logout = async (dispatch: Dispatch<AppState>) => {
@@ -71,6 +69,10 @@ export const getProfileInfo = async (
     dispatch: Dispatch<AppState>,
     state: AppState,
 ) => {
-    const responseUser = await AuthAPI.profileInfo();
-    dispatch({ user: transformUser(JSON.parse(responseUser)  as User) });
+        const responseUser = await AuthAPI.profileInfo()
+        if (hasError(JSON.parse(responseUser))) {
+            dispatch({ loadUserDataError: responseUser.reason} );
+            return;
+        }
+        dispatch({ user: transformUser(JSON.parse(responseUser)  as User) });
 };

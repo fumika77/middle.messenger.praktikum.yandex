@@ -36,7 +36,7 @@ function queryStringify(data: { [key: string]: any }) {
 
 export class Base {
     public get (url: string, options: IRequestOptions) {
-        return this.request(url, { ...options, method: EMethods.GET }, options.timeout);
+        return this.request(url, { ...options, method: EMethods.GET }, options.timeout).catch((err) => console.log(err));
 }
     public post (url: string, options: IRequestOptions) {
         return this.request(url, { ...options, method: EMethods.POST }, options.timeout);
@@ -60,12 +60,10 @@ export class Base {
             }
 
             xhr.onload = function () {
-              //  resolve(JSON.parse(xhr.response));
                 resolve(xhr.response);
             };
             xhr.withCredentials = true;
             xhr.onabort = reject;
-            xhr.onerror = reject;
 
             xhr.timeout = timeout;
             xhr.ontimeout = reject;

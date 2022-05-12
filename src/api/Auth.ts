@@ -5,7 +5,7 @@ class Auth extends Base{
 
     public login(data){
         return super.post(this.baseUrl + '/signin',{data: {...data}} ).then((response) => {
-            return JSON.parse(response);
+            return response == 'OK'? response : JSON.parse(response);
         })
     }
 

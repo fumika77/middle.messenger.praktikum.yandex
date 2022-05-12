@@ -21,14 +21,15 @@ class Login extends Block {
             formError: () => this.props.store.getState().loginFormError,
             isLoading: () => Boolean(this.props.store.getState().isLoading),
             onSignUpClick: () => this.props.router.go('/sign-up'),
+            onSignInClick: () => this.props.router.go('/dialogs'),
         });
     }
 
     componentDidMount() {
-        this.props.store.dispatch(getProfileInfo);
+        this.props.store.dispatch(getProfileInfo)
         setTimeout(() => {
-            if (this.props.store.getState().user.id) {
-                this.props.router.go('/dialogs');
+            if (this.props.store.getState().user?.id) {
+                this.props.onSignInClick();
             }
         }, 100);
     }
@@ -36,18 +37,18 @@ class Login extends Block {
     protected getStateFromProps() {
         this.state = {
             values: {
-                login: '',
-                password: '',
+                login: this.props.store.getState().loginData.values.login,
+                password: this.props.store.getState().loginData.values.password,
             },
             errors: {
-                login: '',
-                password: '',
+                login: this.props.store.getState().loginData.errors.login,
+                password: this.props.store.getState().loginData.errors.password,
             },
-            hasError: null,
+            hasError:  this.props.store.getState().loginData.hasError,
             updateLoginData: () => {
                 const loginData: ILoginData = {
-                    login: (document.getElementById('login') as HTMLInputElement)?.value,
-                    password: (document.getElementById('password') as HTMLInputElement)?.value,
+                    login: (document.getElementById('loginLogin') as HTMLInputElement)?.value,
+                    password: (document.getElementById('passwordLogin') as HTMLInputElement)?.value,
                 };
 
                 const validationResults: { [id: string]: IError } = Validation({ ...loginData });
@@ -59,13 +60,15 @@ class Login extends Block {
                     values: { ...loginData },
                     hasError: !validationResults.login.status && !validationResults.password.status,
                 };
-                this.setState(nextState);
+                this.props.store.dispatch({loginData: {...nextState}});
             },
             onLogin: () => {
                 this.state.updateLoginData();
-                console.log('loginData', this.state.values);
                 if (!this.state.hasError) {
-                    this.props.store.dispatch(login, this.state.values);
+                    this.props.store.dispatch(login, this.props.store.getState().loginData.values);
+                    if (!this.props.store.getState().loginFormError) {
+                        this.props.onSignInClick();
+                    }
                 }
             },
             onChange: () => {
@@ -75,14 +78,14 @@ class Login extends Block {
     }
 
     render() {
-        const { values, errors } = this.state;
+        const { values, errors } = this.props.store.getState().loginData;
 
         // language=hbs
         return `
         <main>
             <div class="login">
                 <img class="login__img" src="img/user(144x144)@1x.png" alt="login">
-                {{{InputLabel id="login"
+                {{{InputLabel id="loginLogin"
                               value="${values.login}"
                               error="${errors.login}"
                               style="login"
@@ -90,7 +93,7 @@ class Login extends Block {
                               type="text"
                               onChange=onChange
                 }}}
-                {{{InputLabel id="password"
+                {{{InputLabel id="passwordLogin"
                               value="${values.password}"
                               error="${errors.password}"
                               style="login"
@@ -99,7 +102,7 @@ class Login extends Block {
                               onChange=onChange
                 }}}
                 {{{ Button text="Войти" link="/dialogs" onClick=onLogin}}}
-                {{#if this.props.formError}}{{{ ErrorText errorText = this.props.formError}}}{{/if}}
+                {{#if formError}}{{{ ErrorText errorText = formError}}}{{/if}}
                 {{{Link link="/sign-up" style="textLink"  text="Нет аккаунта?" onClick=onSignUpClick}}}
             </div>
         </main>

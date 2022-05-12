@@ -18,6 +18,10 @@ declare global {
                 user: User;
                 userErrors:Nullable<User>;
         },
+        profileSettingsFormData: {
+                user: User;
+                userErrors:Nullable<User>;
+        },
         dialogsFormData: {
             dialogsError: string,
             dialogs: Dialog[],
@@ -34,6 +38,10 @@ declare global {
             status?: Nullable<boolean>
             errorDescription?: Nullable<string>
             file: Nullable<File>
+        }
+        createChatFormData:{
+            status?: Nullable<boolean>
+            errorDescription?: Nullable<string>
         }
         passwordFormData:{
             values: {

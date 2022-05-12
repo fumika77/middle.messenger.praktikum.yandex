@@ -1,6 +1,5 @@
 import Block from '../../../core/Block';
-import {withRouter, withStore} from "../../../utils";
-import {AddUserChat} from "../../../views/addUserChat/createChat";
+import {withStore} from "../../../utils";
 import {Store} from "../../../core/Store";
 import {initChatWebSocket} from "../../../services/ChatService";
 
@@ -14,14 +13,13 @@ interface DialogItemProps {
 
 export class DialogItem extends Block {
     constructor(props: DialogItemProps) {
-        const link = (props.avatar!=='null') ? `https://ya-praktikum.tech/api/v2/resources/${props.avatar}` : 'img/user(144x144)@1x.png';
+        const link = (props.avatar!==undefined) ? `${process.env.API_ENDPOINT}/resources/${props.avatar}` : 'img/user(144x144)@1x.png';
         super({ ...props, link
             , events: { click: () => {
-                console.log('click dialogItem ', this.props.title)
-                    this.props.store.dispatch({ dialogsFormData: {...this.props.store.getState().dialogsFormData, history: []} });
                     this.props.store.dispatch({
                         dialogsFormData: {
                              ...this.props.store.getState().dialogsFormData,
+                            history: [],
                             activeDialog: {
                                 id: this.props.id,
                                 title: this.props.title,

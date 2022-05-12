@@ -4,13 +4,13 @@ class Auth extends Base{
     private baseUrl = 'auth';
 
     public login(data){
-        return super.post(this.baseUrl + '/signin',{data: {...data}} ).then((response) => {
+        return super.post(this.baseUrl + '/signin',{data} ).then((response) => {
             return response == 'OK'? response : JSON.parse(response);
         })
     }
 
     public signUp(data){
-        return super.post(this.baseUrl + '/signup',{data: {...data}} ).then((response) => {
+        return super.post(this.baseUrl + '/signup',{data} ).then((response) => {
             return JSON.parse(response);
         })
     }

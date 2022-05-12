@@ -50,7 +50,7 @@ export class Base {
     }
 
     private request (url: string, options: IRequestOptions, timeout = 5000) {
-            const host = 'https://ya-praktikum.tech/api/v2/';
+            const host = `${process.env.API_ENDPOINT}/`;
            return new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();
             if (options.method === EMethods.GET && options.data) {

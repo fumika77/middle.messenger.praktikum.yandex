@@ -24,7 +24,7 @@ class Chats extends Base{
 
     public addChatUser(data: ModifyChatUserRequest){
         return super.put(this.baseUrl + '/users',{data: {...data}} ).then((response) => {
-            return JSON.parse(response);
+            return response == 'OK'? response : JSON.parse(response);
         })
     }
 

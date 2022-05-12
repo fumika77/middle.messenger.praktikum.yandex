@@ -3,11 +3,6 @@ export const initWebSocket = (userId: number, chatId: number, token: string) => 
 
     socket.addEventListener('open', () => {
         console.log('Соединение установлено');
-
-        // socket.send(JSON.stringify({
-        //     content: 'Моё первое сообщение миру!',
-        //     type: 'message',
-        // }));
     });
 
     socket.addEventListener('close', event => {

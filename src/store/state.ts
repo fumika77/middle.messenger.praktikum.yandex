@@ -27,6 +27,24 @@ export const defaultState: AppState = {
             password_repeat: '',
         }
     },
+    profileSettingsFormData:{
+        user: {
+            login: '',
+            first_name: '',
+            second_name: '',
+            email: '',
+            phone: '',
+            display_name: '',
+        },
+        userErrors:{
+            login: '',
+            first_name: '',
+            second_name: '',
+            email: '',
+            phone: '',
+            display_name: '',
+        }
+    },
     dialogsFormData: {
         dialogsError: "",
         dialogs: [],

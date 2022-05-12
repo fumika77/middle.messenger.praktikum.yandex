@@ -20,6 +20,7 @@ export class ProfileDescription extends Block {
             },
             onBackArrowClick: () => this.props.router.go('/dialogs'),
             onEditPasswordClick: () => this.props.router.go('/profile-password'),
+            avatar: () => this.props.store.getState().user?.avatar,
         });
     }
 
@@ -34,7 +35,7 @@ export class ProfileDescription extends Block {
             <main>
             <div class="profile__box">
                 {{{ BackArrow link="/dialogs" onClick=onBackArrowClick}}}
-                {{{ Avatar style="profileImg" src="${userData.avatar}"}}}
+                {{#if avatar}}{{{ Avatar style="profileImg" src="${userData.avatar}"}}}{{/if}}
                 <h1 class="profile__description__header && text">${userData.first_name}</h1>
                 <div class="profile__description__formData">
                     {{{InputLabel ref="first_name" 

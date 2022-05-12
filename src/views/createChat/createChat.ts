@@ -17,7 +17,8 @@ export class CreateChat extends Block {
             onBackArrowClick: () => this.props.router.go('/dialogs'),
             chatName: () => this.props.store.getState().createChatFormData.values.chatName,
             chatNameError: () => this.props.store.getState().createChatFormData.errors.chatName,
-            chatFormError: () => this.props.store.getState().createChatFormError,
+            status: () => this.props.store.getState().createChatFormData.status,
+            errorDescription: () => this.props.store.getState().createChatFormData.errorDescription,
         });
     }
 
@@ -39,7 +40,6 @@ export class CreateChat extends Block {
             onClick: () => {
                 this.state.updateFormData();
                 if (this.props.chatNameError() === '') {
-                    console.log('Создается чат ', this.props.chatName());
                     this.props.store.dispatch(createChat, { title: this.props.chatName() });
                 }
             },
@@ -63,6 +63,8 @@ export class CreateChat extends Block {
                               style="signUp"
                               onChange=onChange}}}
                 {{{Button text="Добавить" onClick=onClick}}}
+                    {{#if status}}<div>Успешно</div>{{/if}}
+                    {{#if errorDescription}}<div>{{{errorDescription}}}</div>{{/if}}
                 {{{ErrorText text=chatFormError}}}
             </div>
             </main>

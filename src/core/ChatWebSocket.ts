@@ -20,7 +20,7 @@ export class ChatWebSocket{
         if (this.__socketMap[chatId]) {
             return;
         }
-        const socket = this.__socketMap[chatId] = new WebSocket(`wss://ya-praktikum.tech/ws/chats/${userId}/${chatId}/${token}`);
+        const socket = this.__socketMap[chatId] = new WebSocket(`${process.env.SOCKET_ENDPOINT}/${userId}/${chatId}/${token}`);
         const saveMessageData =saveHistoryData.bind(null, dispatch,state);
         socket.addEventListener('open', () => {
             console.log('Соединение установлено');
@@ -53,7 +53,6 @@ export class ChatWebSocket{
     public setActive(chatId: number){
         if (this.__activeSocket){
             this.cancelKeepAlive();
-            this.__activeSocket.disconnect();
         }
         if (this.__socketMap[chatId]){
             this.__activeSocket = this.__socketMap[chatId];
@@ -93,7 +92,7 @@ export class ChatWebSocket{
         setTimeout(() => this.__activeSocket.send(JSON.stringify({
             content: '0',
             type: 'get old',
-        })), 120);
+        })), 100);
     }
 
 }

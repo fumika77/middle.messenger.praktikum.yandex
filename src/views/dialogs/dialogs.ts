@@ -26,6 +26,7 @@ export class Dialogs extends Block {
             dialogs: () => this.props.store.getState().dialogsFormData.dialogs,
             dialogHistory: () => this.props.store.getState().dialogsFormData.history,
             activeDialogTitle: () => this.props.store.getState().dialogsFormData?.activeDialog?.title,
+            activeDialogAvatar: () => this.props.store.getState().dialogsFormData?.activeDialog?.avatar,
             message: () => this.props.store.getState().dialogsFormData?.message,
             messageError: () => this.props.store.getState().dialogsFormData?.messageError,
             avatar: () => this.props.store.getState().user?.avatar,
@@ -79,9 +80,11 @@ export class Dialogs extends Block {
             <main>
                 <div class="dialogs__wrapper">
                     <div class="dialogs__header">
-                        {{#if activeDialogTitle}}
+                        {{#if activeDialogAvatar}}
                             {{{Avatar style="dialogs__item__img"
                                    src="${activeDialog?.avatar}"}}}
+                        {{/if}} 
+                        {{#if activeDialogTitle}}
                             <div class="dialogs__header__person__name && text">${activeDialog?.title}</div>
                             {{{ImageButton style="add__contact__button" src="img/user-add(40x40)@1x.png" onClick=onAddUserButtonClick}}}
                         {{/if}}
@@ -98,8 +101,8 @@ export class Dialogs extends Block {
                             {{/if}}
                             </div>
                             <div style="display: flex">
-                                {{{Input style="dialogs__search"
-                                         ref="search"
+                                {{{InputLabel id="searchValue"
+                                         style="dialogs__search"
                                          placeholder="Поиск"
                                          type="text"
                                          value="${values.searchValue}"}}}

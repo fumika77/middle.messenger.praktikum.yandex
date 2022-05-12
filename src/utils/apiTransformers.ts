@@ -28,13 +28,13 @@ export const transformDialog = (data: DialogDTO): Dialog => {
     return {
         id: data.id,
         title: data.title,
-        avatar: data.avatar? data.avatar : data.last_message.user.avatar,
+        avatar: data.avatar? data.avatar : data.last_message?.user?.avatar,
         unreadCnt: data.unread_count,
-        content: data.last_message.content,
-        userLogin: data.last_message.user.login,
-        userAvatar: data.last_message.user.avatar,
-        time: new Date(data.last_message.time),
-        timeString:new Date(data.last_message.time).toLocaleDateString() +' '+ new Date(data.last_message.time).toLocaleTimeString(),
+        content: data.last_message?.content,
+        userLogin: data.last_message?.user?.login,
+        userAvatar: data.last_message?.user?.avatar,
+        time: new Date(data.last_message?.time),
+        timeString:new Date(data.last_message?.time).toLocaleDateString() +' '+ new Date(data.last_message?.time).toLocaleTimeString(),
     };
 };
 

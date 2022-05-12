@@ -27,25 +27,26 @@ export class ProfileSettings extends Block {
         });
     }
 
-    componentDidMount() {
-        this.props.store.dispatch(getProfileInfo);
-    }
-
     protected getStateFromProps() {
+        const avatar = this.props.store.getState().user?.avatar;
         this.state = {
             updateProfileSettingsData: () => {
                 const profileSettingsData = {
-                    login: (document.getElementById('login') as HTMLInputElement)?.value,
-                    first_name: (document.getElementById('first_name') as HTMLInputElement)?.value,
-                    second_name: (document.getElementById('second_name') as HTMLInputElement)?.value,
-                    display_name: (document.getElementById('display_name') as HTMLInputElement)?.value,
-                    email: (document.getElementById('email') as HTMLInputElement)?.value,
-                    phone: (document.getElementById('phone') as HTMLInputElement)?.value,
+                    login: (document.getElementById('loginProfileSetting') as HTMLInputElement)?.value,
+                    first_name: (document.getElementById('firstNameProfileSetting') as HTMLInputElement)?.value,
+                    second_name: (document.getElementById('secondNameProfileSetting') as HTMLInputElement)?.value,
+                    display_name: (document.getElementById('displayNameProfileSetting') as HTMLInputElement)?.value,
+                    email: (document.getElementById('emailProfileSetting') as HTMLInputElement)?.value,
+                    phone: (document.getElementById('phoneProfileSetting') as HTMLInputElement)?.value,
                 };
 
                 const validationResults: { [id: string]: IError } = Validation({ ...profileSettingsData });
-                const nextState = {
-                    errors: {
+                this.props.store.dispatch({
+                    user: {
+                        ...profileSettingsData,
+                        avatar: avatar,
+                    },
+                    userErrors: {
                         login: validationResults.login.status ? '' : validationResults.login.errorText,
                         first_name: validationResults.first_name.status ? '' : validationResults.first_name.errorText,
                         second_name: validationResults.second_name.status
@@ -57,22 +58,15 @@ export class ProfileSettings extends Block {
                         email: validationResults.email.status ? '' : validationResults.email.errorText,
                         phone: validationResults.phone.status ? '' : validationResults.phone.errorText,
                     },
-                    values: { ...profileSettingsData },
-                };
-
-                this.props.store.dispatch({
-                    user: {
-                        ...nextState.values,
-                    },
-                    userErrors: {
-                        ...nextState.errors,
-                    },
                 });
             },
             onClick: () => {
                 this.state.updateProfileSettingsData();
-                if (Object.keys(this.state.errors).find((key) => this.state.errors[key] !== '') == null) {
-                    this.props.store.dispatch(updateProfileInfo, this.props.store.getState().user);
+                const errors = this.props.store.getState().userErrors;
+                if (Object.keys(errors).find((key) => errors[key] !== '') == null) {
+                    const request = {...this.props.store.getState().user};
+                    delete request.avatar;
+                    this.props.store.dispatch(updateProfileInfo, request);
                 }
             },
             onChange: () => {
@@ -93,47 +87,47 @@ export class ProfileSettings extends Block {
                     {{{ImageButton style="profile__settings__editImg" src="img/image-edit(40x40)@1x.png" onClick=onEditImageClick}}}
                     <h1 class="profile__settings__header && text">Настройки профиля</h1>
                     <div class="profile__settings__formData">
-                        {{{InputLabel id="first_name" 
-                                      type="text" 
+                        {{{InputLabel id="firstNameProfileSetting"
+                                      type="text"
                                       value=first_name
                                       error="${errors.first_name}"
                                       onChange=onChange
-                                      label="Имя"  
+                                      label="Имя"
                                       style="profile"}}}
-                        {{{InputLabel id="second_name" 
-                                      type="text" 
+                        {{{InputLabel id="secondNameProfileSetting"
+                                      type="text"
                                       value=second_name
                                       error="${errors.second_name}"
                                       onChange=onChange
-                                      label="Фамилия" 
+                                      label="Фамилия"
                                       style="profile"}}}
-                        {{{InputLabel id="login" 
-                                      type="text" 
+                        {{{InputLabel id="loginProfileSetting"
+                                      type="text"
                                       value=login
                                       error="${errors.login}"
                                       onChange=onChange
-                                      label="Логин"  
+                                      label="Логин"
                                       style="profile"}}}
-                        {{{InputLabel id="display_name" 
-                                      type="text" 
+                        {{{InputLabel id="displayNameProfileSetting"
+                                      type="text"
                                       value=display_name
                                       error="${errors.display_name}"
                                       onChange=onChange
-                                      label="Ник"  
+                                      label="Ник"
                                       style="profile"}}}
-                        {{{InputLabel id="email" 
-                                      type="text" 
+                        {{{InputLabel id="emailProfileSetting"
+                                      type="text"
                                       value=email
                                       error="${errors.email}"
                                       onChange=onChange
-                                      label="Почта"  
+                                      label="Почта"
                                       style="profile"}}}
-                        {{{InputLabel id="phone" 
-                                      type="number" 
+                        {{{InputLabel id="phoneProfileSetting"
+                                      type="number"
                                       value=phone
                                       error="${errors.phone}"
                                       onChange=onChange
-                                      label="Телефон"  
+                                      label="Телефон"
                                       style="profile"}}}
                         {{{Button text="Сохранить" onClick=onClick}}}
                         {{{ErrorText errorText=formError}}}

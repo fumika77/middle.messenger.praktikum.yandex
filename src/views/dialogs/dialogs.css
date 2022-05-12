@@ -9,6 +9,7 @@
     grid-template-rows: 100px 1fr 100px;
     grid-template-columns: 500px 1fr;
     min-height: 800px;
+     max-height:100%;
   }
 
   &__profile__box__img {

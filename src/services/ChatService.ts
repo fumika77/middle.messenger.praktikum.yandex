@@ -81,7 +81,6 @@ const saveHistoryData = async (dispatch: Dispatch<AppState>, state: AppState, da
         const id = message.userId;
         if (id&&message.isOtherUser){
             const responseUser = await UserAPI.getUserById({id});
-            console.log(responseUser)
             if (hasError(responseUser)) {
                 dispatch({ dialogsFormData: {...state.dialogsFormData, dialogsError: responseUser.reason} });
                 return;
@@ -109,7 +108,6 @@ export const initChatWebSocket = async (
         return;
     }
     const token = chatsResponse.token;
-
     //если сокета не существует
     if (!state.socket!.checkExist(chatId)){
         state.socket!.addSocket(userId, chatId, token, dispatch, state, saveHistoryData);

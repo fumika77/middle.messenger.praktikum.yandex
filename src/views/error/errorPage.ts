@@ -1,6 +1,5 @@
 import Block from '../../core/Block';
 import { withRouter, withStore } from '../../utils';
-import { ProfileSettings } from '../profileSettings/profileSettings';
 
 interface IErrorPageProps {
     errorNumber: number;

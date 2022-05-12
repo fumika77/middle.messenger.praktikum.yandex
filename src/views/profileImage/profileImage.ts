@@ -23,7 +23,7 @@ export class ProfileImage extends Block {
         this.state = {
             onChange: () => {
                 const file = document.getElementById('inputFile')!.files![0];
-                this.props.store.dispatch({profileImageFormData:{ file }});
+                this.props.store.dispatch({ profileImageFormData: { file } });
             },
             onClick: () => {
                 const { file } = this.props.store.getState().profileImageFormData;

@@ -9,7 +9,7 @@ export interface IRequestOptions {
     timeout?: number;
     method?: EMethods;
     data?: any;
-    headers?: { [key: string]: string };
+    headers?: Record<string, string>;
     retries?: number;
     file?: boolean;
 }

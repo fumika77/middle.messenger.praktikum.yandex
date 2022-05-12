@@ -1,5 +1,5 @@
 import Block from '../../core/Block';
-import { getProfileInfo, login, logout } from '../../services/AuthService';
+import { getProfileInfo, login } from '../../services/AuthService';
 import { IError, Validation } from '../../utils/validation';
 import { withRouter, withStore } from '../../utils';
 import { Store } from '../../core/Store';
@@ -26,9 +26,11 @@ class Login extends Block {
 
     componentDidMount() {
         this.props.store.dispatch(getProfileInfo);
-        if (this.props.store.getState().user.id) {
-            this.props.router.go('/dialogs');
-        }
+        setTimeout(() => {
+            if (this.props.store.getState().user.id) {
+                this.props.router.go('/dialogs');
+            }
+        }, 100);
     }
 
     protected getStateFromProps() {
@@ -74,6 +76,7 @@ class Login extends Block {
 
     render() {
         const { values, errors } = this.state;
+
         // language=hbs
         return `
         <main>

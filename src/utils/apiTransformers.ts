@@ -1,5 +1,4 @@
-import {MessageDTO, User} from '../api/types';
-import {Message} from "../services/ChatService";
+import {MessageDTO} from '../api/types';
 
 export const transformUser = (data: User): User => {
     return {

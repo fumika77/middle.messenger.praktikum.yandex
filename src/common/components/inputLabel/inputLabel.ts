@@ -5,7 +5,6 @@ interface InputLabelProps {
     type: 'text' | 'password' | 'email';
     id: string;
     placeholder?: string;
-    // value: string;
     value: string;
     error?: string;
     style: string;
@@ -15,8 +14,8 @@ interface InputLabelProps {
 }
 
 export class InputLabel extends Block {
-    constructor({ type, id, label, style, placeholder, value, error, disabled, onChange }: InputLabelProps) {
-        super({ type, id, label, style, placeholder, value, error, disabled, onChange, events: {} });
+    constructor(props: InputLabelProps) {
+        super({ props});
     }
 
     static componentName = 'InputLabel';

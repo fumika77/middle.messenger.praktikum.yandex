@@ -1,13 +1,13 @@
 import Block from '../../../core/Block';
 
 interface AvatarProps {
-    src: string;
+    src: Nullable<string>;
     style?: string;
 }
 
 export class Avatar extends Block {
     constructor({ src, style }: AvatarProps) {
-        const link = src? `https://ya-praktikum.tech/api/v2/resources/${src}` : null;
+        const link = (src!=='null') ? `https://ya-praktikum.tech/api/v2/resources/${src}` : 'img/user(144x144)@1x.png';
         super({ link, style, events: {} });
     }
 

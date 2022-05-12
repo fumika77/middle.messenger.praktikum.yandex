@@ -3,45 +3,39 @@ import { IError, Validation } from '../../utils/validation';
 import { withStore, withRouter } from '../../utils';
 import { BrowserRouter } from '../../core/Route';
 import { Store } from '../../core/Store';
-import { signUp } from '../../services/AuthService';
+import { getProfileInfo, signUp } from '../../services/AuthService';
+import { getChats } from '../../services/ChatService';
 
 type SignUpPageProps = {
     router: BrowserRouter;
     store: Store<AppState>;
-    formError?: () => string | null;
-    isLoading?: () => boolean;
 };
 
 export class SignUp extends Block {
     constructor(props: SignUpPageProps) {
         super(props);
         this.setProps({
-            formError: () => this.props.store.getState().loginFormError,
+            formError: () => this.props.store.getState().signUpFormError,
             isLoading: () => Boolean(this.props.store.getState().isLoading),
             onClick: () => this.props.router.go('/login'),
+            login: () => this.props.store.getState().signUpFormData.user.login,
+            first_name: () => this.props.store.getState().signUpFormData.user.first_name,
+            second_name: () => this.props.store.getState().signUpFormData.user.second_name,
+            email: () => this.props.store.getState().signUpFormData.user.email,
+            phone: () => this.props.store.getState().signUpFormData.user.phone,
+            password: () => this.props.store.getState().signUpFormData.user.password,
+            password_repeat: () => this.props.store.getState().signUpFormData.user.password_repeat,
         });
     }
-
+    componentDidMount() {
+        this.props.store.dispatch(getProfileInfo);
+        if (!this.props.store.getState().user.id === null) {
+            this.props.router.go('/dialogs');
+            return;
+        }
+    }
     protected getStateFromProps() {
         this.state = {
-            values: {
-                login: '',
-                first_name: '',
-                second_name: '',
-                password: '',
-                password_repeat: '',
-                email: '',
-                phone: '',
-            },
-            errors: {
-                login: '',
-                first_name: '',
-                second_name: '',
-                password: '',
-                password_repeat: '',
-                email: '',
-                phone: '',
-            },
             updateSignUpData: () => {
                 const signUpData = {
                     login: (document.getElementById('login') as HTMLInputElement)?.value,
@@ -78,12 +72,21 @@ export class SignUp extends Block {
                         !validationResults.phone.status,
                 };
 
-                this.setState(nextState);
+                this.props.store.dispatch({
+                    signUpFormData: {
+                        user: {
+                            ...nextState.values,
+                        },
+                        userErrors: {
+                            ...nextState.errors,
+                        },
+                    },
+                });
             },
             onSignUpButtonClick: () => {
                 this.state.updateSignUpData();
-                if (!this.state.hasError) {
-                    this.props.store.dispatch(signUp, this.state.values);
+                if (!this.props.store.getState().signUpFormData.userErrors.hasError) {
+                    this.props.store.dispatch(signUp, this.props.store.getState().signUpFormData.user);
                 }
             },
             onChange: () => {
@@ -93,7 +96,9 @@ export class SignUp extends Block {
     }
 
     render() {
-        const { errors, values } = this.state;
+        const errors = { ...this.props.store.getState().signUpFormData.userErrors };
+        const values = { ...this.props.store.getState().signUpFormData.user };
+
         // language=hbs
         return `
             <main>
@@ -151,6 +156,7 @@ export class SignUp extends Block {
                                       onChange=onChange
                         }}}
                         {{{Button text="Зарегистрироваться" onClick=onSignUpButtonClick}}}
+                        {{{ErrorText errorText=formError}}}
                         {{{Link class="textLink" text="Войти" link="/profile-settings" onClick=onClick}}}
                     </div>
                 </div>

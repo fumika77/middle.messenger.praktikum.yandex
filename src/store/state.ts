@@ -5,6 +5,27 @@ export const defaultState: AppState = {
     loginFormError: "",
     profileSettingsFormError: "",
     createChatFormError: "",
+    signUpFormError: "",
+    signUpFormData:{
+        user: {
+            login: '',
+            first_name: '',
+            second_name: '',
+            email: '',
+            phone: '',
+            password: '',
+            password_repeat: '',
+        },
+        userErrors:{
+            login: '',
+            first_name: '',
+            second_name: '',
+            email: '',
+            phone: '',
+            password: '',
+            password_repeat: '',
+        }
+    },
     dialogsFormData: {
         dialogsError: "",
         dialogs: [],

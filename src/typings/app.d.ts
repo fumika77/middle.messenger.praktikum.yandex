@@ -9,9 +9,14 @@ declare global {
         socket: Nullable<ChatWebSocket>;
         isLoading: boolean;
         loginFormError: Nullable<string>;
+        userErrorRequest: Nullable<string>;
         createChatFormError: Nullable<string>;
-        user: User;
+        user: Nullable<User>;
         userError:Nullable<User>;
+        signUpFormData: {
+                user: User;
+                userErrors:Nullable<User>;
+        },
         dialogsFormData: {
             dialogsError: string,
             dialogs: Dialog[],
@@ -43,6 +48,7 @@ declare global {
             status?: Nullable<boolean>
             errorDescription?: Nullable<string>
         }
+        signUpFormError: Nullable<string>,
         addUserFormData: any;
         profileSettingsFormError: string;
     }
@@ -54,7 +60,9 @@ declare global {
         email: string;
         phone: string;
         display_name?: string;
-        avatar: string;
+        avatar?: string;
+        password_repeat?: string;
+        password?: string;
     }
     export type Message = {
         time: Date,

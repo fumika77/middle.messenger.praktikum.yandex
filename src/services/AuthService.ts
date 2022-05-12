@@ -58,8 +58,12 @@ export const signUp = async (
     state: AppState,
     payload: SignUpPayload,
 ) => {
-    await AuthAPI.signUp(payload);
-
+    const response = await AuthAPI.signUp(payload);
+    if (hasError(response)) {
+        dispatch({ signUpFormError: response.reason} );
+        return;
+    }
+    dispatch({ user: null} );
     window.router.go('/login');
 };
 
@@ -69,6 +73,4 @@ export const getProfileInfo = async (
 ) => {
     const responseUser = await AuthAPI.profileInfo();
     dispatch({ user: transformUser(JSON.parse(responseUser)  as User) });
-    //console.log('responseUser')
-    //console.log(JSON.parse(responseUser))
 };

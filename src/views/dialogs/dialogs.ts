@@ -25,7 +25,6 @@ export class Dialogs extends Block {
             },
             dialogs: () => this.props.store.getState().dialogsFormData.dialogs,
             dialogHistory: () => this.props.store.getState().dialogsFormData.history,
-            activeDialogAvatar: () => this.props.store.getState().dialogsFormData?.activeDialog?.avatar,
             activeDialogTitle: () => this.props.store.getState().dialogsFormData?.activeDialog?.title,
             message: () => this.props.store.getState().dialogsFormData?.message,
             messageError: () => this.props.store.getState().dialogsFormData?.messageError,
@@ -70,16 +69,16 @@ export class Dialogs extends Block {
 
     render() {
         const { errors, values } = this.state;
-        const avatar = this.props.store.getState().user.avatar;
+        const avatar = this.props.store.getState().user?.avatar;
         const activeDialog = this.props.store.getState().dialogsFormData?.activeDialog;
         // language=hbs
         return `
             <main>
                 <div class="dialogs__wrapper">
                     <div class="dialogs__header">
-                        {{#if activeDialogAvatar}}{{{Avatar style="dialogs__item__img"
-                                   src=${activeDialog?.avatar}}}}{{/if}}
                         {{#if activeDialogTitle}}
+                            {{{Avatar style="dialogs__item__img"
+                                   src="${activeDialog?.avatar}"}}}
                             <div class="dialogs__header__person__name && text">${activeDialog?.title}</div>
                             {{{ImageButton style="add__contact__button" src="img/user-add(40x40)@1x.png" onClick=onAddUserButtonClick}}}
                         {{/if}}

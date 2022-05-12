@@ -4,13 +4,11 @@ import { withRouter, withStore } from '../../utils';
 import { BrowserRouter } from '../../core/Route';
 import { Store } from '../../core/Store';
 import { updateProfileInfo } from '../../services/ProfileService';
-import {getProfileInfo} from "../../services/AuthService";
+import { getProfileInfo } from '../../services/AuthService';
 
 type ProfileSettingsPageProps = {
     router: BrowserRouter;
     store: Store<AppState>;
-    formError?: () => string | null;
-    isLoading?: () => boolean;
 };
 
 export class ProfileSettings extends Block {
@@ -35,14 +33,6 @@ export class ProfileSettings extends Block {
 
     protected getStateFromProps() {
         this.state = {
-            errors: {
-                login: this.props.store.getState().userErrors?.login,
-                first_name: this.props.store.getState().userErrors?.first_name,
-                second_name: this.props.store.getState().userErrors?.second_name,
-                display_name: this.props.store.getState().userErrors?.display_name,
-                email: this.props.store.getState().userErrors?.email,
-                phone: this.props.store.getState().userErrors?.phone,
-            },
             updateProfileSettingsData: () => {
                 const profileSettingsData = {
                     login: (document.getElementById('login') as HTMLInputElement)?.value,
@@ -92,9 +82,8 @@ export class ProfileSettings extends Block {
     }
 
     render() {
-        const { errors } = this.state;
+        const errors = { ...this.props.store.getState().userErrors };
         const avatar = this.props.store.getState().user.avatar;
-        // const user = {...this.props.store.getState().user};
         // language=hbs
         return `
             <main>

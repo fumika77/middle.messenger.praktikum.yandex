@@ -7,8 +7,6 @@ import { getProfileInfo } from '../../services/AuthService';
 type ProfileDescriptionPageProps = {
     router: BrowserRouter;
     store: Store<AppState>;
-    formError?: () => string | null;
-    isLoading?: () => boolean;
 };
 
 export class ProfileDescription extends Block {

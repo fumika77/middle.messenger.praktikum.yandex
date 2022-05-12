@@ -1,5 +1,4 @@
 import Block from '../../../core/Block';
-import {withStore} from "../../../utils";
 
 interface InputLabelProps {
     type: 'text' | 'password' | 'email';
@@ -15,7 +14,7 @@ interface InputLabelProps {
 
 export class InputLabel extends Block {
     constructor(props: InputLabelProps) {
-        super({ props});
+        super({ ...props, events: {} });
     }
 
     static componentName = 'InputLabel';

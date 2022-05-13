@@ -11,6 +11,12 @@
     "stylelint": "npx stylelint \"**/*.css\" --fix",
     "prettier": "prettier --write  ./src/**/**/*.ts"
   },
+  "multipleStaticFileCopier": [
+    {
+      "origin": "static/img",
+      "destination": "dist/img"
+    }
+  ],
   "alias": {
     "core": "./src/core",
     "views": "./src/views",
@@ -35,6 +41,7 @@
     "nanoid": "3.3.2",
     "parcel": "2.4.0",
     "parcel-plugin-handlebars-precompile": "1.0.2",
+    "parcel-reporter-multiple-static-file-copier": "1.0.5",
     "postcss-import": "14.0.2",
     "postcss-nested": "5.0.6",
     "postcss-url": "10.1.3",

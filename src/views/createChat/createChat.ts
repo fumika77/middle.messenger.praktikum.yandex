@@ -26,14 +26,16 @@ export class CreateChat extends Block {
         this.state = {
             updateFormData: () => {
                 const formData = {
-                    chatName: (document.getElementById('chat_name') as HTMLInputElement)?.value,
+                    chatName: (document.getElementById('chatName') as HTMLInputElement)?.value,
                 };
-                const validationResults: { [id: string]: IError } = Validation({ ...formData });
+                const validationResults: { [id: string]: IError } = Validation({ chat_name: formData.chatName });
                 const nextState = {
                     errors: {
-                        chatName: validationResults.chatName.status ? '' : validationResults.chatName.errorText,
+                        chatName: validationResults.chat_name.status ? '' : validationResults.chat_name.errorText,
                     },
-                    values: { ...formData },
+                    values: {
+                        chatName: formData.chatName
+                    },
                 };
                 this.props.store.dispatch({ createChatFormData: nextState });
             },
@@ -55,7 +57,7 @@ export class CreateChat extends Block {
             <main> 
             <div class="create__chat__box">
                 {{{BackArrow onClick=onBackArrowClick}}}
-                {{{InputLabel id="chat_name"
+                {{{InputLabel id="chatName"
                               type="text"
                               value=chatName
                               error=chatNameError
@@ -63,9 +65,7 @@ export class CreateChat extends Block {
                               style="sign__up"
                               onChange=onChange}}}
                 {{{Button text="Добавить" onClick=onClick}}}
-                    {{#if status}}<div>Успешно</div>{{/if}}
-                    {{#if errorDescription}}<div>{{{errorDescription}}}</div>{{/if}}
-                {{{ErrorText text=chatFormError}}}
+                {{{ErrorText text=errorDescription}}}
             </div>
             </main>
         `;

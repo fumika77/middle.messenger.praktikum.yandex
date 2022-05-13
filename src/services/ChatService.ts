@@ -5,7 +5,6 @@ import {hasError} from "../utils/apiHasError";
 import {
     ChatCreateRequest,
     ChatListRequest,
-    initWebSocketRequest,
     MessageDTO,
 } from "../api/types";
 import {transformDialog, transformMessage} from "../utils/apiTransformers";
@@ -19,11 +18,13 @@ export const createChat = async (
     const response = await ChatApi.createChat(payload);
 
     if (hasError(response)) {
-        dispatch({ createChatFormData: { errorDescription: response.reason }});
+        dispatch({ createChatFormData: { ...state.createChatFormData, errorDescription: response.reason }});
         return;
     }
 
-    dispatch({createChatFormData: { status: true } });
+    dispatch({createChatFormData: { ...state.createChatFormData, status: true } });
+    dispatch(getChats);
+    window.router.go('/dialogs');
 };
 
 export const addChatUser = async (
@@ -63,47 +64,40 @@ export const getChats = async (
     dispatch({dialogsFormData: { ...state.dialogsFormData, dialogsError: '', dialogs: dialogs }});
 };
 
-const saveHistoryData = async (dispatch: Dispatch<AppState>, state: AppState, data: MessageDTO[]|MessageDTO) =>  {
-    let history: Message[] = [...state.dialogsFormData.history];
-    const userId = state.user?.id;
+const saveHistoryData = async (data: MessageDTO[]|MessageDTO) =>  {
+    const newMessages: Message[] = [];
+    const userId = window.store.getState().user?.id;
     if (Array.isArray(data)){
         data?.forEach(data => {
             const message = transformMessage(data, userId)
-            history.push(message)
+            newMessages.push(message)
         })
     } else {
         const message = transformMessage(data, userId)
-        history.push(message)
+        newMessages.push(message)
     }
-    await Promise.all(history?.map(async (message) => {
+    await Promise.all(newMessages?.map(async (message) => {
         const id = message.userId;
         if (id && message.isOtherUser){
             const responseUser = await UserAPI.getUserById({id});
             if (hasError(responseUser)) {
-                dispatch({ dialogsFormData: {...state.dialogsFormData, dialogsError: responseUser.reason} });
+                window.store.dispatch({ dialogsFormData: {...window.store.getState().dialogsFormData, dialogsError: responseUser.reason} });
                 return;
             }
             message.userLogin = responseUser.login;
         }
     }));
 
-    const result = [];
-    const map = new Map();
-    for (const item of history) {
-        if(!map.has(item.timeString)){
-            map.set(item.timeString, true);
-            result.push(item);
-        }
-    }
-    dispatch({ dialogsFormData: {...state.dialogsFormData, history: result.sort((a,b) => a.time - b.time)} });
+
+    window.store.dispatch({ dialogsFormData: {...window.store.getState().dialogsFormData,
+            history: [...window.store.getState().dialogsFormData.history, ...newMessages.sort((a,b) => a.time - b.time)] }});
 }
 
 export const initChatWebSocket = async (
     dispatch: Dispatch<AppState>,
     state: AppState,
-    payload: initWebSocketRequest,
 ) => {
-    const chatId = state.dialogsFormData.activeDialog.id;
+    const chatId = state.dialogsFormData.activeDialog?.id;
     const userId = state.user?.id;
     const request = {
         id: chatId
@@ -117,7 +111,7 @@ export const initChatWebSocket = async (
     const token = chatsResponse.token;
     //если сокета не существует
     if (!state.socket?.checkExist(chatId)){
-        state.socket?.addSocket(userId, chatId, token, dispatch, state, saveHistoryData);
+        state.socket?.addSocket(userId, chatId, token, saveHistoryData);
     }
     state.socket?.setActive(chatId)
 };
@@ -128,5 +122,5 @@ export const sendMessage = async (
     state: AppState,
 ) => {
     state.socket?.sendMessage(state.dialogsFormData.message)
-    state.socket?.getHistory()
+    dispatch({dialogsFormData: {...state.dialogsFormData, message: ''}})
 };

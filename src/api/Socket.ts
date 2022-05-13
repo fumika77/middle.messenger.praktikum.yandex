@@ -1,5 +1,5 @@
 export const initWebSocket = (userId: number, chatId: number, token: string) => {
-    const socket = new WebSocket(`wss://ya-praktikum.tech/ws/chats/${userId}/${chatId}/${token}`);
+    const socket = new WebSocket(`${process.env.SOCKET_ENDPOINT}/${userId}/${chatId}/${token}`);
 
     socket.addEventListener('open', () => {
         console.log('Соединение установлено');

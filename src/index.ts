@@ -42,15 +42,6 @@ registerComponents(InputFile);
 registerComponents(CreateChat);
 registerComponents(MessageItem);
 
-
-declare global {
-    interface Window {
-        store: Store<AppState>;
-        router: BrowserRouter;
-    }
-}
-
-
 document.addEventListener('DOMContentLoaded', () => {
     const store = new Store<AppState>(defaultState);
     const router = new BrowserRouter();

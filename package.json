@@ -2,9 +2,9 @@
   "name": "messenger-project",
   "version": "1.0.0",
   "scripts": {
-    "dev": "cp -R static dist && cp -R styles dist && parcel src/index.html --port 3000 --no-cache",
+    "dev": "cp -R static dist && parcel src/index.html --port 3000 --no-cache",
     "start": "node index.js",
-    "build": "parcel build src/index.html && cp -R static/img dist && cp -R styles dist",
+    "build": "parcel build src/index.html && cp -R static/img dist",
     "watch-css": "parcel watch src/common/styles/style.css --dist-dir styles",
     "lint": "eslint ./src/**/.ts",
     "lint-fix": "eslint ./src/**/**/*.ts --fix ",

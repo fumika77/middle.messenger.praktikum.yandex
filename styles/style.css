@@ -84,14 +84,14 @@
   margin: 5px;
 }
 
-.signUp__input {
+.sign__up__input {
   width: 315px;
   height: 40px;
   margin-top: 3px;
   position: static;
 }
 
-.signUp__label {
+.sign__up__label {
   font-size: 12px;
   line-height: 14px;
   display: inline-block;
@@ -311,7 +311,7 @@
   left: calc(50% - 50px);
 }
 
-.signUp__box {
+.sign__up__box {
   width: 465px;
   height: 727px;
   background: var(--box-background-color);
@@ -322,7 +322,7 @@
   box-shadow: 0 0 6px #00000024;
 }
 
-.signUp__formBox {
+.sign__up__formBox {
   flex-direction: column;
   align-items: center;
   margin: 0 -5px;
@@ -367,11 +367,10 @@
 .dialogs__wrapper {
   min-height: 800px;
   max-height: 100%;
-  grid-template:
-    "n h" 100px
-    "n c" 1fr
-    "n f" 100px
-    / 500px 1fr;
+  grid-template: "n h" 100px
+                 "n c" 1fr
+                 "n f" 100px
+                 / 500px 1fr;
   margin: auto;
   display: grid;
 }
@@ -412,7 +411,7 @@
 
 .dialogs__footer {
   background-color: var(--box-background-color);
-  border-top: 0.5px solid #bababa;
+  border-top: .5px solid #bababa;
   flex-direction: row;
   grid-area: f;
   justify-content: center;
@@ -603,3 +602,5 @@
   align-items: center;
   display: flex;
 }
+
+/*# sourceMappingURL=style.css.map */

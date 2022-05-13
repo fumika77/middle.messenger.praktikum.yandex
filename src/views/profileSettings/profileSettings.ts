@@ -4,7 +4,7 @@ import { withRouter, withStore } from '../../utils';
 import { BrowserRouter } from '../../core/Route';
 import { Store } from '../../core/Store';
 import { updateProfileInfo } from '../../services/ProfileService';
-import { getProfileInfo } from '../../services/AuthService';
+import {getProfileInfo} from "../../services/AuthService";
 
 type ProfileSettingsPageProps = {
     router: BrowserRouter;
@@ -27,8 +27,23 @@ export class ProfileSettings extends Block {
         });
     }
 
+    componentDidMount() {
+        this.props.store.dispatch(getProfileInfo);
+    }
+
+    onHide() {
+        super.onHide();
+        this.props.store.dispatch({userErrors: {
+                login: '',
+                first_name: '',
+                second_name: '',
+                display_name: '',
+                email: '',
+                phone: '',
+            }});
+    }
+
     protected getStateFromProps() {
-        const avatar = this.props.store.getState().user?.avatar;
         this.state = {
             updateProfileSettingsData: () => {
                 const profileSettingsData = {
@@ -39,7 +54,7 @@ export class ProfileSettings extends Block {
                     email: (document.getElementById('emailProfileSetting') as HTMLInputElement)?.value,
                     phone: (document.getElementById('phoneProfileSetting') as HTMLInputElement)?.value,
                 };
-
+                const avatar = this.props.store.getState().user?.avatar;
                 const validationResults: { [id: string]: IError } = Validation({ ...profileSettingsData });
                 this.props.store.dispatch({
                     user: {

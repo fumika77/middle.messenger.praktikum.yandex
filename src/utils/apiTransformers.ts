@@ -13,7 +13,7 @@ export const transformUser = (data: User): User => {
     };
 };
 
-export const transformMessage = (data: MessageDTO, userId: number): Message => {
+export const transformMessage = (data: MessageDTO, userId?: number): Message => {
     return {
         time: new Date(data.time),
         timeString: new Date(data.time).toLocaleDateString() +' '+ new Date(data.time).toLocaleTimeString(),

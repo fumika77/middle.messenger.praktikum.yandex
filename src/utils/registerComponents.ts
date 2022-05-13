@@ -28,6 +28,6 @@ export default function registerComponents(Component: typeof Block) {
 
     Handlebars.registerHelper(
         'isNeedStubForStyle',
-        (value) => value == 'profile' || value == 'signUp' || value == 'login',
+        (value) => value == 'profile' || value == 'sign__up' || value == 'login',
     );
 }

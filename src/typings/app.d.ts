@@ -1,9 +1,15 @@
 import {ChatWebSocket} from "../core/ChatWebSocket";
 import {Message} from "../services/ChatService";
+import {Store} from "../core/Store";
+import {BrowserRouter} from "../core/Route";
 
 declare module '*.hbs';
 declare global {
     export type Nullable<P> = P | null;
+    interface Window {
+        store: Store<AppState>;
+        router: BrowserRouter;
+    }
     export type AppState = {
         screen: Nullable<Screens>;
         socket: Nullable<ChatWebSocket>;

@@ -66,7 +66,6 @@ export class Dialogs extends Block {
             onClick: () => {
                 this.state.updateDialogData();
                 this.props.store.dispatch(sendMessage);
-                this.state.updateDialogData(' ');
             },
         };
     }

@@ -15,13 +15,11 @@ export class ChatWebSocket{
         ChatWebSocket.__instance = this;
     }
 
-    public addSocket(userId:number, chatId: number, token: string, dispatch: Dispatch<AppState>,
-                     state: AppState, saveHistoryData: (dispatch: Dispatch<AppState>, state: AppState,data: MessageDTO[]) => void){
+    public addSocket(userId:number, chatId: number, token: string, saveHistoryData: (data: MessageDTO[]) => void){
         if (this.__socketMap[chatId]) {
             return;
         }
         const socket = this.__socketMap[chatId] = new WebSocket(`${process.env.SOCKET_ENDPOINT}/${userId}/${chatId}/${token}`);
-        const saveMessageData =saveHistoryData.bind(null, dispatch,state);
         socket.addEventListener('open', () => {
             console.log('Соединение установлено');
         });
@@ -40,7 +38,7 @@ export class ChatWebSocket{
                 console.log('Ошибка', event.data);
                 return;
             }
-            saveMessageData(data);
+            saveHistoryData(data);
         });
         socket.addEventListener('error', event => {
             console.log('Ошибка', event.message);
@@ -84,10 +82,6 @@ export class ChatWebSocket{
         this.__activeSocket.send(JSON.stringify({
             content: text,
             type: 'message',
-        }))
-        this.__activeSocket.send(JSON.stringify({
-            content: '0',
-            type: 'get old',
         }))
     }
 

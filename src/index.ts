@@ -6,7 +6,7 @@ import InputLabel from './common/components/inputLabel';
 import Avatar from './common/components/avatar';
 import { ErrorText } from './common/components/errorText/errorText';
 import { ImageButton } from './common/components/imageButton/imageButton';
-import { DialogItem } from './common/components/dialogItem';
+import DialogItem from './common/components/dialogItem';
 import Input from './common/components/input';
 import Link from './common/components/link';
 import {BrowserRouter} from "./core/Route";
@@ -25,7 +25,7 @@ import ProfilePassword from "./views/profilePassword";
 import CreateChat from "./views/createChat/createChat";
 import createChat from "./views/createChat/createChat";
 import {ChatWebSocket} from "./core/ChatWebSocket";
-import {MessageItem} from "./common/components/messageItem";
+import MessageItem from "./common/components/messageItem";
 import {AddUserChat} from "./views/addUserChat";
 
 registerComponents(ErrorText);

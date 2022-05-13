@@ -1,1 +1,1 @@
-export { default as DialogItem } from './dialogItem';
+export { default } from './dialogItem';

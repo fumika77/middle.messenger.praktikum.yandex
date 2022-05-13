@@ -38,7 +38,7 @@ export class Dialogs extends Block {
         setTimeout(() => {
             if (this.props.store.getState().user?.id === null) {
                 this.props.router.go('/login');
-                return;
+                
             }
         }, 100);
         this.props.store.dispatch(getChats);

@@ -26,7 +26,7 @@ class Login extends Block {
     }
 
     componentDidMount() {
-        this.props.store.dispatch(getProfileInfo)
+        this.props.store.dispatch(getProfileInfo);
         setTimeout(() => {
             if (this.props.store.getState().user?.id) {
                 this.props.onSignInClick();
@@ -44,7 +44,7 @@ class Login extends Block {
                 login: this.props.store.getState().loginData.errors.login,
                 password: this.props.store.getState().loginData.errors.password,
             },
-            hasError:  this.props.store.getState().loginData.hasError,
+            hasError: this.props.store.getState().loginData.hasError,
             updateLoginData: () => {
                 const loginData: ILoginData = {
                     login: (document.getElementById('loginLogin') as HTMLInputElement)?.value,
@@ -60,7 +60,7 @@ class Login extends Block {
                     values: { ...loginData },
                     hasError: !validationResults.login.status && !validationResults.password.status,
                 };
-                this.props.store.dispatch({loginData: {...nextState}});
+                this.props.store.dispatch({ loginData: { ...nextState } });
             },
             onLogin: () => {
                 this.state.updateLoginData();

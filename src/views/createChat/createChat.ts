@@ -34,7 +34,7 @@ export class CreateChat extends Block {
                         chatName: validationResults.chat_name.status ? '' : validationResults.chat_name.errorText,
                     },
                     values: {
-                        chatName: formData.chatName
+                        chatName: formData.chatName,
                     },
                 };
                 this.props.store.dispatch({ createChatFormData: nextState });

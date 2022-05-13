@@ -4,7 +4,7 @@ import { withRouter, withStore } from '../../utils';
 import { BrowserRouter } from '../../core/Route';
 import { Store } from '../../core/Store';
 import { updateProfileInfo } from '../../services/ProfileService';
-import {getProfileInfo} from "../../services/AuthService";
+import { getProfileInfo } from '../../services/AuthService';
 
 type ProfileSettingsPageProps = {
     router: BrowserRouter;
@@ -33,14 +33,16 @@ export class ProfileSettings extends Block {
 
     onHide() {
         super.onHide();
-        this.props.store.dispatch({userErrors: {
+        this.props.store.dispatch({
+            userErrors: {
                 login: '',
                 first_name: '',
                 second_name: '',
                 display_name: '',
                 email: '',
                 phone: '',
-            }});
+            },
+        });
     }
 
     protected getStateFromProps() {
@@ -59,7 +61,7 @@ export class ProfileSettings extends Block {
                 this.props.store.dispatch({
                     user: {
                         ...profileSettingsData,
-                        avatar: avatar,
+                        avatar,
                     },
                     userErrors: {
                         login: validationResults.login.status ? '' : validationResults.login.errorText,
@@ -79,7 +81,7 @@ export class ProfileSettings extends Block {
                 this.state.updateProfileSettingsData();
                 const errors = this.props.store.getState().userErrors;
                 if (Object.keys(errors).find((key) => errors[key] !== '') == null) {
-                    const request = {...this.props.store.getState().user};
+                    const request = { ...this.props.store.getState().user };
                     delete request.avatar;
                     this.props.store.dispatch(updateProfileInfo, request);
                 }
@@ -92,7 +94,7 @@ export class ProfileSettings extends Block {
 
     render() {
         const errors = { ...this.props.store.getState().userErrors };
-        const {avatar} = this.props.store.getState().user;
+        const { avatar } = this.props.store.getState().user;
         // language=hbs
         return `
             <main>

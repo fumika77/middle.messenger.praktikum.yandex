@@ -24,9 +24,9 @@ import InputFile from "./common/components/inputFile";
 import ProfilePassword from "./views/profilePassword";
 import CreateChat from "./views/createChat/createChat";
 import createChat from "./views/createChat/createChat";
-import {ChatWebSocket} from "./core/ChatWebSocket";
 import MessageItem from "./common/components/messageItem";
 import {AddUserChat} from "./views/addUserChat";
+import {ChatWebSocket} from "./core/ChatWebSocket";
 
 registerComponents(ErrorText);
 registerComponents(Button);
@@ -49,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.router = router;
     window.store = store;
+    window.socket = socket;
 
     /**
      * для переключения активного экрана
@@ -59,8 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
             renderDOM(new Page());
         }
     });
-
-    store.dispatch({socket: socket})
 
     /**
      * Инициализируем роутинг

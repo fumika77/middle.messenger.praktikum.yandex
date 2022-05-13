@@ -9,6 +9,7 @@ declare global {
     interface Window {
         store: Store<AppState>;
         router: BrowserRouter;
+        socket: ChatWebSocket;
     }
     export type AppState = {
         screen: Nullable<Screens>;

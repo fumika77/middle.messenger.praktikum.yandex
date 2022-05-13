@@ -1,5 +1,4 @@
 import {MessageDTO} from "../api/types";
-import {Dispatch} from "./Store";
 
 export class ChatWebSocket{
     private __instance;
@@ -91,5 +90,4 @@ export class ChatWebSocket{
             type: 'get old',
         })), 100);
     }
-
 }

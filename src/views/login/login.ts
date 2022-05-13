@@ -58,7 +58,7 @@ class Login extends Block {
                         password: validationResults.password.status ? '' : validationResults.password.errorText,
                     },
                     values: { ...loginData },
-                    hasError: !validationResults.login.status && !validationResults.password.status,
+                    hasError: !validationResults.login.status || !validationResults.password.status,
                 };
                 this.props.store.dispatch({ loginData: { ...nextState } });
             },
@@ -84,7 +84,7 @@ class Login extends Block {
         return `
         <main>
             <div class="login">
-                <img class="login__img" src="img/user(144x144)@1x.png" alt="login">
+                <img class="login__img" src="img/user(144x144)@1x.png">
                 {{{InputLabel id="loginLogin"
                               value="${values.login}"
                               error="${errors.login}"

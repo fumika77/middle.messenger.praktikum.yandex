@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "cp -R static dist && parcel src/index.html --port 3000 --no-cache",
     "start": "node index.js",
-    "build": "parcel build src/index.html && cp -R static dist",
+    "build": "cp -R static dist && parcel build src/index.html",
     "watch-css": "parcel watch src/common/styles/style.css --dist-dir styles",
     "lint": "eslint ./src/**/.ts",
     "lint-fix": "eslint ./src/**/**/*.ts --fix ",

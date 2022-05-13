@@ -50,4 +50,4 @@ export class DialogItem extends Block {
     }
 }
 
-export default withStore(DialogItem)
+export default withStore(DialogItem, 'DialogItem')

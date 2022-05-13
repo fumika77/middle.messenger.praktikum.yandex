@@ -36,4 +36,4 @@ export class MessageItem extends Block {
     }
 }
 
-export default withStore(MessageItem)
+export default withStore(MessageItem,'MessageItem')

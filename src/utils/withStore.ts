@@ -1,9 +1,9 @@
 import Block from '../core/Block';
 import Store from '../core/Store';
 
-export function withStore<T>(Component: typeof Block) {
+export function withStore<T>(Component: typeof Block, name?: string) {
     return class extends Component{
-        public static componentName = Component.name;
+        public static componentName = name || Component.name;
 
         constructor(props: T & { store: Store<AppState> }) {
             super({ ...props, store: window.store });

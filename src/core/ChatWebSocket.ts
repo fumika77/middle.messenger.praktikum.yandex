@@ -41,7 +41,6 @@ export class ChatWebSocket{
                 return;
             }
             saveMessageData(data);
-            //saveHistoryData(dispatch, state, data);
         });
         socket.addEventListener('error', event => {
             console.log('Ошибка', event.message);
@@ -82,9 +81,13 @@ export class ChatWebSocket{
     }
 
     public sendMessage(text:string){
-            this.__activeSocket.send(JSON.stringify({
+        this.__activeSocket.send(JSON.stringify({
             content: text,
             type: 'message',
+        }))
+        this.__activeSocket.send(JSON.stringify({
+            content: '0',
+            type: 'get old',
         }))
     }
 

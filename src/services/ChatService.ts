@@ -116,10 +116,10 @@ export const initChatWebSocket = async (
     }
     const token = chatsResponse.token;
     //если сокета не существует
-    if (!state.socket!.checkExist(chatId)){
-        state.socket!.addSocket(userId, chatId, token, dispatch, state, saveHistoryData);
+    if (!state.socket?.checkExist(chatId)){
+        state.socket?.addSocket(userId, chatId, token, dispatch, state, saveHistoryData);
     }
-    state.socket!.setActive(chatId)
+    state.socket?.setActive(chatId)
 };
 
 

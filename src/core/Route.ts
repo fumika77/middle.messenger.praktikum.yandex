@@ -60,7 +60,7 @@ export class BrowserRouter {
     use(pathname: string, block: typeof Block, props: any) {
         const route = new Route(pathname, block, props);
 
-        this.routes!.push(route);
+        this.routes?.push(route);
 
         return this;
     }
@@ -88,20 +88,20 @@ export class BrowserRouter {
     }
 
     go(pathname:string) {
-        this.history!.pushState({}, '', pathname);
+        this.history?.pushState({}, '', pathname);
         this._onRoute(pathname);
     }
 
     back() {
-        this.history!.back();
+        this.history?.back();
     }
 
     forward() {
-        this.history!.forward();
+        this.history?.forward();
     }
 
     getRoute(pathname:string) {
-        const route = this.routes!.find(route => route.match(pathname));
-        return route || this.routes!.find(route => route.match('*'));
+        const route = this.routes?.find(route => route.match(pathname));
+        return route || this.routes?.find(route => route.match('*'));
     }
 }

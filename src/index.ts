@@ -88,11 +88,4 @@ document.addEventListener('DOMContentLoaded', () => {
         .use('/sign-up', SignUp, {})
         .use('/*', ErrorPage, {})
         .start();
-
-    /**
-     * Загружаем данные для приложения
-     */
-    setTimeout(() => {
-        // store.dispatch(initApp);
-    }, 100);
 });

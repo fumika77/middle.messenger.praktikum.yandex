@@ -46,7 +46,6 @@ export class AddUserChat extends Block {
 
     render() {
         const {user} = this.props.store.getState().addUserFormData;
-        // console.log(this.props.store.getState().addUserFormData?.user)
         // language=hbs
         return `
             <main> 

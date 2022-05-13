@@ -9,7 +9,7 @@ export class BackArrow extends Block {
     constructor({ link, onClick }: BackArrowProps) {
         const linkClick = (e: MouseEvent) => {
             e.preventDefault()
-            onClick!()
+            onClick?.()
         };
         super({ link, events: { click: linkClick } });
     }

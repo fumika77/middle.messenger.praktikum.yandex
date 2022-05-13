@@ -5,7 +5,7 @@ class User extends Base {
     private baseUrl = 'user';
 
     public updateProfile(data: UserType) {
-        return super.put(this.baseUrl + '/profile', {data: {...data}}).then((response) => {
+        return super.put(this.baseUrl + '/profile', {data}).then((response) => {
             return JSON.parse(response);
         })
     }

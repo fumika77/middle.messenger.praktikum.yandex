@@ -169,14 +169,12 @@ export default class Block {
         }
 
         Object.entries(events).forEach(([event, listener]) => {
-            this._element!.addEventListener(event, listener);
+            this._element?.addEventListener(event, listener);
         });
     }
 
     compile() {
         const fragment = document.createElement('template');
-        // console.log('componentName')
-        // console.log(this.componentName)
         const template = Handlebars.compile(this.render());
         const htmlString = template({ ...this.state, ...this.props, children: this.children, refs: this.refs });
         fragment.innerHTML = htmlString;
@@ -193,10 +191,10 @@ export default class Block {
 
     onShow() {
         this.eventBus().emit(Block.EVENTS.FLOW_CDM)
-        this.getContent()!.style.display = 'block';
+        this.getContent().style.display = 'block';
     }
 
     onHide() {
-        this.getContent()!.style.display = 'none';
+        this.getContent().style.display = 'none';
     }
 }

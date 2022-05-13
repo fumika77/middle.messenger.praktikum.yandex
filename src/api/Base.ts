@@ -80,9 +80,7 @@ export class Base {
                     xhr.setRequestHeader(key, options.headers[key]);
                 });
             }
-            else if (options.file){
-            }
-            else {
+            else if (!options.file){
                 xhr.setRequestHeader('Content-Type', 'application/json');
             }
 

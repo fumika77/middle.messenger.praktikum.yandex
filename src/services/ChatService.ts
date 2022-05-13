@@ -110,10 +110,10 @@ export const initChatWebSocket = async (
     }
     const token = chatsResponse.token;
     //если сокета не существует
-    if (!state.socket?.checkExist(chatId)){
-        state.socket?.addSocket(userId, chatId, token, saveHistoryData);
+    if (!window.socket.checkExist(chatId)){
+        window.socket.addSocket(userId, chatId, token, saveHistoryData);
     }
-    state.socket?.setActive(chatId)
+    window.socket.setActive(chatId)
 };
 
 
@@ -121,6 +121,6 @@ export const sendMessage = async (
     dispatch: Dispatch<AppState>,
     state: AppState,
 ) => {
-    state.socket?.sendMessage(state.dialogsFormData.message)
+    window.socket.sendMessage(state.dialogsFormData.message)
     dispatch({dialogsFormData: {...state.dialogsFormData, message: ''}})
 };

@@ -5,7 +5,7 @@ import {hasError} from "../utils/apiHasError";
 import {
     ChatCreateRequest,
     ChatListRequest,
-    MessageDTO,
+    MessageDTO, MessageRequest,
 } from "../api/types";
 import {transformDialog, transformMessage} from "../utils/apiTransformers";
 
@@ -35,7 +35,7 @@ export const addChatUser = async (
     if (!userId){
         return;
     }
-    const chatId = state.dialogsFormData.activeDialog.id;
+    const chatId = state.activeDialog.id;
 
     const response = await ChatApi.addChatUser({users: [userId], chatId: chatId});
 
@@ -56,12 +56,12 @@ export const getChats = async (
     const request = payload? payload : {} as Partial<ChatListRequest>;
     const chats = await ChatApi.getChats(request);
     if (hasError(chats)) {
-        dispatch({ dialogsFormData: {...state.dialogsFormData, dialogsError: chats.reason} });
+        dispatch({ dialogsError: chats.reason});
         return;
     }
     const dialogs: Dialog[] = []
     chats?.forEach(chat => dialogs.push(transformDialog(chat)))
-    dispatch({dialogsFormData: { ...state.dialogsFormData, dialogsError: '', dialogs: dialogs }});
+    dispatch({dialogsError: '', dialogs: dialogs });
 };
 
 const saveHistoryData = async (data: MessageDTO[]|MessageDTO) =>  {
@@ -81,31 +81,29 @@ const saveHistoryData = async (data: MessageDTO[]|MessageDTO) =>  {
         if (id && message.isOtherUser){
             const responseUser = await UserAPI.getUserById({id});
             if (hasError(responseUser)) {
-                window.store.dispatch({ dialogsFormData: {...window.store.getState().dialogsFormData, dialogsError: responseUser.reason} });
+                window.store.dispatch({ dialogsError: responseUser.reason});
                 return;
             }
             message.userLogin = responseUser.login;
         }
     }));
-
-
-    window.store.dispatch({ dialogsFormData: {...window.store.getState().dialogsFormData,
-            history: [...window.store.getState().dialogsFormData.history, ...newMessages.sort((a,b) => a.time - b.time)] }});
+    window.store.dispatch({
+            history: [...window.store.getState().history, ...newMessages.sort((a,b) => a.time - b.time)] });
 }
 
 export const initChatWebSocket = async (
     dispatch: Dispatch<AppState>,
     state: AppState,
 ) => {
-    const chatId = state.dialogsFormData.activeDialog?.id;
+    const chatId = state.activeDialog?.id;
     const userId = state.user?.id;
     const request = {
         id: chatId
     }
-    dispatch({ dialogsFormData: {...state.dialogsFormData, history: []} });
+    dispatch({ history: [] });
     const chatsResponse = await ChatApi.getToken(request);
     if (hasError(chatsResponse)) {
-        dispatch({ dialogsFormData: {...state.dialogsFormData, dialogsError: chatsResponse.reason} });
+        dispatch({ dialogsError: chatsResponse.reason});
         return;
     }
     const token = chatsResponse.token;
@@ -120,7 +118,7 @@ export const initChatWebSocket = async (
 export const sendMessage = async (
     dispatch: Dispatch<AppState>,
     state: AppState,
+    payload: MessageRequest
 ) => {
-    window.socket.sendMessage(state.dialogsFormData.message)
-    dispatch({dialogsFormData: {...state.dialogsFormData, message: ''}})
+    window.socket.sendMessage(payload)
 };

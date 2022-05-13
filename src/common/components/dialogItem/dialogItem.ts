@@ -17,15 +17,12 @@ export class DialogItem extends Block {
         super({ ...props, link
             , events: { click: () => {
                     this.props.store.dispatch({
-                        dialogsFormData: {
-                             ...this.props.store.getState().dialogsFormData,
                             history: [],
                             activeDialog: {
                                 id: this.props.id,
                                 title: this.props.title,
                                 avatar: props.avatar
                             }
-                        }
                     })
                     this.props.store.dispatch(initChatWebSocket)
                 }

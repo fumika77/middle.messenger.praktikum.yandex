@@ -29,7 +29,6 @@ declare global {
                 user: User;
                 userErrors:Nullable<User>;
         },
-        dialogsFormData: {
             dialogsError: string,
             dialogs: Dialog[],
             history: Message[],
@@ -40,7 +39,6 @@ declare global {
             },
             message: string,
             messageError: string,
-        },
         profileImageFormData:{
             status?: Nullable<boolean>
             errorDescription?: Nullable<string>

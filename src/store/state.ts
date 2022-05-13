@@ -45,7 +45,6 @@ export const defaultState: AppState = {
             display_name: '',
         }
     },
-    dialogsFormData: {
         dialogsError: "",
         dialogs: [],
         history: [],
@@ -56,7 +55,6 @@ export const defaultState: AppState = {
         },
         message: '',
         messageError:'',
-    },
     addUserFormData: {
         userLogin: '',
         user: null,

@@ -51,7 +51,6 @@ export class ProfilePassword extends Block {
                 this.props.store.dispatch({ passwordFormData: nextState });
             },
             onClick: () => {
-                this.state.updateFormData();
                 const { passwordFormData } = this.props;
                 if (Object.keys(passwordFormData?.errors).find((key) => passwordFormData?.errors[key] !== '') == null) {
                     this.props.store.dispatch(updateProfilePassword, {

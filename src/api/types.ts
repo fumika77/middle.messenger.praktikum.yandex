@@ -33,13 +33,7 @@ export type ModifyChatUserRequest = {
     users: number[],
     chatId: number,
 }
-
-export type initWebSocketRequest = {
-    chatId: number,
-    userId: number,
-}
-
-export type messageRequest = {
+export type MessageRequest = {
     message: string,
 }
 

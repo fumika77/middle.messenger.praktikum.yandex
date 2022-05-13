@@ -1,24 +1,25 @@
-import {MessageDTO} from "../api/types";
+import {MessageDTO, MessageRequest} from "../api/types";
+import {clearInterval} from "timers";
 
 export class ChatWebSocket{
     private __instance;
-    private __socketMap:Record<number, WebSocket>;
+    private __socketMap:Map<number, WebSocket>;
     private __activeSocket
     private __timerId
     constructor() {
         if (ChatWebSocket.__instance) {
             return ChatWebSocket.__instance;
         }
-        this.__socketMap = {};
+        this.__socketMap = new Map();
 
         ChatWebSocket.__instance = this;
     }
 
     public addSocket(userId:number, chatId: number, token: string, saveHistoryData: (data: MessageDTO[]) => void){
-        if (this.__socketMap[chatId]) {
+        if (this.__socketMap.get(chatId)) {
             return;
         }
-        const socket = this.__socketMap[chatId] = new WebSocket(`${process.env.SOCKET_ENDPOINT}/${userId}/${chatId}/${token}`);
+        const socket = new WebSocket(`${process.env.SOCKET_ENDPOINT}/${userId}/${chatId}/${token}`);
         socket.addEventListener('open', () => {
             console.log('Соединение установлено');
         });
@@ -37,39 +38,44 @@ export class ChatWebSocket{
                 console.log('Ошибка', event.data);
                 return;
             }
-            saveHistoryData(data);
+        else if(data.type != "pong"){
+                saveHistoryData(data);
+            }
         });
         socket.addEventListener('error', event => {
             console.log('Ошибка', event.message);
         });
 
-        this.__socketMap[chatId] = socket;
+        this.__socketMap.set(chatId, socket);
     }
 
     public setActive(chatId: number){
         if (this.__activeSocket){
             this.cancelKeepAlive();
         }
-        if (this.__socketMap[chatId]){
-            this.__activeSocket = this.__socketMap[chatId];
-            this.keepAlive()
+        if (this.__socketMap.has(chatId)){
+            this.__activeSocket = this.__socketMap.get(chatId);
+            this.__timerId =
+                setInterval(() => {
+                    if (this.__activeSocket.readyState !== 1) {
+                        this.__activeSocket.close().bind;
+                        this.__activeSocket(window.store.getState().dialogsFormData.activeDialog.id);
+                    } else {
+                        this.__activeSocket.send(JSON.stringify({
+                            type: 'ping',
+                        }));
+                    }
+                }, 20000);
             this.getHistory()
         }
 
     }
 
-    public keepAlive(timeout = 20000) {
-        if (this.__activeSocket.readyState == WebSocket.OPEN) {
-            this.__activeSocket.send({
-                type: "ping",
-            });
-        }
-        this.__timerId = setTimeout(this.keepAlive.bind(this), timeout);
-    }
+
 
     public cancelKeepAlive() {
         if (this.__timerId) {
-            clearTimeout(this.__timerId);
+            clearInterval(this.__timerId);
         }
     }
 
@@ -77,9 +83,9 @@ export class ChatWebSocket{
        return !!this.__socketMap[chatId];
     }
 
-    public sendMessage(text:string){
+    public sendMessage(message: MessageRequest){
         this.__activeSocket.send(JSON.stringify({
-            content: text,
+            content: message.message,
             type: 'message',
         }))
     }

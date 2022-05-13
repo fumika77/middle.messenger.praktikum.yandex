@@ -78,7 +78,6 @@ export class ProfileSettings extends Block {
                 });
             },
             onClick: () => {
-                this.state.updateProfileSettingsData();
                 const errors = this.props.store.getState().userErrors;
                 if (Object.keys(errors).find((key) => errors[key] !== '') == null) {
                     const request = { ...this.props.store.getState().user };

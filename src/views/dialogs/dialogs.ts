@@ -23,12 +23,12 @@ export class Dialogs extends Block {
             onLogoutClick: () => {
                 this.props.store.dispatch(logout);
             },
-            dialogs: () => this.props.store.getState().dialogsFormData.dialogs,
-            dialogHistory: () => this.props.store.getState().dialogsFormData.history,
-            activeDialogTitle: () => this.props.store.getState().dialogsFormData?.activeDialog?.title,
-            activeDialogAvatar: () => this.props.store.getState().dialogsFormData?.activeDialog?.avatar,
-            message: () => this.props.store.getState().dialogsFormData?.message,
-            messageError: () => this.props.store.getState().dialogsFormData?.messageError,
+            dialogs: () => this.props.store.getState().dialogs,
+            dialogHistory: () => this.props.store.getState().history,
+            activeDialogTitle: () => this.props.store.getState().activeDialog?.title,
+            activeDialogAvatar: () => this.props.store.getState().activeDialog?.avatar,
+            message: () => this.props.store.getState().message,
+            messageError: () => this.props.store.getState().messageError,
             avatar: () => this.props.store.getState().user?.avatar,
         });
     }
@@ -47,25 +47,32 @@ export class Dialogs extends Block {
     protected getStateFromProps() {
         this.state = {
             values: {
-                message: this.props.store.getState().dialogsFormData?.message,
+                message: this.props.store.getState().message,
                 searchValue: '',
             },
             errors: {
-                message: this.props.store.getState().dialogsFormData?.messageError,
+                message: this.props.store.getState().messageError,
             },
             updateDialogData: (messageDefault?: string) => {
                 const message = messageDefault || (document.getElementById('message') as HTMLInputElement)?.value;
                 const validationResults: { [id: string]: IError } = Validation({ message });
                 const nextDialogsFormData = {
-                    ...this.props.store.getState().dialogsFormData,
                     message,
                     messageError: validationResults.message.status ? '' : validationResults.message.errorText,
                 };
-                this.props.store.dispatch({ dialogsFormData: nextDialogsFormData });
+                this.props.store.dispatch(nextDialogsFormData );
+            },
+            onChange: () => {
+                this.state.updateDialogData();
             },
             onClick: () => {
-                this.state.updateDialogData();
-                this.props.store.dispatch(sendMessage);
+                const message = this.props.store.getState().message;
+                console.log('click')
+                console.log('message',message)
+                if (message!=''){
+                    this.props.store.dispatch({message: ''})
+                    this.props.store.dispatch(sendMessage, {message});
+                }
             },
         };
     }
@@ -73,7 +80,7 @@ export class Dialogs extends Block {
     render() {
         const { errors, values } = this.state;
         const avatar = this.props.store.getState().user?.avatar;
-        const activeDialog = this.props.store.getState().dialogsFormData?.activeDialog;
+        const activeDialog = this.props.store.getState().activeDialog;
         // language=hbs
         return `
             <main>
@@ -139,8 +146,8 @@ export class Dialogs extends Block {
                                      style="dialogs__input"
                                      placeholder="Написать сообщение"
                                      type="text"
-                                     value="${values.message}"
-                                     error="${errors.message}"
+                                     value=message
+                                     error=messageError
                                      onChange=onChange
                             }}}
                             {{{ImageButton class="dialogs__send__button"

@@ -65,7 +65,6 @@ export class SignUp extends Block {
                 this.props.store.dispatch({ signUpFormData: { ...nextState } });
             },
             onSignUpButtonClick: () => {
-                this.state.updateSignUpData();
                 const { userErrors } = this.props.store.getState().signUpFormData;
                 if (Object.keys(userErrors).find((key) => userErrors[key] !== '') == null) {
                     this.props.store.dispatch(signUp, this.props.store.getState().signUpFormData.user);

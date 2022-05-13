@@ -40,8 +40,7 @@ export class CreateChat extends Block {
                 this.props.store.dispatch({ createChatFormData: nextState });
             },
             onClick: () => {
-                this.state.updateFormData();
-                if (this.props.chatNameError() === '') {
+                if (this.props.store.getState().createChatFormData.errors.chatName == '') {
                     this.props.store.dispatch(createChat, { title: this.props.chatName() });
                 }
             },

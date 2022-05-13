@@ -63,7 +63,6 @@ class Login extends Block {
                 this.props.store.dispatch({ loginData: { ...nextState } });
             },
             onLogin: () => {
-                this.state.updateLoginData();
                 if (!this.state.hasError) {
                     this.props.store.dispatch(login, this.props.store.getState().loginData.values);
                     if (!this.props.store.getState().loginFormError) {

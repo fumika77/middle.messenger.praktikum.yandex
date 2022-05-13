@@ -1,14 +1,17 @@
 .button {
   display: inline-block;
-  color: var(--button-text-color);
   padding: 1rem 1.5rem;
-  text-decoration: none;
   background: var(--button-background-color);
   border-radius: 12px;
   border: none;
   width: 160px;
   height: 15px;
+  margin-top: 20px;
+}
+
+.button__text{
+  color: var(--button-text-color);
+  text-decoration: none;
   text-align: center;
   font-size: 18px;
-  margin-top: 20px;
 }

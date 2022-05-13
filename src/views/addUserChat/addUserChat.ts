@@ -35,9 +35,6 @@ export class AddUserChat extends Block {
                     },
                 });
             },
-            onClick: () => {
-                this.state.updateFormData();
-            },
             onChange: () => {
                 this.state.updateFormData();
             },

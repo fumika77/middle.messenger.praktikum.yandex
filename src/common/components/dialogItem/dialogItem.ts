@@ -42,8 +42,8 @@ export class DialogItem extends Block {
         <div class="dialogs__item">
             <img class="dialogs__item__img" src="{{link}}">
             <div class="dialogs__message">
-                <div class="dialogs__person-name && text">{{title}}</div>
-                <div class="dialogs__message__text && text">{{content}}</div>
+                <div class="dialogs__person-name text">{{title}}</div>
+                <div class="dialogs__message__text text">{{content}}</div>
             </div>
         </div>
         `;

@@ -77,21 +77,21 @@ export class ProfilePassword extends Block {
                               value=old_password
                               error=old_password_error
                               label="Cтарый пароль"
-                              style="signUp"
+                              style="sign__up"
                               onChange=onChange}}}
                 {{{InputLabel id="new_password"
                               type="password"
                               value=password
                               error=password_error
                               label="Новый пароль"
-                              style="signUp"
+                              style="sign__up"
                               onChange=onChange}}}
                 {{{InputLabel id="password_repeat"
                               type="password"
                               value=password_repeat
                               error=password_repeat_error
                               label="Повторите пароль"
-                              style="signUp"
+                              style="sign__up"
                               onChange=onChange}}}
             {{#if status}}{{{ImageButton link="/profile" onClick=onBackArrowClick
                                          style="done" src="img/like-1(32x32)@1x.png"}}}

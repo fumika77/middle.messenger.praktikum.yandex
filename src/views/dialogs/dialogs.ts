@@ -85,7 +85,7 @@ export class Dialogs extends Block {
                                    src="${activeDialog?.avatar}"}}}
                         {{/if}} 
                         {{#if activeDialogTitle}}
-                            <div class="dialogs__header__person__name && text">${activeDialog?.title}</div>
+                            <div class="dialogs__header__person__name text">${activeDialog?.title}</div>
                             {{{ImageButton style="add__contact__button" src="img/user-add(40x40)@1x.png" onClick=onAddUserButtonClick}}}
                         {{/if}}
                         {{{ImageButton style="logout__button" src="img/logout(40x40)@1x.png" onClick=onLogoutClick}}}

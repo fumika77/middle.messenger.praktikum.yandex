@@ -60,7 +60,7 @@ export class CreateChat extends Block {
                               value=chatName
                               error=chatNameError
                               label="Название чата"
-                              style="signUp"
+                              style="sign__up"
                               onChange=onChange}}}
                 {{{Button text="Добавить" onClick=onClick}}}
                     {{#if status}}<div>Успешно</div>{{/if}}

@@ -35,7 +35,7 @@ class Chats extends Base{
     }
 
     public getToken(data: TokenRequest){
-        return super.post(this.baseUrl + `/token/${data.id}`,{data}, headers: {mode: 'cors',
+        return super.post(this.baseUrl + `/token/${data.id}`,{data: {data}, headers: {mode: 'cors',
             credentials: 'include'}} ).then((response) => {
             return JSON.parse(response);
         })

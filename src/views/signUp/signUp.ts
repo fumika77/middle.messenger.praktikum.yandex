@@ -38,10 +38,10 @@ export class SignUp extends Block {
             updateSignUpData: () => {
                 const signUpData = {
                     login: (document.getElementById('loginSignUp') as HTMLInputElement)?.value,
-                    first_name: (document.getElementById('first_nameSignUp') as HTMLInputElement)?.value,
-                    second_name: (document.getElementById('second_nameSignUp') as HTMLInputElement)?.value,
+                    first_name: (document.getElementById('firstNameSignUp') as HTMLInputElement)?.value,
+                    second_name: (document.getElementById('secondNameSignUp') as HTMLInputElement)?.value,
                     password: (document.getElementById('passwordSignUp') as HTMLInputElement)?.value,
-                    password_repeat: (document.getElementById('password_repeatSignUp') as HTMLInputElement)?.value,
+                    password_repeat: (document.getElementById('passwordRepeatSignUp') as HTMLInputElement)?.value,
                     email: (document.getElementById('emailSignUp') as HTMLInputElement)?.value,
                     phone: (document.getElementById('phoneSignUp') as HTMLInputElement)?.value,
                 };
@@ -84,57 +84,57 @@ export class SignUp extends Block {
         // language=hbs
         return `
             <main>
-                <div class="signUp__box">
-                    <div class="signUp__formBox">
-                        <h1 class="header && text">Регистрация</h1>
-                        {{{InputLabel id="first_nameSignUp"
+                <div class="sign__up__box">
+                    <div class="sign__up__formBox">
+                        <h1 class="header text">Регистрация</h1>
+                        {{{InputLabel id="firstNameSignUp"
                                       type="text"
                                       value="${values.first_name}"
                                       error="${errors.first_name}"
                                       label="Имя"
-                                      style="signUp"
+                                      style="sign__up"
                                       onChange=onChange}}}
-                        {{{InputLabel id="second_nameSignUp"
+                        {{{InputLabel id="secondNameSignUp"
                                       type="text"
                                       value="${values.second_name}"
                                       error="${errors.second_name}"
                                       label="Фамилия"
-                                      style="signUp"
+                                      style="sign__up"
                                       onChange=onChange}}}
                         {{{InputLabel id="loginSignUp"
                                       type="text"
                                       value="${values.login}"
                                       error="${errors.login}"
                                       label="Логин"
-                                      style="signUp"
+                                      style="sign__up"
                                       onChange=onChange}}}
                         {{{InputLabel id="passwordSignUp"
                                       type="password"
                                       value="${values.password}"
                                       error="${errors.password}"
                                       label="Пароль"
-                                      style="signUp"
+                                      style="sign__up"
                                       onChange=onChange}}}
-                        {{{InputLabel id="password_repeatSignUp"
+                        {{{InputLabel id="passwordRepeatSignUp"
                                       type="password"
                                       value="${values.password_repeat}"
                                       error="${errors.password_repeat}"
                                       label="Повторите пароль"
-                                      style="signUp"
+                                      style="sign__up"
                                       onChange=onChange}}}
                         {{{InputLabel id="emailSignUp"
                                       type="text"
                                       value="${values.email}"
                                       error="${errors.email}"
                                       label="Почта"
-                                      style="signUp"
+                                      style="sign__up"
                                       onChange=onChange}}}
                         {{{InputLabel id="phoneSignUp"
                                       type="number"
                                       value="${values.phone}"
                                       error="${errors.phone}"
                                       label="Телефон"
-                                      style="signUp"
+                                      style="sign__up"
                                       onChange=onChange
                         }}}
                         {{{Button text="Зарегистрироваться" onClick=onSignUpButtonClick}}}

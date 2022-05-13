@@ -21,7 +21,7 @@ export class InputFile extends Block {
     render() {
         // language=hbs
         return `
-                <label for="inputFile" class="button && file__input">
+                <label for="inputFile" class="button file__input">
                     <input id="inputFile" type="file" name="file"/>
                     <div class="file__name">{{filename}}</div>
                 </label>

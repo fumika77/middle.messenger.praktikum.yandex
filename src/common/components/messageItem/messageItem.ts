@@ -27,10 +27,10 @@ export class MessageItem extends Block {
     render() {
         // language=hbs
         return `
-        <div class="message__item{{#if isOtherUser}} && message__item__other{{/if}}">
+        <div class="message__item{{#if isOtherUser}} message__item__other{{/if}}">
             <div>{{timeString}}</div>
-            <div class="dialogs__person__name && text">{{#if isOtherUser}}{{userLogin}}{{else}}Вы{{/if}}:</div>
-            <div class="dialogs__message__text && text">{{message}}</div>
+            <div class="dialogs__person__name text">{{#if isOtherUser}}{{userLogin}}{{else}}Вы{{/if}}:</div>
+            <div class="dialogs__message__text text">{{message}}</div>
         </div>
         `;
     }

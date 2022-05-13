@@ -57,7 +57,7 @@ export class AddUserChat extends Block {
                                   value=userLogin
                                   error=chatNameError
                                   label="Логин пользователя"
-                                  style="signUp"
+                                  style="sign__up"
                                   onChange=onChange}}}
                     {{{ImageButton onClick=onSearchButtonClick
                                    src="img/google-search(24x24)@1x.png"}}}

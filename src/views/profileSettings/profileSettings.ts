@@ -85,7 +85,7 @@ export class ProfileSettings extends Block {
                     {{{BackArrow link="/profile" onClick=onBackArrowClick}}}
                     {{{Avatar style="profileImg" src="${avatar}"}}}
                     {{{ImageButton style="profile__settings__editImg" src="img/image-edit(40x40)@1x.png" onClick=onEditImageClick}}}
-                    <h1 class="profile__settings__header && text">Настройки профиля</h1>
+                    <h1 class="profile__settings__header text">Настройки профиля</h1>
                     <div class="profile__settings__formData">
                         {{{InputLabel id="firstNameProfileSetting"
                                       type="text"

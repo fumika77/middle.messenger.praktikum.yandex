@@ -25,11 +25,6 @@ declare global {
                 user: User;
                 userErrors:Nullable<User>;
         },
-        profileSettingsFormData: {
-                user: User;
-                userErrors:Nullable<User>;
-        },
-        dialogsFormData: {
             dialogsError: string,
             dialogs: Dialog[],
             history: Message[],
@@ -40,27 +35,22 @@ declare global {
             },
             message: string,
             messageError: string,
-        },
         profileImageFormData:{
             status?: Nullable<boolean>
             errorDescription?: Nullable<string>
             file: Nullable<File>
         }
         createChatFormData:{
-            status?: Nullable<boolean>
-            errorDescription?: Nullable<string>
+            errorDescription?: Nullable<string>,
+            status?: Nullable<boolean>,
+        }
+        passwordValidation: {
+            password?: string,
+            password_repeat?: string,
+            passwordErrorText?: string,
+            password_repeatErrorText?: string,
         }
         passwordFormData:{
-            values: {
-                old_password: string,
-                password: string,
-                password_repeat: string,
-            }
-            errors: {
-                old_password: string,
-                password: string,
-                password_repeat: string,
-            }
             status?: Nullable<boolean>
             errorDescription?: Nullable<string>
         }

@@ -35,11 +35,12 @@ export class ProfileDescription extends Block {
             <main>
             <div class="profile__box">
                 {{{ BackArrow link="/dialogs" onClick=onBackArrowClick}}}
-                {{#if avatar}}{{{ Avatar style="profileImg" src="${userData.avatar}"}}}{{/if}}
+                {{#if avatar}}{{{ Avatar style="profileImg" src="${userData.avatar}"}}}
+                {{else}}{{{ Avatar style="profileImg"}}}
+                {{/if}}
                 <h1 class="profile__description__header text">${userData.first_name}</h1>
                 <div class="profile__description__formData">
-                    {{{InputLabel ref="first_name" 
-                                  id="first_name" 
+                    {{{InputLabel id="first_name" 
                                   type="text" 
                                   value="${userData.first_name}"
                                   label="Имя" 

@@ -1,6 +1,5 @@
 import Block from '../../core/Block';
 import { getProfileInfo, login } from '../../services/AuthService';
-import { IError, Validation } from '../../utils/validation';
 import { withRouter, withStore } from '../../utils';
 import { Store } from '../../core/Store';
 import { BrowserRouter } from '../../core/Route';
@@ -36,70 +35,45 @@ class Login extends Block {
 
     protected getStateFromProps() {
         this.state = {
-            values: {
-                login: this.props.store.getState().loginData.values.login,
-                password: this.props.store.getState().loginData.values.password,
-            },
-            errors: {
-                login: this.props.store.getState().loginData.errors.login,
-                password: this.props.store.getState().loginData.errors.password,
-            },
-            hasError: this.props.store.getState().loginData.hasError,
-            updateLoginData: () => {
+            onLogin: () => {
                 const loginData: ILoginData = {
-                    login: (document.getElementById('loginLogin') as HTMLInputElement)?.value,
-                    password: (document.getElementById('passwordLogin') as HTMLInputElement)?.value,
+                    login: (document.getElementById('loginLoginPage') as HTMLInputElement)?.value,
+                    password: (document.getElementById('passwordLoginPage') as HTMLInputElement)?.value,
                 };
 
-                const validationResults: { [id: string]: IError } = Validation({ ...loginData });
-                const nextState = {
-                    errors: {
-                        login: validationResults.login.status ? '' : validationResults.login.errorText,
-                        password: validationResults.password.status ? '' : validationResults.password.errorText,
-                    },
-                    values: { ...loginData },
-                    hasError: !validationResults.login.status || !validationResults.password.status,
+                const errors = {
+                    login: (document.getElementById('loginLoginPageErrorText') as HTMLInputElement)?.innerHTML,
+                    password: (document.getElementById('passwordLoginPageErrorText') as HTMLInputElement)?.innerHTML,
                 };
-                this.props.store.dispatch({ loginData: { ...nextState } });
-            },
-            onLogin: () => {
-                this.state.updateLoginData();
-                if (!this.state.hasError) {
-                    this.props.store.dispatch(login, this.props.store.getState().loginData.values);
+                const hasNoError = errors.login == '' && errors.password == '';
+
+                if (hasNoError) {
+                    this.props.store.dispatch(login, loginData);
                     if (!this.props.store.getState().loginFormError) {
                         this.props.onSignInClick();
                     }
                 }
             },
-            onChange: () => {
-                this.state.updateLoginData();
-            },
         };
     }
 
     render() {
-        const { values, errors } = this.props.store.getState().loginData;
-
         // language=hbs
         return `
         <main>
             <div class="login">
                 <img class="login__img" src="img/user(144x144)@1x.png">
-                {{{InputLabel id="loginLogin"
-                              value="${values.login}"
-                              error="${errors.login}"
+                {{{InputLabel id="loginLoginPage"
                               style="login"
                               placeholder="Логин" 
                               type="text"
-                              onChange=onChange
+                              validationType="login"
                 }}}
-                {{{InputLabel id="passwordLogin"
-                              value="${values.password}"
-                              error="${errors.password}"
+                {{{InputLabel id="passwordLoginPage"
                               style="login"
                               placeholder="Пароль" 
                               type="password"
-                              onChange=onChange
+                              validationType="password"
                 }}}
                 {{{ Button text="Войти" link="/dialogs" onClick=onLogin}}}
                 {{#if formError}}{{{ ErrorText errorText = formError}}}{{/if}}

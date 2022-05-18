@@ -62,7 +62,7 @@ export const signUp = async (
         return;
     }
     dispatch({ user: null} );
-    window.router.go('/login');
+    window.router.go('/dialogs');
 };
 
 export const getProfileInfo = async (

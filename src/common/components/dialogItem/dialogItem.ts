@@ -13,19 +13,16 @@ interface DialogItemProps {
 
 export class DialogItem extends Block {
     constructor(props: DialogItemProps) {
-        const link = (props.avatar!==undefined) ? `${process.env.API_ENDPOINT}/resources/${props.avatar}` : 'img/user(144x144)@1x.png';
+        const link = (props.avatar!==undefined && props.avatar!==null) ? `${process.env.API_ENDPOINT}/resources/${props.avatar}` : 'img/user(144x144)@1x.png';
         super({ ...props, link
             , events: { click: () => {
                     this.props.store.dispatch({
-                        dialogsFormData: {
-                             ...this.props.store.getState().dialogsFormData,
                             history: [],
                             activeDialog: {
                                 id: this.props.id,
                                 title: this.props.title,
                                 avatar: props.avatar
                             }
-                        }
                     })
                     this.props.store.dispatch(initChatWebSocket)
                 }

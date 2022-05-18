@@ -1,24 +1,64 @@
-import {MessageDTO} from "../api/types";
+import {MessageDTO, MessageRequest} from "../api/types";
+import {clearInterval} from "timers";
+import {default as ChatApi} from "../api/Chats";
+import {hasError} from "../utils/apiHasError";
+import {transformMessage} from "../utils/apiTransformers";
+import {default as UserAPI} from "../api/User";
 
 export class ChatWebSocket{
     private __instance;
-    private __socketMap:Record<number, WebSocket>;
-    private __activeSocket
-    private __timerId
+    private static __socketMap:Map<number, WebSocket>;
+    private __activeSocket:WebSocket;
+    private __timerId;
     constructor() {
         if (ChatWebSocket.__instance) {
             return ChatWebSocket.__instance;
         }
-        this.__socketMap = {};
-
+        this.__socketMap = new Map();
+        this.__activeSocket = null;
         ChatWebSocket.__instance = this;
     }
 
-    public addSocket(userId:number, chatId: number, token: string, saveHistoryData: (data: MessageDTO[]) => void){
-        if (this.__socketMap[chatId]) {
+
+    public async saveHistoryData (data: MessageDTO[]|MessageDTO) {
+        const newMessages: Message[] = [];
+        const userId = window.store.getState().user?.id;
+        if (Array.isArray(data)){
+            data?.forEach(data => {
+                const message = transformMessage(data, userId)
+                newMessages.push(message)
+            })
+        } else {
+            const message = transformMessage(data, userId)
+            newMessages.push(message)
+        }
+        await Promise.all(newMessages?.map(async (message) => {
+            const id = message.userId;
+            if (id && message.isOtherUser){
+                const responseUser = await UserAPI.getUserById({id});
+                if (hasError(responseUser)) {
+                    window.store.dispatch({ dialogsError: responseUser.reason});
+                    return;
+                }
+                message.userLogin = responseUser.login;
+            }
+        }));
+        window.store.dispatch({
+            history: [...window.store.getState().history, ...newMessages.sort((a,b) => a.time - b.time)] });
+    }
+
+    public async addSocket (userId:number, chatId: number){
+        if (this.__socketMap.get(chatId)) {
             return;
         }
-        const socket = this.__socketMap[chatId] = new WebSocket(`${process.env.SOCKET_ENDPOINT}/${userId}/${chatId}/${token}`);
+        const chatsResponse = await ChatApi.getToken({id: chatId});
+        if (hasError(chatsResponse)) {
+            window.store.dispatch({ dialogsError: chatsResponse.reason});
+            return;
+        }
+        const token = chatsResponse.token;
+
+        const socket = new WebSocket(`${process.env.SOCKET_ENDPOINT}/${userId}/${chatId}/${token}`);
         socket.addEventListener('open', () => {
             console.log('Соединение установлено');
         });
@@ -37,39 +77,42 @@ export class ChatWebSocket{
                 console.log('Ошибка', event.data);
                 return;
             }
-            saveHistoryData(data);
+            else if (data.type != "pong" && event.type=="message"){
+                this.saveHistoryData(data);
+            }
         });
         socket.addEventListener('error', event => {
             console.log('Ошибка', event.message);
         });
 
-        this.__socketMap[chatId] = socket;
+        this.__socketMap.set(chatId, socket);
     }
 
     public setActive(chatId: number){
-        if (this.__activeSocket){
-            this.cancelKeepAlive();
+        if (this.__socketMap.has(chatId)){
+            this.__activeSocket = this.__socketMap.get(chatId);
+            this.__timerId =
+                setInterval(() => {
+                    if (this.__activeSocket.readyState !== 1) {
+                        this.__activeSocket.close();
+                        const chatId = window.store.getState().activeDialog.id!;
+                        const userId = window.store.getState().user?.id!;
+                        this.__socketMap.delete(chatId)
+                        this.addSocket(userId, chatId);
+                    } else {
+                        this.__activeSocket.send(JSON.stringify({
+                            type: 'ping',
+                        }));
+                    }
+                }, 10000);
         }
-        if (this.__socketMap[chatId]){
-            this.__activeSocket = this.__socketMap[chatId];
-            this.keepAlive()
-            this.getHistory()
-        }
-
+        this.getHistory()
     }
 
-    public keepAlive(timeout = 20000) {
-        if (this.__activeSocket.readyState == WebSocket.OPEN) {
-            this.__activeSocket.send({
-                type: "ping",
-            });
-        }
-        this.__timerId = setTimeout(this.keepAlive.bind(this), timeout);
-    }
 
     public cancelKeepAlive() {
         if (this.__timerId) {
-            clearTimeout(this.__timerId);
+            clearInterval(this.__timerId);
         }
     }
 
@@ -77,15 +120,15 @@ export class ChatWebSocket{
        return !!this.__socketMap[chatId];
     }
 
-    public sendMessage(text:string){
+    public sendMessage(message: MessageRequest){
         this.__activeSocket.send(JSON.stringify({
-            content: text,
+            content: message.message,
             type: 'message',
         }))
     }
 
     public getHistory() {
-        setTimeout(() => this.__activeSocket.send(JSON.stringify({
+        setTimeout(() => this.__activeSocket?.send(JSON.stringify({
             content: '0',
             type: 'get old',
         })), 100);

@@ -1,6 +1,6 @@
 import {Dispatch} from "../core/Store";
 import {default as UserAPI} from "../api/User";
-import {User, UserPassword, UserSearchById} from "../api/types";
+import {UserPassword, UserSearchById, UserSearchByLogin} from "../api/types";
 import {hasError} from "../utils/apiHasError";
 import {transformUser} from "../utils/apiTransformers";
 
@@ -56,7 +56,7 @@ export const getUserById = async (
     const responseUser = await UserAPI.getUserById(payload);
     if (hasError(responseUser)) {
         const {reason}  = responseUser;
-        dispatch({dialogsFormData: {...state.dialogsFormData, dialogsError: reason}});
+        dispatch({dialogsError: reason});
         return;
     }
     const user = transformUser(responseUser)  as User;
@@ -66,8 +66,9 @@ export const getUserById = async (
 export const getUserByLogin = async (
     dispatch: Dispatch<AppState>,
     state: AppState,
+    payload: UserSearchByLogin
 ) => {
-    const login:string = state.addUserFormData.userLogin
+    const login:string = payload.login;
     const responseUser = await UserAPI.getUserByLogin({login});
     if (hasError(responseUser)) {
         const {reason}  = responseUser;

@@ -22,7 +22,6 @@ export class ProfilePassword extends Block {
     protected getStateFromProps() {
         this.state = {
             onClick: () => {
-                console.log('onclick');
                 const errors = {
                     old_password: (document.getElementById('oldPasswordPageErrorText') as HTMLInputElement)?.innerText,
                     password: (document.getElementById('passwordPageErrorText') as HTMLInputElement)?.innerText,

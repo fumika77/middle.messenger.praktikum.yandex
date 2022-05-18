@@ -13,7 +13,7 @@ interface DialogItemProps {
 
 export class DialogItem extends Block {
     constructor(props: DialogItemProps) {
-        const link = (props.avatar!==undefined) ? `${process.env.API_ENDPOINT}/resources/${props.avatar}` : 'img/user(144x144)@1x.png';
+        const link = (props.avatar!==undefined && props.avatar!==null) ? `${process.env.API_ENDPOINT}/resources/${props.avatar}` : 'img/user(144x144)@1x.png';
         super({ ...props, link
             , events: { click: () => {
                     this.props.store.dispatch({

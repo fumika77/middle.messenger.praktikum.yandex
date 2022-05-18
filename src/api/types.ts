@@ -37,6 +37,10 @@ export type MessageRequest = {
     message: string,
 }
 
+export type TokenRequest = {
+    id: number,
+}
+
 
 export type MessageDTO = {
     chat_id: "number",

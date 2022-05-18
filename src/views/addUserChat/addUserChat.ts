@@ -15,28 +15,26 @@ export class AddUserChat extends Block {
         super(props);
         this.setProps({
             onBackArrowClick: () => this.props.router.go('/dialogs'),
-            chatName: () => this.props.store.getState().dialogsFormData.activeDialog.title,
+            chatName: () => this.props.store.getState().activeDialog.title,
             userLogin: () => this.props.store.getState().addUserFormData.userLogin,
             userId: () => this.props.store.getState().addUserFormData.user?.id,
             formError: () => this.props.store.getState().addUserFormData.error,
-            onSearchButtonClick: () => this.props.store.dispatch(getUserByLogin),
             onAddButtonClick: () => this.props.store.dispatch(addChatUser),
         });
     }
 
     protected getStateFromProps() {
         this.state = {
-            updateFormData: () => {
-                const userLogin = (document.getElementById('userLogin') as HTMLInputElement)?.value;
-                this.props.store.dispatch({
-                    addUserFormData: {
-                        ...this.props.store.getState().addUserFormData,
-                        userLogin,
-                    },
-                });
-            },
-            onChange: () => {
-                this.state.updateFormData();
+            onSearchButtonClick: () => {
+                const errors = {
+                    login: (document.getElementById('userLoginAddUserPageErrorText') as HTMLInputElement)?.innerText,
+                };
+                const values = {
+                    login: (document.getElementById('userLoginAddUserPage') as HTMLInputElement)?.value,
+                };
+                if (Object.keys(errors).find((key) => errors[key] !== '') == null) {
+                    this.props.store.dispatch(getUserByLogin, { login: values.login });
+                }
             },
         };
     }
@@ -49,13 +47,12 @@ export class AddUserChat extends Block {
             <div class="add__user__box">
                 {{{BackArrow onClick=onBackArrowClick}}}
                 <div class="add__user__search__box">   
-                    {{{InputLabel id="userLogin"
+                    {{{InputLabel id="userLoginAddUserPage"
                                   type="text"
-                                  value=userLogin
-                                  error=chatNameError
+                                  validationType="login"
                                   label="Логин пользователя"
                                   style="sign__up"
-                                  onChange=onChange}}}
+                    }}}
                     {{{ImageButton onClick=onSearchButtonClick
                                    src="img/google-search(24x24)@1x.png"}}}
                 </div>

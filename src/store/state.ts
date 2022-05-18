@@ -27,24 +27,6 @@ export const defaultState: AppState = {
             password_repeat: '',
         }
     },
-    profileSettingsFormData:{
-        user: {
-            login: '',
-            first_name: '',
-            second_name: '',
-            email: '',
-            phone: '',
-            display_name: '',
-        },
-        userErrors:{
-            login: '',
-            first_name: '',
-            second_name: '',
-            email: '',
-            phone: '',
-            display_name: '',
-        }
-    },
         dialogsError: "",
         dialogs: [],
         history: [],
@@ -75,36 +57,19 @@ export const defaultState: AppState = {
         avatar: '',
         display_name: '',
     },
-    userErrors: {
-        login: '',
-        first_name: '',
-        second_name: '',
-        email: '',
-        phone: '',
-        avatar: '',
-        display_name: '',
-    },
     passwordFormData: {
-        values: {
-            old_password: '',
-            password: '',
-            password_repeat: ''
-        },
-        errors: {
-            old_password: '',
-            password: '',
-            password_repeat: ''
-        },
         status: null,
         errorDescription: ''
     },
+    passwordValidation: {
+        password: '',
+        password_repeat: '',
+        passwordErrorText: '',
+        password_repeatErrorText: '',
+    },
     createChatFormData: {
-        values: {
-            chatName: '',
-        },
-        errors: {
-            chatName: '',
-        }
+        errorDescription: '',
+        status: null,
     },
     loginData: {
         errors:{

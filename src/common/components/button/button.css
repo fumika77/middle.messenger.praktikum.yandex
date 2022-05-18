@@ -7,11 +7,12 @@
   width: 160px;
   height: 15px;
   margin-top: 20px;
+  text-align: center;
 }
 
-.button__text{
+.button__text {
   color: var(--button-text-color);
   text-decoration: none;
-  text-align: center;
   font-size: 18px;
+  border: none;
 }

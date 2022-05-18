@@ -61,12 +61,14 @@ export default class Block {
         this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
     }
 
-    _componentDidMount(props: any) {
-        this.componentDidMount(props);
+    _componentDidMount(props?: any) {
+        props ? this.componentDidMount(props) : this.componentDidMount();
     }
 
     // Может переопределять пользователь, необязательно трогать
-    protected componentDidMount(props: any) {}
+    protected componentDidMount(props?: any) {
+        this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+    }
 
     _componentDidUpdate(oldProps: any, newProps: any) {
         if (this._element && this._element.style.display === 'none'){

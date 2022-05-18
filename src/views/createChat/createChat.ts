@@ -2,7 +2,6 @@ import Block from '../../core/Block';
 import { withRouter, withStore } from '../../utils';
 import { BrowserRouter } from '../../core/Route';
 import { Store } from '../../core/Store';
-import { IError, Validation } from '../../utils/validation';
 import { createChat } from '../../services/ChatService';
 
 type CreateChatPageProps = {
@@ -15,37 +14,23 @@ export class CreateChat extends Block {
         super(props);
         this.setProps({
             onBackArrowClick: () => this.props.router.go('/dialogs'),
-            chatName: () => this.props.store.getState().createChatFormData.values.chatName,
-            chatNameError: () => this.props.store.getState().createChatFormData.errors.chatName,
-            status: () => this.props.store.getState().createChatFormData.status,
             errorDescription: () => this.props.store.getState().createChatFormData.errorDescription,
+            status: () => this.props.store.getState().createChatFormData.status,
         });
     }
 
     protected getStateFromProps() {
         this.state = {
-            updateFormData: () => {
-                const formData = {
-                    chatName: (document.getElementById('chatName') as HTMLInputElement)?.value,
-                };
-                const validationResults: { [id: string]: IError } = Validation({ chat_name: formData.chatName });
-                const nextState = {
-                    errors: {
-                        chatName: validationResults.chat_name.status ? '' : validationResults.chat_name.errorText,
-                    },
-                    values: {
-                        chatName: formData.chatName,
-                    },
-                };
-                this.props.store.dispatch({ createChatFormData: nextState });
-            },
             onClick: () => {
-                if (this.props.store.getState().createChatFormData.errors.chatName == '') {
-                    this.props.store.dispatch(createChat, { title: this.props.chatName() });
+                const errors = {
+                    title: (document.getElementById('titleCreateChatPageErrorText') as HTMLInputElement)?.innerText,
+                };
+                const values = {
+                    title: (document.getElementById('titleCreateChatPage') as HTMLInputElement)?.value,
+                };
+                if (Object.keys(errors).find((key) => errors[key] !== '') == null) {
+                    this.props.store.dispatch(createChat, { title: values.title });
                 }
-            },
-            onChange: () => {
-                this.state.updateFormData();
             },
         };
     }
@@ -56,15 +41,17 @@ export class CreateChat extends Block {
             <main> 
             <div class="create__chat__box">
                 {{{BackArrow onClick=onBackArrowClick}}}
-                {{{InputLabel id="chatName"
+                {{{InputLabel id="titleCreateChatPage"
                               type="text"
-                              value=chatName
-                              error=chatNameError
                               label="Название чата"
                               style="sign__up"
-                              onChange=onChange}}}
-                {{{Button text="Добавить" onClick=onClick}}}
+                              validationType="chat_name"}}}
                 {{{ErrorText text=errorDescription}}}
+                {{#if status}}{{{ImageButton link="/dialogs" onClick=onBackArrowClick
+                                             style="done" src="img/like-1(32x32)@1x.png"}}}
+                {{else}}
+                    {{{Button text="Добавить" onClick=onClick}}}
+                {{/if}}
             </div>
             </main>
         `;

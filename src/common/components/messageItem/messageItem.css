@@ -13,7 +13,7 @@
 
   &__item__other {
     background: var(--button-background-color);
-    left: 2%;
+    left: 3%;
     align-self: flex-start;
   }
 }

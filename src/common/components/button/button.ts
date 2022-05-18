@@ -21,9 +21,8 @@ export class Button extends Block {
     render() {
         // language=hbs
         return `
-            <div class="button button__text {{style}}">
-            <a class="text " href="{{link}}">{{text}}</a>
-        </div>
-        `;
+            <div class="button  {{style}}">
+                <a class="button__text text" href="{{link}}">{{text}}</a>
+            </div>        `;
     }
 }

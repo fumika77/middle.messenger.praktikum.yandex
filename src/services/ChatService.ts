@@ -64,32 +64,6 @@ export const getChats = async (
     dispatch({dialogsError: '', dialogs: dialogs });
 };
 
-const saveHistoryData = async (data: MessageDTO[]|MessageDTO) =>  {
-    const newMessages: Message[] = [];
-    const userId = window.store.getState().user?.id;
-    if (Array.isArray(data)){
-        data?.forEach(data => {
-            const message = transformMessage(data, userId)
-            newMessages.push(message)
-        })
-    } else {
-        const message = transformMessage(data, userId)
-        newMessages.push(message)
-    }
-    await Promise.all(newMessages?.map(async (message) => {
-        const id = message.userId;
-        if (id && message.isOtherUser){
-            const responseUser = await UserAPI.getUserById({id});
-            if (hasError(responseUser)) {
-                window.store.dispatch({ dialogsError: responseUser.reason});
-                return;
-            }
-            message.userLogin = responseUser.login;
-        }
-    }));
-    window.store.dispatch({
-            history: [...window.store.getState().history, ...newMessages.sort((a,b) => a.time - b.time)] });
-}
 
 export const initChatWebSocket = async (
     dispatch: Dispatch<AppState>,
@@ -97,19 +71,10 @@ export const initChatWebSocket = async (
 ) => {
     const chatId = state.activeDialog?.id;
     const userId = state.user?.id;
-    const request = {
-        id: chatId
-    }
     dispatch({ history: [] });
-    const chatsResponse = await ChatApi.getToken(request);
-    if (hasError(chatsResponse)) {
-        dispatch({ dialogsError: chatsResponse.reason});
-        return;
-    }
-    const token = chatsResponse.token;
     //если сокета не существует
     if (!window.socket.checkExist(chatId)){
-        window.socket.addSocket(userId, chatId, token, saveHistoryData);
+        await window.socket.addSocket(userId, chatId);
     }
     window.socket.setActive(chatId)
 };
@@ -121,4 +86,5 @@ export const sendMessage = async (
     payload: MessageRequest
 ) => {
     window.socket.sendMessage(payload)
+    dispatch({message:''})
 };

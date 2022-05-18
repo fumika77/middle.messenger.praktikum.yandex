@@ -27,8 +27,6 @@ export class Dialogs extends Block {
             dialogHistory: () => this.props.store.getState().history,
             activeDialogTitle: () => this.props.store.getState().activeDialog?.title,
             activeDialogAvatar: () => this.props.store.getState().activeDialog?.avatar,
-            message: () => this.props.store.getState().message,
-            messageError: () => this.props.store.getState().messageError,
             avatar: () => this.props.store.getState().user?.avatar,
         });
     }
@@ -38,7 +36,6 @@ export class Dialogs extends Block {
         setTimeout(() => {
             if (this.props.store.getState().user?.id === null) {
                 this.props.router.go('/login');
-                
             }
         }, 100);
         this.props.store.dispatch(getChats);
@@ -46,41 +43,21 @@ export class Dialogs extends Block {
 
     protected getStateFromProps() {
         this.state = {
-            values: {
-                message: this.props.store.getState().message,
-                searchValue: '',
-            },
-            errors: {
-                message: this.props.store.getState().messageError,
-            },
-            updateDialogData: (messageDefault?: string) => {
-                const message = messageDefault || (document.getElementById('message') as HTMLInputElement)?.value;
-                const validationResults: { [id: string]: IError } = Validation({ message });
-                const nextDialogsFormData = {
-                    message,
-                    messageError: validationResults.message.status ? '' : validationResults.message.errorText,
-                };
-                this.props.store.dispatch(nextDialogsFormData );
-            },
-            onChange: () => {
-                this.state.updateDialogData();
-            },
             onClick: () => {
-                const message = this.props.store.getState().message;
-                console.log('click')
-                console.log('message',message)
-                if (message!=''){
-                    this.props.store.dispatch({message: ''})
-                    this.props.store.dispatch(sendMessage, {message});
+                const messageError = (document.getElementById('messageDialogPageErrorText') as HTMLInputElement)
+                    ?.innerText;
+                const message = (document.getElementById('messageDialogPage') as HTMLInputElement)?.value;
+                if (messageError == '') {
+                    this.props.store.dispatch(sendMessage, { message });
                 }
             },
         };
     }
 
     render() {
-        const { errors, values } = this.state;
+        const { values } = this.state;
         const avatar = this.props.store.getState().user?.avatar;
-        const activeDialog = this.props.store.getState().activeDialog;
+        const { activeDialog } = this.props.store.getState();
         // language=hbs
         return `
             <main>
@@ -102,16 +79,17 @@ export class Dialogs extends Block {
                             {{#if avatar}}
                                 {{{Avatar style="dialogs__profile__box__img"
                                           src="${avatar}"}}}
+                            {{else}} {{{Avatar style="dialogs__profile__box__img"}}}
+                            {{/if}}
                                 {{{ImageButton link="/profile" onClick=onProfileButtonClick
                                                src="img/profile-edit(32x32)@1x.png"}}}
-                            {{/if}}
+                            
                             </div>
                             <div style="display: flex">
                                 {{{InputLabel id="searchValue"
                                          style="dialogs__search"
                                          placeholder="Поиск"
-                                         type="text"
-                                         value="${values.searchValue}"}}}
+                                         type="text"}}}
                                 {{{ImageButton link="/create-chat" onClick=onCreateChatButtonClick
                                                src="img/round-chat-3(40x40)@1x.png"}}}
                             </div>
@@ -142,13 +120,11 @@ export class Dialogs extends Block {
                     </div>
                     {{#if activeDialogTitle}}
                         <div class="dialogs__footer">
-                            {{{InputLabel id="message"
+                            {{{InputLabel id="messageDialogPage"
                                      style="dialogs__input"
                                      placeholder="Написать сообщение"
                                      type="text"
-                                     value=message
-                                     error=messageError
-                                     onChange=onChange
+                                     validatonType="message"
                             }}}
                             {{{ImageButton class="dialogs__send__button"
                                            href=""

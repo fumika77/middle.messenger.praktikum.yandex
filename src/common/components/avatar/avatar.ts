@@ -7,7 +7,7 @@ interface AvatarProps {
 
 export class Avatar extends Block {
     constructor({ src, style }: AvatarProps) {
-        const link = (src!==undefined) ?  `${process.env.API_ENDPOINT}/resources/${src}` : 'img/user(144x144)@1x.png';
+        const link = (src!==undefined && src!==null) ?  `${process.env.API_ENDPOINT}/resources/${src}` : 'img/user(144x144)@1x.png';
         super({ link, style, events: {} });
     }
 

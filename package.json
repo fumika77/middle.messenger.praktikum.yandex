@@ -7,7 +7,7 @@
     "build": "cp -R static dist && parcel build src/index.html",
     "watch-css": "parcel watch src/common/styles/style.css --dist-dir styles",
     "lint": "eslint ./src/**/.ts",
-    "lint-fix": "eslint ./src/**/**/*.ts --fix ",
+    "lint-fix": "eslint ./src/**/**/*.ts ./styles/style.css --fix ",
     "stylelint": "npx stylelint \"**/*.css\" --fix",
     "prettier": "prettier --write  ./src/**/**/*.ts"
   },

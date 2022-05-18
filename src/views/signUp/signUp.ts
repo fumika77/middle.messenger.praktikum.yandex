@@ -51,8 +51,6 @@ export class SignUp extends Block {
                     phone: (document.getElementById('phoneSignUpPageErrorText') as HTMLInputElement)?.innerText,
                 };
                 if (Object.keys(errors).find((key) => errors[key] !== '') == null) {
-                    console.log('click');
-                    console.log(values);
                     this.props.store.dispatch(signUp, { ...values });
                 }
             },

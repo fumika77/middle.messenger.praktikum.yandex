@@ -73,7 +73,6 @@ class Login extends Block {
                               style="login"
                               placeholder="Пароль" 
                               type="password"
-                              validationType="password"
                 }}}
                 {{{ Button text="Войти" link="/dialogs" onClick=onLogin}}}
                 {{#if formError}}{{{ ErrorText errorText = formError}}}{{/if}}

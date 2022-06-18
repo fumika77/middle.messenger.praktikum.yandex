@@ -1,8 +1,6 @@
 .dialogs {
   &__wrapper {
     display: grid;
-
-    /* width: 1200px; */
     margin: auto;
     grid-template:
       "n h"
@@ -10,7 +8,8 @@
       "n f";
     grid-template-rows: 100px 1fr 100px;
     grid-template-columns: 500px 1fr;
-    min-height: 800px;
+    max-height: 100vh;
+    overflow: auto;
   }
 
   &__profile__box__img {
@@ -76,25 +75,34 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: var(--dialogs-sidebar-color);
-    height: auto;
-    padding: 5px;
+    background: var(--box-background-color);
+    width: 500px;
+    max-height: 100%;
+    max-width: 100%;
+    overflow-y: auto;
   }
 
   &__content {
     grid-area: c;
     background-color: var(--box-background-color);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    min-height: 600px;
+    max-height: 100vh;
+    overflow: auto;
   }
 
   &__item {
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 500px;
+    width: 490px;
     height: 130px;
     border-bottom: 1px solid #bababa;
     border-top: 1px solid #bababa;
     padding: 5px;
+    max-width: 100%;
   }
 
   &__item__img {
@@ -119,7 +127,8 @@
   }
 
   &__message__text {
-    padding-top: 25px;
+    padding-top: 30px;
+    padding-bottom: 5px;
   }
 
   &__send__button {

@@ -8,7 +8,7 @@
   line-height: 26px;
 }
 
-.signUp {
+.sign__up {
   &__box {
     position: absolute;
     width: 465px;
@@ -26,7 +26,7 @@
     flex-direction: column;
     margin: 0 -5px;
     left: calc(50% - 315px / 2 - 0.5px);
-    top: 25%;
+    top: 15%;
     align-items: center;
   }
 }

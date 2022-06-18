@@ -1,6 +1,6 @@
 import Handlebars, { HelperOptions } from 'handlebars';
 
-import Block from './Block';
+import Block from '../core/Block';
 
 export default function registerComponents(Component: typeof Block) {
     Handlebars.registerHelper(
@@ -28,6 +28,6 @@ export default function registerComponents(Component: typeof Block) {
 
     Handlebars.registerHelper(
         'isNeedStubForStyle',
-        (value) => value == 'profile' || value == 'signUp' || value == 'login',
+        (value) => value == 'profile' || value == 'sign__up' || value == 'login',
     );
 }

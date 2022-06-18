@@ -1,21 +1,32 @@
-import { Login } from './views/login/login';
-import { ProfileSettings } from './views/profileSettings/profileSettings';
-import { renderDom } from './utils/renderDom';
+import { renderDOM } from './utils/renderDOM';
 import Button from './common/components/button/index';
 import registerComponents from './utils/registerComponents';
 import { BackArrow } from './common/components/backArrow/backArrow';
 import InputLabel from './common/components/inputLabel';
 import Avatar from './common/components/avatar';
-import ProfileDescription from './views/profileDescription';
-import Error from './views/error';
-import SignUp from './views/signUp';
-import Block from './utils/Block';
 import { ErrorText } from './common/components/errorText/errorText';
 import { ImageButton } from './common/components/imageButton/imageButton';
-import { DialogItem } from './common/components/dialogItem/dialogItem';
+import DialogItem from './common/components/dialogItem';
 import Input from './common/components/input';
 import Link from './common/components/link';
-import Dialogs from './views/dialogs';
+import {BrowserRouter} from "./core/Route";
+import {Store} from "./core/Store";
+import {getScreenComponent} from "./utils";
+import {defaultState} from "./store/state";
+import Login from './views/login';
+import Dialogs from "./views/dialogs";
+import ProfileDescription from "./views/profileDescription";
+import ProfileSettings from "./views/profileSettings";
+import ProfileImage from "./views/profileImage";
+import SignUp from "./views/signUp";
+import ErrorPage from "./views/error";
+import InputFile from "./common/components/inputFile";
+import ProfilePassword from "./views/profilePassword";
+import CreateChat from "./views/createChat/createChat";
+import createChat from "./views/createChat/createChat";
+import MessageItem from "./common/components/messageItem";
+import {AddUserChat} from "./views/addUserChat";
+import {ChatWebSocket} from "./core/ChatWebSocket";
 
 registerComponents(ErrorText);
 registerComponents(Button);
@@ -27,27 +38,44 @@ registerComponents(ErrorText);
 registerComponents(ImageButton);
 registerComponents(DialogItem);
 registerComponents(Link);
+registerComponents(InputFile);
+registerComponents(CreateChat);
+registerComponents(MessageItem);
 
-export function addEventListner() {
-    const key = window.location.hash.substr(1);
-    const page = key == '' ? 'login' : key;
+document.addEventListener('DOMContentLoaded', () => {
+    const store = new Store<AppState>(defaultState);
+    const router = new BrowserRouter();
+    const socket = new ChatWebSocket();
 
-    document.addEventListener('DOMContentLoaded', () => {
-        const pageCollection: { [key: string]: typeof Block } = {};
-        pageCollection.login = new Login();
-        pageCollection.profileSettings = new ProfileSettings();
-        pageCollection.profileDescription = new ProfileDescription();
-        pageCollection.signUp = new SignUp();
-        pageCollection.dialogs = new Dialogs();
-        pageCollection.error = new Error({
-            errorNumber: 404,
-            errorDescription: 'Упс, ошибочка вышла...',
-        });
-        if (pageCollection[page] != null) {
-            renderDom('#app', pageCollection[page]);
+    window.router = router;
+    window.store = store;
+    window.socket = socket;
+
+    /**
+     * для переключения активного экрана
+     */
+    store.on('change', (prevState, nextState) => {
+        if (prevState.screen !== nextState.screen) {
+            const Page = getScreenComponent(nextState.screen);
+            renderDOM(new Page());
         }
     });
-    document.dispatchEvent(new Event('DOMContentLoaded'));
-}
 
-addEventListner();
+    /**
+     * Инициализируем роутинг
+     */
+    router
+        .use('/', Login, {})
+        .use('', Login, {})
+        .use('/login', Login, {})
+        .use('/dialogs', Dialogs, {})
+        .use('/profile', ProfileDescription, {})
+        .use('/profile-settings', ProfileSettings, {})
+        .use('/profile-image', ProfileImage, {})
+        .use('/profile-password', ProfilePassword, {})
+        .use('/create-chat', createChat, {})
+        .use('/add-user-chat', AddUserChat, {})
+        .use('/sign-up', SignUp, {})
+        .use('/*', ErrorPage, {})
+        .start();
+});

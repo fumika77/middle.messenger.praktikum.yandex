@@ -29,10 +29,10 @@
 .profile__box {
   position: absolute;
   width: 650px;
-  height: 730px;
+  height: 870px;
   left: 50%;
   transform: translate3d(-50%, 0, 0);
-  top: 10px;
+  top: 40px;
   background: var(--box-background-color);
   box-shadow: 0 0 4px rgb(0 0 0 / 25%);
   border-radius: 12px;

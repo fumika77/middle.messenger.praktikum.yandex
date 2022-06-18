@@ -1,11 +1,12 @@
-import Block from '../../utils/Block';
+import Block from '../../core/Block';
+import { withRouter, withStore } from '../../utils';
 
 interface IErrorPageProps {
     errorNumber: number;
     errorDescription: string;
 }
 
-export class ErrorPage extends Block<IErrorPageProps> {
+export class ErrorPage extends Block {
     protected getStateFromProps(props: IErrorPageProps) {
         this.state = {
             values: {
@@ -21,11 +22,13 @@ export class ErrorPage extends Block<IErrorPageProps> {
         return `
             <main>
                 <div class="error__box">
-                    <main class="error__header && error__text && text">"${values.errorNumber}"</main>
-                    <main class="error__description && error__text && text">"${values.errorDescription}"}</main>
-                    <a class="error__action && error__text && text" href="">Вернуться к чатам</a>
+                    <main class="error__header error__text text">"${values.errorNumber}"</main>
+                    <main class="error__description error__text text">"${values.errorDescription}"}</main>
+                    <a class="error__action error__text text" href="">Вернуться к чатам</a>
                 </div>
             </main>
         `;
     }
 }
+
+export default withRouter(withStore(ErrorPage));

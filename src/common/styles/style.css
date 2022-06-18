@@ -4,9 +4,16 @@
 @import "../components/inputLabel/inputLabel.css";
 @import "../components/button/button.css";
 @import "../components/input/input.css";
+@import "../components/inputFile/inputFile.css";
+@import "../components/messageItem/messageItem.css";
+@import "../components/imageButton/imageButton.css";
 @import "../../views/login/login.css";
 @import "../../views/profileSettings/profileSettings.css";
 @import "../../views/profileDescription/profileDescription.css";
 @import "../../views/signUp/signUp.css";
 @import "../../views/error/error.css";
 @import "../../views/dialogs/dialogs.css";
+@import "../../views/profileImage/profileImage.css";
+@import "../../views/profilePassword/profilePassword.css";
+@import "../../views/createChat/createChat.css";
+@import "../../views/addUserChat/addUserChat.css";

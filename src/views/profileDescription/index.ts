@@ -1,1 +1,1 @@
-export { ProfileDescription as default } from './profileDescription';
+export { default } from './profileDescription';

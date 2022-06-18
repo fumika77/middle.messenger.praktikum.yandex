@@ -1,119 +1,117 @@
-import Block from '../../utils/Block';
-import { IError, Validation } from '../../utils/validation';
-import { redirect } from '../../utils/redirect';
+import Block from '../../core/Block';
+import { withRouter, withStore } from '../../utils';
+import { BrowserRouter } from '../../core/Route';
+import { Store } from '../../core/Store';
+import { updateProfileInfo } from '../../services/ProfileService';
+import { getProfileInfo } from '../../services/AuthService';
+
+type ProfileSettingsPageProps = {
+    router: BrowserRouter;
+    store: Store<AppState>;
+};
 
 export class ProfileSettings extends Block {
+    constructor(props: ProfileSettingsPageProps) {
+        super(props);
+        this.setProps({
+            onBackArrowClick: () => this.props.router.go('/profile'),
+            onEditImageClick: () => this.props.router.go('/profile-image'),
+            formError: () => this.props.store.getState().profileSettingsFormError,
+            avatar: () => this.props.store.getState().user?.avatar,
+        });
+    }
+
+    componentDidMount() {
+        this.props.store.dispatch(getProfileInfo);
+    }
+
     protected getStateFromProps() {
         this.state = {
-            values: {
-                login: 'SuperArchi',
-                first_name: 'Арчибальд',
-                second_name: 'Котиков',
-                email: 'kotikoff@kotomail.ru',
-                phone: '88005678286',
-            },
-            errors: {
-                login: '',
-                first_name: '',
-                second_name: '',
-                email: '',
-                phone: '',
-            },
-            updateProfileSettingsData: () => {
-                const profileSettingsData = {
-                    login: (this.refs.login.childNodes[3] as HTMLInputElement)?.value,
-                    first_name: (this.refs.first_name.childNodes[3] as HTMLInputElement)?.value,
-                    second_name: (this.refs.second_name.childNodes[3] as HTMLInputElement)?.value,
-                    email: (this.refs.email.childNodes[3] as HTMLInputElement)?.value,
-                    phone: (this.refs.phone.childNodes[3] as HTMLInputElement)?.value,
-                };
-
-                const validationResults: { [id: string]: IError } = Validation({ ...profileSettingsData });
-                const nextState = {
-                    errors: {
-                        login: validationResults.login.status ? '' : validationResults.login.errorText,
-                        first_name: validationResults.first_name.status ? '' : validationResults.first_name.errorText,
-                        second_name: validationResults.second_name.status
-                            ? ''
-                            : validationResults.second_name.errorText,
-                        email: validationResults.email.status ? '' : validationResults.email.errorText,
-                        phone: validationResults.phone.status ? '' : validationResults.phone.errorText,
-                    },
-                    values: { ...profileSettingsData },
-                };
-                this.setState(nextState);
-            },
             onClick: () => {
-                this.state.updateProfileSettingsData();
-                console.log('profileSettingsData', this.state.values);
-                if (Object.keys(this.state.errors).find((key) => this.state.errors[key] !== '') == null) {
-                    redirect('profileDescription');
+                const errors = {
+                    login: (document.getElementById('loginProfileSettingsErrorText') as HTMLInputElement)?.innerText,
+                    first_name: (document.getElementById('firstNameProfileSettingsErrorText') as HTMLInputElement)
+                        ?.innerText,
+                    second_name: (document.getElementById('secondNameProfileSettingsErrorText') as HTMLInputElement)
+                        ?.innerText,
+                    display_name: (document.getElementById('displayNameProfileSettingsErrorText') as HTMLInputElement)
+                        ?.innerText,
+                    email: (document.getElementById('emailProfileSettingsErrorText') as HTMLInputElement)?.innerText,
+                    phone: (document.getElementById('phoneProfileSettingsErrorText') as HTMLInputElement)?.innerText,
+                };
+                const values = {
+                    login: (document.getElementById('loginProfileSettings') as HTMLInputElement)?.value,
+                    first_name: (document.getElementById('firstNameProfileSettings') as HTMLInputElement)?.value,
+                    second_name: (document.getElementById('secondNameProfileSettings') as HTMLInputElement)?.value,
+                    display_name: (document.getElementById('displayNameProfileSettings') as HTMLInputElement)?.value,
+                    email: (document.getElementById('emailProfileSettings') as HTMLInputElement)?.value,
+                    phone: (document.getElementById('phoneProfileSettings') as HTMLInputElement)?.value,
+                };
+                if (Object.keys(errors).find((key) => errors[key] !== '') == null) {
+                    this.props.store.dispatch({ user: { ...this.props.store.getState().user.avatar, ...values } });
+                    const request = { ...this.props.store.getState().user };
+                    delete request.avatar;
+                    this.props.store.dispatch(updateProfileInfo, request);
                 }
-            },
-            onChange: () => {
-                this.state.updateProfileSettingsData();
-            },
-            onBackArrowClick: () => {
-                redirect('profileDescription');
             },
         };
     }
 
     render() {
-        const { errors, values } = this.state;
+        const { user } = this.props.store.getState();
         // language=hbs
         return `
             <main>
                 <div class="profile__box">
-                    {{{BackArrow onClick=onBackArrowClick}}}
-                    {{{Avatar style="profileImg" src="img/animals.png"}}}
-                    <img class="profile__settings__editImg" src="img/image-edit(40x40)@1x.png">
-                    <h1 class="profile__settings__header && text">Настройки профиля</h1>
+                    {{{BackArrow link="/profile" onClick=onBackArrowClick}}}
+                    {{#if avatar}}{{{Avatar style="profileImg" src="${user.avatar}"}}}{{/if}}
+                    {{{ImageButton style="profile__settings__editImg" src="img/image-edit(40x40)@1x.png" onClick=onEditImageClick}}}
+                    <h1 class="profile__settings__header text">Настройки профиля</h1>
                     <div class="profile__settings__formData">
-                        {{{InputLabel ref ="first_name" 
-                                      id="first_name" 
-                                      type="text" 
-                                      value="${values.first_name}"
-                                      error="${errors.first_name}"
-                                      onChange=onChange
-                                      label="Имя"  
+                        {{{InputLabel id="firstNameProfileSettings"
+                                      type="text"
+                                      value="${user.first_name}"
+                                      validationType="first_name"
+                                      label="Имя"
                                       style="profile"}}}
-                        {{{InputLabel ref ="second_name" 
-                                      id="second_name" 
-                                      type="text" 
-                                      value="${values.second_name}" 
-                                      error="${errors.second_name}"
-                                      onChange=onChange
-                                      label="Фамилия" 
+                        {{{InputLabel id="secondNameProfileSettings"
+                                      type="text"
+                                      value="${user.second_name}"
+                                      value=second_name
+                                      validationType="second_name"
+                                      label="Фамилия"
                                       style="profile"}}}
-                        {{{InputLabel ref ="login" 
-                                      id="login" 
-                                      type="text" 
-                                      value="${values.login}" 
-                                      error="${errors.login}"
-                                      onChange=onChange
-                                      label="Логин"  
+                        {{{InputLabel id="loginProfileSettings"
+                                      type="text"
+                                      value="${user.login}"
+                                      value=login
+                                      validationType="login"
+                                      label="Логин"
                                       style="profile"}}}
-                        {{{InputLabel ref ="email" 
-                                      id="email" 
-                                      type="text" 
-                                      value="${values.email}" 
-                                      error="${errors.email}"
-                                      onChange=onChange
-                                      label="Почта"  
+                        {{{InputLabel id="displayNameProfileSettings"
+                                      type="text"
+                                      value="${user.display_name}"
+                                      validationType="display_name"
+                                      label="Ник"
                                       style="profile"}}}
-                        {{{InputLabel ref ="phone" 
-                                      id="phone" 
-                                      type="number" 
-                                      value="${values.phone}" 
-                                      error="${errors.phone}"
-                                      onChange=onChange
-                                      label="Телефон"  
+                        {{{InputLabel id="emailProfileSettings"
+                                      type="text"
+                                      value="${user.email}"
+                                      validationType="email"
+                                      label="Почта"
                                       style="profile"}}}
-                        {{{Button link="" text="Сохранить" onClick=onClick}}}
+                        {{{InputLabel id="phoneProfileSettings"
+                                      type="number"
+                                      value="${user.phone}"
+                                      validationType="phone"
+                                      label="Телефон"
+                                      style="profile"}}}
+                        {{{Button text="Сохранить" onClick=onClick}}}
+                        {{{ErrorText errorText=formError}}}
                     </div>
                 </div>
             </main>
         `;
     }
 }
+export default withRouter(withStore(ProfileSettings));

@@ -1,20 +1,19 @@
-import Block from '../../../utils/Block';
+import Block from '../../../core/Block';
 
 interface InputLabelProps {
     type: 'text' | 'password' | 'email';
     id: string;
+    validationType: string;
+    value?: string;
     placeholder?: string;
-    value: string;
-    error?: string;
     style: string;
     label?: string;
     disabled?: string;
-    onChange: () => void;
 }
 
 export class InputLabel extends Block {
-    constructor({ type, id, label, style, placeholder, value, error, disabled, onChange }: InputLabelProps) {
-        super({ type, id, label, style, placeholder, value, error, disabled, onChange, events: {} });
+    constructor(props: InputLabelProps) {
+        super({ ...props, events: {} });
     }
 
     static componentName = 'InputLabel';
@@ -28,12 +27,12 @@ export class InputLabel extends Block {
                         placeholder=placeholder
                         disabled=disabled
                         type=type
+                        id=id
                         value=value
-                        onChange=onChange
-                        idForError=id
+                        validationType=validationType
                 }}}
-                <div class="input__error" id="{{id}}_errorText">{{error}}</div>
             </div>
         `;
     }
 }
+

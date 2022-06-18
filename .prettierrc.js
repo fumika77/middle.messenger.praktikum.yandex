@@ -7,5 +7,5 @@ module.exports = {
     quoteProps: "as-needed",
     trailingComma: "all",
     bracketSpacing: true,
-    endOfLine: "auto"
+    endOfLine: "auto",
 }

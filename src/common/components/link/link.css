@@ -2,7 +2,6 @@
   width: 232px;
   height: 40px;
   border: none;
-  outline: none;
   border-bottom: 1px solid #000;
 
   &__error {

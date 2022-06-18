@@ -1,15 +1,19 @@
-import Block from '../../../utils/Block';
+import Block from '../../../core/Block';
 
 interface LinkProps {
     style?: string;
     link: string;
     text: string;
-    onClick?: () => void;
+    onClick?: (e?: MouseEvent) => void;
 }
 
 export class Link extends Block {
     constructor({ style, link, text, onClick }: LinkProps) {
-        super({ style, link, text, events: { click: onClick } });
+        const linkClick = (e: MouseEvent) => {
+            e.preventDefault()
+            onClick?.()
+        };
+        super({ style, link, text, events: { click: linkClick } });
     }
 
     static componentName = 'Link';
@@ -17,7 +21,7 @@ export class Link extends Block {
     render() {
         // language=hbs
         return `
-            <a href={{link}} class={{style}}>{{text}}</a>
+            <a href="{{link}}" class="{{style}}">{{text}}</a>
         `;
     }
 }

@@ -34,11 +34,11 @@ export default class Block {
         this._meta = {
             props,
         };
-        this.getStateFromProps(props);
 
         this.props = this._makePropsProxy(props || ({} as any));
-        this.state = this._makePropsProxy(this.state);
 
+        this.state = this._makePropsProxy(this.state);
+        this.getStateFromProps(props);
         this.eventBus = () => eventBus;
 
         this._registerEvents(eventBus);
@@ -54,21 +54,26 @@ export default class Block {
     }
 
     protected getStateFromProps(props: any): void {
-        this.state = {} as any;
+        this.state = {...props} as any;
     }
 
     init() {
         this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
     }
 
-    _componentDidMount(props: any) {
-        this.componentDidMount(props);
+    _componentDidMount(props?: any) {
+        props ? this.componentDidMount(props) : this.componentDidMount();
     }
 
     // Может переопределять пользователь, необязательно трогать
-    protected componentDidMount(props: any) {}
+    protected componentDidMount(props?: any) {
+        this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+    }
 
     _componentDidUpdate(oldProps: any, newProps: any) {
+        if (this._element && this._element.style.display === 'none'){
+            return;
+        }
         const response = this.componentDidUpdate(oldProps, newProps);
         if (!response) {
             return;
@@ -166,14 +171,12 @@ export default class Block {
         }
 
         Object.entries(events).forEach(([event, listener]) => {
-            this._element!.addEventListener(event, listener);
+            this._element?.addEventListener(event, listener);
         });
     }
 
     compile() {
         const fragment = document.createElement('template');
-        // console.log('componentName')
-        // console.log(this.componentName)
         const template = Handlebars.compile(this.render());
         const htmlString = template({ ...this.state, ...this.props, children: this.children, refs: this.refs });
         fragment.innerHTML = htmlString;
@@ -189,10 +192,11 @@ export default class Block {
     }
 
     onShow() {
-        this.getContent()!.style.display = 'block';
+        this.eventBus().emit(Block.EVENTS.FLOW_CDM)
+        this.getContent().style.display = 'block';
     }
 
     onHide() {
-        this.getContent()!.style.display = 'none';
+        this.getContent().style.display = 'none';
     }
 }

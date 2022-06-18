@@ -1,12 +1,14 @@
-import Block from '../../../utils/Block';
+import Block from '../../../core/Block';
+import {withStore} from "../../../utils";
 
 interface IErrorTextProps {
     errorText?: string;
+    id  : string;
 }
 
 export class ErrorText extends Block {
-    constructor({ errorText }: IErrorTextProps) {
-        super({ errorText });
+    constructor({id, errorText }: IErrorTextProps) {
+        super({id, errorText });
     }
 
     static componentName = 'ErrorText';
@@ -14,7 +16,9 @@ export class ErrorText extends Block {
     render() {
         // language=hbs
         return `
-            <div class="input__error">{{errorText}}</div>
+                <div class="input__error" {{#if id}}id="{{id}}ErrorText"{{/if}}>{{errorText}}</div>
         `;
     }
 }
+
+export default withStore(ErrorText)

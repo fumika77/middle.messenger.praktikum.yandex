@@ -1,6 +1,6 @@
-import { BaseService } from './baseService';
+import { Base } from '../api/BaseService';
 
-class MainController extends BaseService {
+class MainController extends Base {
     constructor() {
         super();
     }

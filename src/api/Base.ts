@@ -98,15 +98,3 @@ export class Base {
     }
 }
 
-function fetchWithRetry(url: string, options: IRequestOptions): Promise<any> {
-    const { retries } = options;
-    function onError(err: any) {
-        const triesLeft = retries!--;
-        if (!triesLeft) {
-            throw err;
-        }
-        return fetchWithRetry(url, { ...options, retries: triesLeft });
-    }
-
-    return fetch(url, options).catch(onError);
-}

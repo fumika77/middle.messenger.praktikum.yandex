@@ -7,7 +7,7 @@ interface ImageButtonProps {
     onClick: () => void;
 }
 
-export class ImageButton extends Block<any> {
+export class ImageButton extends Block  {
     constructor({ src, link, style, onClick }: ImageButtonProps) {
         const buttonClick = (e: MouseEvent) => {
             e.preventDefault()

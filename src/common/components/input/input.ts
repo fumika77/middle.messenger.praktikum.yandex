@@ -50,6 +50,7 @@ export class Input extends Block {
             error: this.props.defaultValueErrorText||'',
 
             onChange: () => {
+                console.log('Input Change')
                 let value = (document.getElementById(this.props.id) as HTMLInputElement)?.value;
                 let nextState;
                 if (this.props.validationType=='password'||this.props.validationType=='password_repeat'){

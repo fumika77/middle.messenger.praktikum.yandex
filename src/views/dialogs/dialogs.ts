@@ -1,5 +1,4 @@
 import Block from '../../core/Block';
-import { IError, Validation } from '../../utils/validation';
 import { withRouter, withStore } from '../../utils';
 import { BrowserRouter } from '../../core/Route';
 import { Store } from '../../core/Store';

@@ -2,6 +2,10 @@ import { nanoid } from 'nanoid';
 import Handlebars from 'handlebars';
 import EventBus from './EventBus';
 
+type EventsListner = {
+    event:  string,
+    listner:  EventListenerOrEventListenerObject,
+}
 export default class Block {
     static EVENTS = {
         INIT: 'init',
@@ -165,12 +169,13 @@ export default class Block {
     }
 
     _addEvents() {
-        const { events } = this.props as any;
+        const {events} = this.props as any;
         if (!events) {
             return;
         }
 
         Object.entries(events).forEach(([event, listener]) => {
+            // @ts-ignore
             this._element?.addEventListener(event, listener);
         });
     }

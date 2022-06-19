@@ -7,7 +7,7 @@ export enum EMethods {
 
 export interface IRequestOptions {
     timeout?: number;
-    method?: EMethods;
+    method: EMethods;
     data?: any;
     headers?: Record<string, string>;
     retries?: number;
@@ -38,7 +38,7 @@ export class Base {
     public get (url: string, options: IRequestOptions) {
         return this.request(url, { ...options, method: EMethods.GET }, options.timeout).catch((err) => console.log(err));
 }
-    public post (url: string, options: IRequestOptions) {
+    public post (url: string, options: IRequestOptions | any) {
         return this.request(url, { ...options, method: EMethods.POST }, options.timeout);
     }
     public put (url: string, options: IRequestOptions) {
@@ -77,6 +77,7 @@ export class Base {
 
             if (options.headers) {
                 Object.keys(options.headers).forEach((key) => {
+                    // @ts-ignore
                     xhr.setRequestHeader(key, options.headers[key]);
                 });
             }

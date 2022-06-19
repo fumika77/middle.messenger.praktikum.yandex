@@ -1,4 +1,10 @@
 {
+    "ts-node": {
+        // these options are overrides used only by ts-node
+        "compilerOptions": {
+            "module": "commonjs"
+        }
+    },
     "compilerOptions": {
         "skipLibCheck": true,
         "target": "es2017",
@@ -6,12 +12,14 @@
         "typeRoots": ["node_modules/@types", "typings/app.d.ts"],
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
-        "strict": true,
-        "noImplicitAny": true,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
+        "strict": false,
+        "noImplicitAny": false,
+        "noUnusedLocals": false,
+        "noUnusedParameters": false,
         "sourceMap": true,
-        "strictNullChecks": true
+        "strictNullChecks": true,
+        "suppressExcessPropertyErrors": true
     },
-    "exclude": ["node_modules", "dist"]
+    "include": ["src/**/*"],
+    "exclude": ["node_modules", "**/*.test.ts"]
 }

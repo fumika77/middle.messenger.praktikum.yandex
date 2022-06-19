@@ -1,4 +1,4 @@
-export type APIError = {
+    export type APIError = {
     reason: string;
 };
 

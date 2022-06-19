@@ -15,7 +15,7 @@ export class SignUp extends Block {
         this.setProps({
             formError: () => this.props.store.getState().signUpFormError,
             isLoading: () => Boolean(this.props.store.getState().isLoading),
-            onClick: () => this.props.router.go('/login'),
+            onClick: () => this.props.router.go('/'),
             onSignUpButtonClick: () => this.state.onClick(),
         });
     }

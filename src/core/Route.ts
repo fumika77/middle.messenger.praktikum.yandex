@@ -4,7 +4,7 @@ import {renderDOM} from "../utils/renderDOM";
 function isEqual (value1, value2){
     return value1 === value2;
 }
-class Route {
+export class Route {
     protected _pathname;
     protected _blockClass;
     protected _block;
@@ -39,11 +39,12 @@ class Route {
     }
 }
 
+
 export class BrowserRouter {
     private routes;
     private history;
-    private _currentRoute: Route;
-    private __instance;
+    private _currentRoute: Nullable<Route>;
+    private static __instance;
 
     constructor() {
         if (BrowserRouter.__instance) {
@@ -57,7 +58,7 @@ export class BrowserRouter {
         BrowserRouter.__instance = this;
     }
 
-    use(pathname: string, block: typeof Block, props: any) {
+    public use(pathname: string, block: typeof Block, props: any) {
         const route = new Route(pathname, block, props);
 
         this.routes?.push(route);
@@ -65,7 +66,7 @@ export class BrowserRouter {
         return this;
     }
 
-    start() {
+    public start() {
         window.onpopstate = (event => {
             this._onRoute(event.currentTarget.location.pathname);
         }).bind(this);
@@ -73,7 +74,7 @@ export class BrowserRouter {
         this._onRoute(window.location.pathname);
     }
 
-    _onRoute(pathname:string) {
+    private _onRoute(pathname:string) {
         let route = this.getRoute(pathname);
         if (!route) {
             return;
@@ -87,20 +88,20 @@ export class BrowserRouter {
         route.render();
     }
 
-    go(pathname:string) {
+    public go(pathname:string) {
         this.history?.pushState({}, '', pathname);
         this._onRoute(pathname);
     }
 
-    back() {
+    public back() {
         this.history?.back();
     }
 
-    forward() {
+    public forward() {
         this.history?.forward();
     }
 
-    getRoute(pathname:string) {
+    private getRoute(pathname:string) {
         const route = this.routes?.find(route => route.match(pathname));
         return route || this.routes?.find(route => route.match('*'));
     }

@@ -1,5 +1,5 @@
 import Block from '../core/Block';
-import Store from '../core/Store';
+import {Store} from '../core/Store';
 
 export function withStore<T>(Component: typeof Block, name?: string) {
     return class extends Component{

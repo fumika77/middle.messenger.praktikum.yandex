@@ -7,7 +7,7 @@ import {transformUser} from "../utils/apiTransformers";
 export const updateProfileInfo = async (
     dispatch: Dispatch<AppState>,
     state: AppState,
-    payload: User,
+    payload: User|any,
 ) => {
     const updateUser = await UserAPI.updateProfile(payload);
     if (hasError(updateUser)) {

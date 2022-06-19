@@ -74,7 +74,9 @@ export const initChatWebSocket = async (
     dispatch({ history: [] });
     //если сокета не существует
     if (!window.socket.checkExist(chatId)){
-        await window.socket.addSocket(userId, chatId);
+        if (typeof userId === "number") {
+            await window.socket.addSocket(userId, chatId);
+        }
     }
     window.socket.setActive(chatId)
 };

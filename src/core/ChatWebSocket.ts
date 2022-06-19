@@ -116,7 +116,7 @@ export class ChatWebSocket{
         }
     }
 
-    public checkExist(chatId: number){
+    public checkExist(chatId: Nullable<number>){
        return !!this.__socketMap[chatId];
     }
 

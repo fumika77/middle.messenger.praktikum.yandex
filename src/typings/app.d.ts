@@ -18,7 +18,7 @@ declare global {
         loginFormError: Nullable<string>;
         userErrorRequest: Nullable<string>;
         createChatFormError: Nullable<string>;
-        loadUserDataError: string;
+        loadUserDataError: string | unknown;
         user: Nullable<User>;
         userError:Nullable<User>;
         signUpFormData: {
@@ -29,7 +29,7 @@ declare global {
             dialogs: Dialog[],
             history: Message[],
             activeDialog: {
-                id: Nullable<number>,
+                id: number,
                 title:Nullable<string>,
                 avatar: Nullable<string>,
             },
@@ -92,11 +92,11 @@ declare global {
     export type Dialog = {
         id: number,
         title: string,
-        avatar: string,
+        avatar: string | undefined,
         unreadCnt: number,
         content: string,
         userLogin: string,
-        userAvatar: string,
+        userAvatar: string | undefined,
         time: Date,
         timeString:string
     }

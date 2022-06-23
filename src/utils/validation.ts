@@ -28,7 +28,14 @@ function checkNames(validationResults: { [id: string]: IError }, key: string, va
 }
 
 function checkLogin(validationResults: { [id: string]: IError }, key: string, value: string) {
-    if (value?.replace(/^[a-zA-Z0-9-_]{3,20}$/, '').length > 0 && value?.replace(/^[0-9]$/, '').length > 0) {
+    if (value.length<4){
+        validationResults[key] = {
+            status: false,
+            errorText: 'Значение должно содержать более 3 символов',
+        };
+        return false;
+    }
+    else if (value?.replace(/^[a-zA-Z0-9-_]{3,20}$/, '').length > 0 && value?.replace(/^[0-9]$/, '').length > 0) {
         validationResults[key] = {
             status: false,
             errorText: 'Недопустимые символы',

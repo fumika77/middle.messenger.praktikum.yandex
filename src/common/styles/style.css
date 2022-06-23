@@ -1,19 +1,19 @@
-@import "common.css";
-@import "../components/avatar/avatar.css";
-@import "../components/backArrow/backArrow.css";
-@import "../components/inputLabel/inputLabel.css";
-@import "../components/button/button.css";
-@import "../components/input/input.css";
-@import "../components/inputFile/inputFile.css";
-@import "../components/messageItem/messageItem.css";
-@import "../components/imageButton/imageButton.css";
-@import "../../views/login/login.css";
-@import "../../views/profileSettings/profileSettings.css";
-@import "../../views/profileDescription/profileDescription.css";
-@import "../../views/signUp/signUp.css";
-@import "../../views/error/error.css";
-@import "../../views/dialogs/dialogs.css";
-@import "../../views/profileImage/profileImage.css";
-@import "../../views/profilePassword/profilePassword.css";
-@import "../../views/createChat/createChat.css";
-@import "../../views/addUserChat/addUserChat.css";
+"./src/common/components/common.css",
+"./src/common/components/avatar/avatar.css",
+"./src/common/components/backArrow/backArrow.css",
+"./src/common/components/inputLabel/inputLabel.css",
+"./src/common/components/button/button.css",
+"./src/common/components/input/input.css",
+"./src/common/components/inputFile/inputFile.css",
+"./src/common/components/messageItem/messageItem.css",
+"./src/common/components/imageButton/imageButton.css",
+"./src/views/login/login.css",
+"./src/views/profileSettings/profileSettings.css",
+"./src/views/profileDescription/profileDescription.css",
+"./src/views/signUp/signUp.css",
+"./src/views/error/error.css",
+"./src/views/dialogs/dialogs.css",
+"./src/views/profileImage/profileImage.css",
+"./src/views/profilePassword/profilePassword.css",
+"./src/views/createChat/createChat.css",
+"./src/views/addUserChat/addUserChat.css",

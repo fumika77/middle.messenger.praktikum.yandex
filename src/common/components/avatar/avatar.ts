@@ -7,14 +7,17 @@ interface AvatarProps {
 
 export class Avatar extends Block {
     constructor({ src, style }: AvatarProps) {
-        const link = (src!==undefined && src!==null) ?  `${process.env.API_ENDPOINT}/resources/${src}` : 'img/user(144x144)@1x.png';
+        const link =
+            src !== undefined && src !== null
+                ? `${process.env.API_ENDPOINT}/resources/${src}`
+                : 'img/user(144x144)@1x.png';
         super({ link, style, events: {} });
     }
 
     static componentName = 'Avatar';
 
     protected componentDidMount() {
-        if (!this.props.src){
+        if (!this.props.src) {
             return;
         }
     }

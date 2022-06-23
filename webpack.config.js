@@ -4,7 +4,30 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const DotenvWebpackPlugin = require('dotenv-webpack');
 
 module.exports = {
-    entry: './src/index.ts',
+    entry:{
+        index: [
+            './src/index.ts',
+            "./src/common/styles/common.css",
+            "./src/common/components/avatar/avatar.css",
+            "./src/common/components/backArrow/backArrow.css",
+            "./src/common/components/inputLabel/inputLabel.css",
+            "./src/common/components/button/button.css",
+            "./src/common/components/input/input.css",
+            "./src/common/components/inputFile/inputFile.css",
+            "./src/common/components/messageItem/messageItem.css",
+            "./src/common/components/imageButton/imageButton.css",
+            "./src/views/login/login.css",
+            "./src/views/profileSettings/profileSettings.css",
+            "./src/views/profileDescription/profileDescription.css",
+            "./src/views/signUp/signUp.css",
+            "./src/views/error/error.css",
+            "./src/views/dialogs/dialogs.css",
+            "./src/views/profileImage/profileImage.css",
+            "./src/views/profilePassword/profilePassword.css",
+            "./src/views/createChat/createChat.css",
+            "./src/views/addUserChat/addUserChat.css"
+        ]
+    },
     mode: "development",
     resolve: {
         extensions: ['.ts', '.js', '.json'],
@@ -15,13 +38,12 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: "[name].js",
-        chunkFilename: "[name].chunk.js",
+        filename: "bundle.js",
     },
     plugins: [
         new HtmlWebpackPlugin({
             template: './src/index.html',
-            filename: 'index.html',
+            filename: './index.html',
         }),
         new CopyWebpackPlugin({
             patterns: [{from: 'static/img', to: 'img'}]
@@ -42,7 +64,7 @@ module.exports = {
                 }]
             },
             {
-                test: /\.tsx?$/,
+                test: /\.ts?$/,
                 include: path.resolve(__dirname, 'src'),
                 use: [
                     {
@@ -63,10 +85,12 @@ module.exports = {
                 test: /\.(png|svg|jpg|jpeg|gif)$/i,
                 type: 'asset/resource',
             },
+            {
+                test: /\.css$/i,
+                use: ["style-loader","css-loader"
+                    , "postcss-loader"],
+            },
         ],
-    },
-    optimization: {
-        runtimeChunk: 'single',
     },
     watchOptions: {
         ignored: /node_modules/,

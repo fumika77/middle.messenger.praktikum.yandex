@@ -35,4 +35,3 @@ export class InputLabel extends Block {
         `;
     }
 }
-

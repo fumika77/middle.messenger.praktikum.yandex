@@ -1,11 +1,11 @@
-import { nanoid } from 'nanoid';
 import Handlebars from 'handlebars';
 import EventBus from './EventBus';
+import { nanoid } from 'nanoid';
 
 type EventsListner = {
-    event:  string,
-    listner:  EventListenerOrEventListenerObject,
-}
+    event: string;
+    listner: EventListenerOrEventListenerObject;
+};
 export default class Block {
     static EVENTS = {
         INIT: 'init',
@@ -58,7 +58,7 @@ export default class Block {
     }
 
     protected getStateFromProps(props: any): void {
-        this.state = {...props} as any;
+        this.state = { ...props } as any;
     }
 
     init() {
@@ -75,7 +75,7 @@ export default class Block {
     }
 
     _componentDidUpdate(oldProps: any, newProps: any) {
-        if (this._element && this._element.style.display === 'none'){
+        if (this._element && this._element.style.display === 'none') {
             return;
         }
         const response = this.componentDidUpdate(oldProps, newProps);
@@ -169,7 +169,7 @@ export default class Block {
     }
 
     _addEvents() {
-        const {events} = this.props as any;
+        const { events } = this.props as any;
         if (!events) {
             return;
         }
@@ -197,7 +197,7 @@ export default class Block {
     }
 
     onShow() {
-        this.eventBus().emit(Block.EVENTS.FLOW_CDM)
+        this.eventBus().emit(Block.EVENTS.FLOW_CDM);
         this.getContent().style.display = 'block';
     }
 

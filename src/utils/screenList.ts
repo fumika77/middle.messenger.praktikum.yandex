@@ -2,15 +2,15 @@ import Login from '../views/login';
 import ProfileDescription from '../views/profileDescription';
 import Dialogs from '../views/dialogs';
 import Block from '../core/Block';
-import SignUp from "../views/signUp";
-import ProfileSettings from "../views/profileSettings";
+import SignUp from '../views/signUp';
+import ProfileSettings from '../views/profileSettings';
 
 export enum Screens {
     Login = 'login',
     ProfileDescription = 'profile',
     Dialogs = 'dialogs',
     SignUp = 'sign-up',
-    ProfileSettings = 'profile-settings'
+    ProfileSettings = 'profile-settings',
 }
 
 const map: Record<Screens, typeof Block> = {

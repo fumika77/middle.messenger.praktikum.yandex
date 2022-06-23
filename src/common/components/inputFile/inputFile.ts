@@ -1,5 +1,5 @@
 import Block from '../../../core/Block';
-import {withStore} from "../../../utils";
+import { withStore } from '../../../utils';
 
 interface InputFileProps {
     filename: string;
@@ -11,7 +11,7 @@ export class InputFile extends Block {
         super({
             filename,
             events: {
-                change: onChange
+                change: onChange,
             },
         });
     }
@@ -29,4 +29,4 @@ export class InputFile extends Block {
     }
 }
 
-export default withStore(InputFile)
+export default withStore(InputFile);

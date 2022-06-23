@@ -5,22 +5,22 @@ export const initWebSocket = (userId: number, chatId: number, token: string) => 
         console.log('Соединение установлено');
     });
 
-    socket.addEventListener('close', event => {
+    socket.addEventListener('close', (event) => {
         if (event.wasClean) {
-           console.log('Соединение закрыто чисто');
+            console.log('Соединение закрыто чисто');
         } else {
-           console.log('Обрыв соединения');
+            console.log('Обрыв соединения');
         }
 
         console.log(`Код: ${event.code} | Причина: ${event.reason}`);
     });
 
-    socket.addEventListener('message', event => {
+    socket.addEventListener('message', (event) => {
         console.log('Получены данные', event.data);
     });
 
-    socket.addEventListener('error', event => {
-       console.log('Ошибка', event.message);
+    socket.addEventListener('error', (event) => {
+        console.log('Ошибка', event.message);
     });
     return socket;
-}
+};

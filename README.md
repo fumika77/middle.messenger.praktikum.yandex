@@ -1,5 +1,5 @@
-Ссылка на pull request sprint 3:
-https://github.com/fumika77/middle.messenger.praktikum.yandex/pull/3
+Ссылка на pull request sprint 4:
+https://github.com/fumika77/middle.messenger.praktikum.yandex/pull/4
 ## Описание
 
 Проект мессенджер

@@ -1,7 +1,7 @@
-import {ChatWebSocket} from "../core/ChatWebSocket";
-import {Store} from "../core/Store";
-import {BrowserRouter} from "../core/Route";
-import {UserDictionary} from "../core/UserDictionary";
+import {ChatWebSocket} from "core/ChatWebSocket";
+import {Store} from "core/Store";
+import {BrowserRouter} from "core/Route";
+import {UserDictionary} from "core/UserDictionary";
 
 declare module '*.hbs';
 declare global {

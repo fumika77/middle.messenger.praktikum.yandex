@@ -1,8 +1,7 @@
-import { default as AuthAPI } from '../api/Auth';
-import {Dispatch} from "../core/Store";
-import {hasError} from "../utils/apiHasError";
-import {User} from "../api/types";
-import {transformUser} from "../utils/apiTransformers";
+import { default as AuthAPI } from 'api/Auth';
+import {Dispatch} from "core/Store";
+import {hasError} from "utils/apiHasError";
+import {transformUser} from "utils/apiTransformers";
 
 type LoginPayload = {
     login: string;
@@ -47,13 +46,14 @@ export const login = async (
 };
 
 export const logout = async (dispatch: Dispatch<AppState>) => {
+    window.router.go('/');
+
     dispatch({ isLoading: true });
 
     await AuthAPI.logout();
 
     dispatch({ user: null });
 
-    window.router.go('');
 
     dispatch({ isLoading: false });
 };
@@ -75,7 +75,6 @@ export const signUp = async (
 
 export const getProfileInfo = async (
     dispatch: Dispatch<AppState>,
-    state: AppState,
 ) => {
     const responseUser = await AuthAPI.profileInfo()
     if (hasError(responseUser)){

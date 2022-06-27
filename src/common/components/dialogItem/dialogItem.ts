@@ -1,7 +1,7 @@
-import Block from '../../../core/Block';
-import {withStore} from "../../../utils";
-import {Store} from "../../../core/Store";
-import {initChatWebSocket} from "../../../services/ChatService";
+import Block from 'core/Block';
+import {withStore} from "utils";
+import {Store} from "core/Store";
+import {initChatWebSocket} from "services/ChatService";
 
 interface DialogItemProps {
     avatar: string;

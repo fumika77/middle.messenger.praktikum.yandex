@@ -38,7 +38,7 @@ module.exports = {
             common: path.resolve(__dirname, 'src/common'),
             services: path.resolve(__dirname, 'src/services'),
             utils: path.resolve(__dirname, 'src/utils'),
-            view: path.resolve(__dirname, 'src/view'),
+            views: path.resolve(__dirname, 'src/views'),
         },
         fallback: { "timers": require.resolve('timers-browserify') }
     },

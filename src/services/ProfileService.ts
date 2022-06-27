@@ -1,8 +1,8 @@
-import {Dispatch} from "../core/Store";
-import {default as UserAPI} from "../api/User";
-import {UserPassword, UserSearchById, UserSearchByLogin} from "../api/types";
-import {hasError} from "../utils/apiHasError";
-import {transformUser} from "../utils/apiTransformers";
+import {Dispatch} from "core/Store";
+import {default as UserAPI} from "api/User";
+import {UserPassword, UserSearchById, UserSearchByLogin} from "api/types";
+import {hasError} from "utils/apiHasError";
+import {transformUser} from "utils/apiTransformers";
 
 export const updateProfileInfo = async (
     dispatch: Dispatch<AppState>,

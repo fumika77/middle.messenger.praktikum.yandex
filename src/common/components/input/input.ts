@@ -1,7 +1,7 @@
-import Block from '../../../core/Block';
-import {withStore} from "../../../utils";
-import {Validation} from "../../../utils/validation";
-import {Store} from "../../../core/Store";
+import Block from 'core/Block';
+import {withStore} from "utils";
+import {Validation} from "utils/validation";
+import {Store} from "core/Store";
 
 interface InputProps {
     type: 'text' | 'password' | 'email';

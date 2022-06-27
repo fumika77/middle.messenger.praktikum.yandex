@@ -1,8 +1,8 @@
-import Block from '../../core/Block';
-import { withStore, withRouter } from '../../utils';
-import { BrowserRouter } from '../../core/Route';
-import { Store } from '../../core/Store';
-import { signUp } from '../../services/AuthService';
+import Block from 'core/Block';
+import { withStore, withRouter } from 'utils';
+import { BrowserRouter } from 'core/Route';
+import { Store } from 'core/Store';
+import { signUp } from 'services/AuthService';
 
 type SignUpPageProps = {
     router: BrowserRouter;

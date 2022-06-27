@@ -1,8 +1,8 @@
-import Block from '../../core/Block';
-import { withRouter, withStore } from '../../utils';
-import { BrowserRouter } from '../../core/Route';
-import { Store } from '../../core/Store';
-import { getProfileInfo } from '../../services/AuthService';
+import Block from 'core/Block';
+import { withRouter, withStore } from 'utils';
+import { BrowserRouter } from 'core/Route';
+import { Store } from 'core/Store';
+import { getProfileInfo } from 'services/AuthService';
 
 type ProfileDescriptionPageProps = {
     router: BrowserRouter;

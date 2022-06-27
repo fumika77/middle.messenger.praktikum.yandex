@@ -1,9 +1,9 @@
-import Block from '../../core/Block';
-import { withRouter, withStore } from '../../utils';
-import { BrowserRouter } from '../../core/Route';
-import { Store } from '../../core/Store';
-import { getChats, sendMessage } from '../../services/ChatService';
-import { getProfileInfo, logout } from '../../services/AuthService';
+import Block from 'core/Block';
+import { withRouter, withStore } from 'utils';
+import { BrowserRouter } from 'core/Route';
+import { Store } from 'core/Store';
+import { getChats, sendMessage } from 'services/ChatService';
+import { getProfileInfo, logout } from 'services/AuthService';
 
 type DialogsPageProps = {
     router: BrowserRouter;

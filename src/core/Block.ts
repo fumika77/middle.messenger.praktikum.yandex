@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid';
 import Handlebars from 'handlebars';
 import EventBus from './EventBus';
-import {isEqual} from "../utils/isEqual";
+import {isEqual} from "utils/isEqual";
 
 
 export default class Block {

@@ -1,9 +1,9 @@
-import Block from '../../core/Block';
-import { withRouter, withStore } from '../../utils';
-import { BrowserRouter } from '../../core/Route';
-import { Store } from '../../core/Store';
-import { updateProfilePassword } from '../../services/ProfileService';
-import { UserPassword } from '../../api/types';
+import Block from 'core/Block';
+import { withRouter, withStore } from 'utils';
+import { BrowserRouter } from 'core/Route';
+import { Store } from 'core/Store';
+import { updateProfilePassword } from 'services/ProfileService';
+import { UserPassword } from 'api/types';
 
 type ProfilePasswordPageProps = {
     router: BrowserRouter;

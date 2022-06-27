@@ -1,4 +1,4 @@
-import {BrowserRouter} from "../core/Route";
+import {BrowserRouter} from "core/Route";
 import Block from "../core/Block";
 
 

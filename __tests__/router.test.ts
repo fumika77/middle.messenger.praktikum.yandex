@@ -1,5 +1,5 @@
 import { BrowserRouter } from '../src/core/Route';
-import Login from '../src/views/login';
+import Login from 'views/login';
 import { createBrowserHistory } from 'history';
 import Block from '../src/core/Block';
 

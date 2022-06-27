@@ -1,5 +1,5 @@
 import Block from "./Block";
-import {renderDOM} from "../utils/renderDOM";
+import {renderDOM} from "utils/renderDOM";
 
 function isEqual (value1, value2){
     return value1 === value2;

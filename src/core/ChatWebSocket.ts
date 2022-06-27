@@ -1,8 +1,8 @@
-import {MessageDTO, MessageRequest} from "../api/types";
-import {default as ChatApi} from "../api/Chats";
-import {hasError} from "../utils/apiHasError";
-import {transformMessage} from "../utils/apiTransformers";
-import {default as UserAPI} from "../api/User";
+import {MessageDTO, MessageRequest} from "api/types";
+import {default as ChatApi} from "api/Chats";
+import {hasError} from "utils/apiHasError";
+import {transformMessage} from "utils/apiTransformers";
+import {default as UserAPI} from "api/User";
 
 export class ChatWebSocket{
     private static __instance;

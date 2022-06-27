@@ -1,8 +1,8 @@
-import Block from '../../core/Block';
-import { getProfileInfo, login } from '../../services/AuthService';
-import { withRouter, withStore } from '../../utils';
-import { Store } from '../../core/Store';
-import { BrowserRouter } from '../../core/Route';
+import Block from 'core/Block';
+import { getProfileInfo, login } from 'services/AuthService';
+import { withRouter, withStore } from 'utils';
+import { Store } from 'core/Store';
+import { BrowserRouter } from 'core/Route';
 
 interface ILoginData {
     login: string;

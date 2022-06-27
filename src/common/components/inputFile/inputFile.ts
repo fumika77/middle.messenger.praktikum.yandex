@@ -1,5 +1,5 @@
-import Block from '../../../core/Block';
-import {withStore} from "../../../utils";
+import Block from 'core/Block';
+import {withStore} from "utils";
 
 interface InputFileProps {
     filename: string;

@@ -1,12 +1,12 @@
-import {default as ChatApi } from '../api/Chats';
-import {Dispatch} from "../core/Store";
-import {hasError} from "../utils/apiHasError";
+import {default as ChatApi } from 'api/Chats';
+import {Dispatch} from "core/Store";
+import {hasError} from "utils/apiHasError";
 import {
     ChatCreateRequest,
     ChatListRequest,
-    MessageDTO, MessageRequest,
-} from "../api/types";
-import {transformDialog, transformMessage} from "../utils/apiTransformers";
+    MessageRequest,
+} from "api/types";
+import {transformDialog} from "utils/apiTransformers";
 
 export const createChat = async (
     dispatch: Dispatch<AppState>,

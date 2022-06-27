@@ -1,7 +1,7 @@
-import Block from "./Block";
-import {renderDOM} from "utils/renderDOM";
+import Block from './Block';
+import { renderDOM } from 'utils/renderDOM';
 
-function isEqual (value1, value2){
+function isEqual(value1, value2) {
     return value1 === value2;
 }
 class Route {
@@ -32,7 +32,7 @@ class Route {
     render() {
         if (!this._block) {
             this._block = new this._blockClass(this._props);
-            renderDOM(this._block)
+            renderDOM(this._block);
             return;
         }
         this._block.onShow();
@@ -66,14 +66,14 @@ export class BrowserRouter {
     }
 
     start() {
-        window.onpopstate = (event => {
+        window.onpopstate = ((event) => {
             this._onRoute(event.currentTarget.location.pathname);
         }).bind(this);
 
         this._onRoute(window.location.pathname);
     }
 
-    _onRoute(pathname:string) {
+    _onRoute(pathname: string) {
         let route = this.getRoute(pathname);
         if (!route) {
             return;
@@ -87,7 +87,7 @@ export class BrowserRouter {
         route.render();
     }
 
-    go(pathname:string) {
+    go(pathname: string) {
         this.history?.pushState({}, '', pathname);
         this._onRoute(pathname);
     }
@@ -100,8 +100,8 @@ export class BrowserRouter {
         this.history?.forward();
     }
 
-    getRoute(pathname:string) {
-        const route = this.routes?.find(route => route.match(pathname));
-        return route || this.routes?.find(route => route.match('*'));
+    getRoute(pathname: string) {
+        const route = this.routes?.find((route) => route.match(pathname));
+        return route || this.routes?.find((route) => route.match('*'));
     }
 }

@@ -35,12 +35,12 @@ export class Dialogs extends Block {
     }
 
     componentDidMount() {
-        this.props.store.dispatch({isLoading: true});
+        this.props.store.dispatch({ isLoading: true });
         this.props.store.dispatch(getProfileInfo);
         setTimeout(() => {
             if (this.props.store.getState().user?.id === null) {
                 this.props.router.go('');
-                this.props.store.dispatch({isLoading: false});
+                this.props.store.dispatch({ isLoading: false });
             }
         }, 100);
 
@@ -61,9 +61,8 @@ export class Dialogs extends Block {
     }
 
     render() {
-        console.log('Dialog page render')
         const avatar = this.props.store.getState().user?.avatar;
-        const { activeDialogTitle, activeDialogAvatar} = this.props.store.getState();
+        const { activeDialogTitle, activeDialogAvatar } = this.props.store.getState();
         // language=hbs
         return `
             <main>

@@ -10,8 +10,8 @@ interface ImageButtonProps {
 export class ImageButton extends Block<any> {
     constructor({ src, link, style, onClick }: ImageButtonProps) {
         const buttonClick = (e: MouseEvent) => {
-            e.preventDefault()
-            onClick()
+            e.preventDefault();
+            onClick();
         };
         super({ src, link, style, events: { click: buttonClick } });
     }

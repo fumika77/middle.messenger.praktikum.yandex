@@ -42,20 +42,20 @@
 }
 
 .loading::after {
-  content: 'Загрузка...';
+  content: "Загрузка...";
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .loadingDialogBox {
-  background: none;
+  background-color: var(--dialogs-sidebar-color) !important;
 }
 
-
-.loadingMessages{
+.loadingMessages {
   align-items: center !important;
 }
-.hide{
+
+.hide {
   display: none;
 }

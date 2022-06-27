@@ -1,7 +1,7 @@
 import Block from 'core/Block';
-import {withStore} from "utils";
-import {Store} from "core/Store";
-import {initChatWebSocket} from "services/ChatService";
+import { withStore } from 'utils';
+import { Store } from 'core/Store';
+import { initChatWebSocket } from 'services/ChatService';
 
 interface DialogItemProps {
     avatar: string;
@@ -13,31 +13,33 @@ interface DialogItemProps {
 
 export class DialogItem extends Block {
     constructor(props: DialogItemProps) {
-        const link = (props.avatar!==undefined && props.avatar!==null) ? 
-            `${process.env.API_ENDPOINT}/resources/${props.avatar}` : 'img/user(144x144)@1x.png';
-        super({ ...props, link
-            , events: { click: () => {
-                console.log('chat selected');
-                this.props.store.dispatch({
-                    isChatLoading:true})
-                console.log('active chat loader updated in store')
-                this.props.store.dispatch(initChatWebSocket, {
-                    history: [],
-                    activeDialogId: props.id,
-                    activeDialogTitle: props.title,
-                    activeDialogAvatar: props.avatar
-                })
-            }
+        const link =
+            props.avatar !== undefined && props.avatar !== null
+                ? `${process.env.API_ENDPOINT}/resources/${props.avatar}`
+                : 'img/user(144x144)@1x.png';
+        super({
+            ...props,
+            link,
+            events: {
+                click: () => {
+                    this.props.store.dispatch({
+                        isChatLoading: true,
+                    });
 
-            }
+                    this.props.store.dispatch(initChatWebSocket, {
+                        history: [],
+                        activeDialogId: props.id,
+                        activeDialogTitle: props.title,
+                        activeDialogAvatar: props.avatar,
+                    });
+                },
+            },
         });
     }
 
     static componentName = 'DialogItem';
 
     render() {
-        console.log(`DialogItem page render${this.props?.title}`)
-
         // language=hbs
         return `
         <div class="dialogs__item">
@@ -51,4 +53,4 @@ export class DialogItem extends Block {
     }
 }
 
-export default withStore(DialogItem, 'DialogItem')
+export default withStore(DialogItem, 'DialogItem');

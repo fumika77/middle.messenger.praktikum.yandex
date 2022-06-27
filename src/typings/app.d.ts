@@ -1,7 +1,7 @@
-import {ChatWebSocket} from "core/ChatWebSocket";
-import {Store} from "core/Store";
-import {BrowserRouter} from "core/Route";
-import {UserDictionary} from "core/UserDictionary";
+import { ChatWebSocket } from 'core/ChatWebSocket';
+import { Store } from 'core/Store';
+import { BrowserRouter } from 'core/Route';
+import { UserDictionary } from 'core/UserDictionary';
 
 declare module '*.hbs';
 declare global {
@@ -23,37 +23,37 @@ declare global {
         avatar?: string;
         password_repeat?: string;
         password?: string;
-    }
+    };
     export type Message = {
-        time: Date,
-        timeString: string,
-        content: string,
-        userId: number,
-        userLogin: Nullable<string>,
-        isOtherUser: boolean,
-    }
+        time: Date;
+        timeString: string;
+        content: string;
+        userId: number;
+        userLogin: Nullable<string>;
+        isOtherUser: boolean;
+    };
     export type DialogDTO = {
-        id: number,
-        title: string,
-        avatar: string,
-        unread_count: number,
+        id: number;
+        title: string;
+        avatar: string;
+        unread_count: number;
         last_message: {
-            user: User,
-            time: string,
-            content: string
-        }
-    }
+            user: User;
+            time: string;
+            content: string;
+        };
+    };
     export type Dialog = {
-        id: number,
-        title: string,
-        avatar: string,
-        unreadCnt: number,
-        content: string,
-        userLogin: string,
-        userAvatar: string,
-        time: Date,
-        timeString:string
-    }
+        id: number;
+        title: string;
+        avatar: string;
+        unreadCnt: number;
+        content: string;
+        userLogin: string;
+        userAvatar: string;
+        time: Date;
+        timeString: string;
+    };
     export type AppState = {
         screen: Nullable<Screens>;
         socket: Nullable<ChatWebSocket>;
@@ -66,40 +66,40 @@ declare global {
         createChatFormError: Nullable<string>;
         loadUserDataError: string;
         user: Nullable<User>;
-        userError:Nullable<User>;
+        userError: Nullable<User>;
         signUpFormData: {
-                user: User;
-                userErrors:Nullable<User>;
-        },
-            dialogsError: string,
-            dialogs: Dialog[],
-            history: Message[],
-            activeDialogId: Nullable<number>,
-            activeDialogTitle:Nullable<string>,
-            activeDialogAvatar: Nullable<string>,
-            message: string,
-            messageError: string,
-        profileImageFormData:{
-            status?: Nullable<boolean>
-            errorDescription?: Nullable<string>
-            file: Nullable<File>
-        }
-        createChatFormData:{
-            errorDescription?: Nullable<string>,
-            status?: Nullable<boolean>,
-        }
+            user: User;
+            userErrors: Nullable<User>;
+        };
+        dialogsError: string;
+        dialogs: Dialog[];
+        history: Message[];
+        activeDialogId: Nullable<number>;
+        activeDialogTitle: Nullable<string>;
+        activeDialogAvatar: Nullable<string>;
+        message: string;
+        messageError: string;
+        profileImageFormData: {
+            status?: Nullable<boolean>;
+            errorDescription?: Nullable<string>;
+            file: Nullable<File>;
+        };
+        createChatFormData: {
+            errorDescription?: Nullable<string>;
+            status?: Nullable<boolean>;
+        };
         passwordValidation: {
-            password?: string,
-            password_repeat?: string,
-            passwordErrorText?: string,
-            password_repeatErrorText?: string,
-        }
-        passwordFormData:{
-            status?: Nullable<boolean>
-            errorDescription?: Nullable<string>
-        }
-        signUpFormError: Nullable<string>,
+            password?: string;
+            password_repeat?: string;
+            passwordErrorText?: string;
+            password_repeatErrorText?: string;
+        };
+        passwordFormData: {
+            status?: Nullable<boolean>;
+            errorDescription?: Nullable<string>;
+        };
+        signUpFormError: Nullable<string>;
         addUserFormData: any;
         profileSettingsFormError: string;
-    }
+    };
 }

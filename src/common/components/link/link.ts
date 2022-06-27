@@ -10,8 +10,8 @@ interface LinkProps {
 export class Link extends Block {
     constructor({ style, link, text, onClick }: LinkProps) {
         const linkClick = (e: MouseEvent) => {
-            e.preventDefault()
-            onClick?.()
+            e.preventDefault();
+            onClick?.();
         };
         super({ style, link, text, events: { click: linkClick } });
     }

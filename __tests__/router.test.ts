@@ -1,23 +1,9 @@
-import { BrowserRouter } from '../src/core/Route';
-import Login from 'views/login';
 import { createBrowserHistory } from 'history';
+import { BrowserRouter } from '../src/core/Route';
+import Login from '../src/views/login';
 import Block from '../src/core/Block';
-
-class TestBlock extends Block {
-    getContent(): HTMLElement {
-        const div = document.createElement('div');
-        div.id = 'test-div';
-        return div;
-    }
-}
-
-class TestBlock2 extends Block {
-    getContent(): HTMLElement {
-        const div = document.createElement('div');
-        div.id = 'test2-div';
-        return div;
-    }
-}
+import { TestBlock } from './classes/TestBlock';
+import { TestBlock2 } from './classes/TestBlock2';
 
 beforeEach(() => {
     (global as any).window = {

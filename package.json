@@ -2,14 +2,14 @@
   "name": "messenger-project",
   "version": "1.0.0",
   "scripts": {
-    "dev": "webpack serve --open --config ./webpack.config.js",
+    "dev": "webpack serve --open --config webpack.development.config.js",
     "start": "node index.js",
-    "build": "webpack --config ./webpack.config.js",
+    "build": "webpack --config webpack.production.config.js",
     "lint": "eslint ./src/**/.ts",
-    "lint-fix": "eslint ./src/**/**/*.ts styles_old/style.css --fix ",
+    "lint-fix": "eslint ./src/**/*.ts --fix ",
     "stylelint": "npx stylelint \"**/*.css\" --fix",
     "prettier": "prettier --write  ./src/**/**/*.ts ./__tests__/*.ts",
-    "clean": "rm -rf node_modules/",
+    "clean": "rm -rf node_modules dist",
     "test": "jest --env=jsdom",
     "test-watch": "jest --watch"
   },

@@ -3,12 +3,12 @@ export const defaultState: AppState = {
     socket: null,
     isLoading: false,
     isChatLoading: false,
-    loginFormError: "",
-    profileSettingsFormError: "",
-    createChatFormError: "",
-    signUpFormError: "",
-    loadUserDataError:"",
-    signUpFormData:{
+    loginFormError: '',
+    profileSettingsFormError: '',
+    createChatFormError: '',
+    signUpFormError: '',
+    loadUserDataError: '',
+    signUpFormData: {
         user: {
             login: '',
             first_name: '',
@@ -18,7 +18,7 @@ export const defaultState: AppState = {
             password: '',
             password_repeat: '',
         },
-        userErrors:{
+        userErrors: {
             login: '',
             first_name: '',
             second_name: '',
@@ -26,18 +26,18 @@ export const defaultState: AppState = {
             phone: '',
             password: '',
             password_repeat: '',
-        }
-    },
-        dialogsError: "",
-        dialogs: [],
-        history: [],
-        activeDialog: {
-            id: null,
-            title: null,
-            avatar: null,
         },
-        message: '',
-        messageError:'',
+    },
+    dialogsError: '',
+    dialogs: [],
+    history: [],
+    activeDialog: {
+        id: null,
+        title: null,
+        avatar: null,
+    },
+    message: '',
+    messageError: '',
     addUserFormData: {
         userLogin: '',
         user: null,
@@ -60,7 +60,7 @@ export const defaultState: AppState = {
     },
     passwordFormData: {
         status: null,
-        errorDescription: ''
+        errorDescription: '',
     },
     passwordValidation: {
         password: '',
@@ -73,7 +73,7 @@ export const defaultState: AppState = {
         status: null,
     },
     loginData: {
-        errors:{
+        errors: {
             password: '',
             login: '',
         },
@@ -82,5 +82,5 @@ export const defaultState: AppState = {
             login: '',
         },
         hasError: null,
-    }
-}
+    },
+};

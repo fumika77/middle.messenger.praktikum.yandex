@@ -75,7 +75,7 @@ describe('Тестирование валидации email', function () {
         expect(Validation({ email: 'ololoshakot.ru' })).toStrictEqual({
             phone: {
                 status: false,
-                errorText: 'Некорректное значение'
+                errorText: 'Некорректное значение',
             },
         });
     });

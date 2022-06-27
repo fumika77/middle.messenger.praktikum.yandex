@@ -8,8 +8,8 @@ interface BackArrowProps {
 export class BackArrow extends Block {
     constructor({ link, onClick }: BackArrowProps) {
         const linkClick = (e: MouseEvent) => {
-            e.preventDefault()
-            onClick?.()
+            e.preventDefault();
+            onClick?.();
         };
         super({ link, events: { click: linkClick } });
     }

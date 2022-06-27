@@ -1,8 +1,7 @@
 import { nanoid } from 'nanoid';
 import Handlebars from 'handlebars';
 import EventBus from './EventBus';
-import {isEqual} from "utils/isEqual";
-
+import { isEqual } from 'utils/isEqual';
 
 export default class Block {
     static EVENTS = {
@@ -56,7 +55,7 @@ export default class Block {
     }
 
     protected getStateFromProps(props: any): void {
-        this.state = {...props} as any;
+        this.state = { ...props } as any;
     }
 
     init() {
@@ -73,7 +72,7 @@ export default class Block {
     }
 
     _componentDidUpdate(oldProps: any, newProps: any) {
-        if (this._element && this._element.style.display === 'none'){
+        if (this._element && this._element.style.display === 'none') {
             return;
         }
         const response = this.componentDidUpdate(oldProps, newProps);
@@ -93,10 +92,7 @@ export default class Block {
         if (!nextProps) {
             return;
         }
-        if (!isEqual(this.props, nextProps)){
-            console.log({...this.props})
-            console.log({...nextProps})
-            console.log(`${Block.componentName} setProps Object.assign(this.props, nextProps)`)
+        if (!isEqual(this.props, nextProps)) {
             Object.assign(this.props, nextProps);
         }
     };
@@ -200,7 +196,7 @@ export default class Block {
     }
 
     onShow() {
-        this.eventBus().emit(Block.EVENTS.FLOW_CDM)
+        this.eventBus().emit(Block.EVENTS.FLOW_CDM);
         this.getContent().style.display = 'block';
     }
 

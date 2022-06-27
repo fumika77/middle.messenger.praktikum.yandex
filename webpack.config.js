@@ -28,7 +28,6 @@ module.exports = {
             "./src/views/addUserChat/addUserChat.css"
         ]
     },
-    mode: "development",
     resolve: {
         extensions: ['.ts', '.js', '.json'],
         alias: {
@@ -56,10 +55,6 @@ module.exports = {
         }),
         new DotenvWebpackPlugin()
     ],
-    devServer: {
-        static: path.join(__dirname, `dist`),
-        port: 3000,
-    },
     module: {
         rules: [
             {
@@ -100,9 +95,5 @@ module.exports = {
     },
     watchOptions: {
         ignored: /node_modules/,
-    },
-    optimization: {
-        innerGraph: false,
-        minimize: true,
     },
 }

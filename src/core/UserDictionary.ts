@@ -1,8 +1,7 @@
-
 export class UserDictionary {
     private static __instance;
 
-    private  __userMap:Map<number, User>;
+    private __userMap: Map<number, User>;
 
     constructor() {
         if (UserDictionary.__instance) {
@@ -12,11 +11,11 @@ export class UserDictionary {
         this.__userMap = new Map();
     }
 
-    getUser(userId: number): Nullable<User>{
-        return this.__userMap.get(userId)||null
+    getUser(userId: number): Nullable<User> {
+        return this.__userMap.get(userId) || null;
     }
 
-    addUser(user: User){
-        return this.__userMap.set(user.id as number, user)
+    addUser(user: User) {
+        return this.__userMap.set(user.id as number, user);
     }
 }

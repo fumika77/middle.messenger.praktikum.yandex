@@ -26,10 +26,10 @@ class Login extends Block {
 
     componentDidMount() {
         this.props.store.dispatch(getProfileInfo);
-        let intervalId =  setInterval(() => {
+        let intervalId = setInterval(() => {
             if (this.props.store.getState().user?.id) {
                 this.props.router.go('/dialogs');
-                clearInterval(intervalId)
+                clearInterval(intervalId);
             }
         }, 100);
     }

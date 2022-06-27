@@ -25,30 +25,37 @@ export const login = async (
     state: AppState,
     payload: LoginPayload,
 ) => {
+    dispatch({isLoading: true})
 
     const response = await AuthAPI.login(payload);
 
     if (response.reason) {
-        dispatch({ loginFormError: response.reason });
+        dispatch({ loginFormError: response.reason, isLoading: false });
         return;
     }
 
     dispatch({ loginFormError: null });
 
-    getProfileInfo(dispatch, state)
+    await getProfileInfo(dispatch, state)
 
     if (hasError(response)) {
         dispatch(logout);
         return;
     }
+    dispatch({isLoading: true})
+    window.router.go('/dialogs')
 };
 
 export const logout = async (dispatch: Dispatch<AppState>) => {
+    dispatch({ isLoading: true });
+
     await AuthAPI.logout();
 
     dispatch({ user: null });
 
-    window.router.go('/login');
+    window.router.go('');
+
+    dispatch({ isLoading: false });
 };
 
 export const signUp = async (
@@ -56,23 +63,24 @@ export const signUp = async (
     state: AppState,
     payload: SignUpPayload,
 ) => {
+    dispatch({isLoading: true})
     const response = await AuthAPI.signUp(payload);
     if (hasError(response)) {
         dispatch({ signUpFormError: response.reason} );
         return;
     }
-    dispatch({ user: null} );
     window.router.go('/dialogs');
+    dispatch({isLoading: false})
 };
 
 export const getProfileInfo = async (
     dispatch: Dispatch<AppState>,
     state: AppState,
 ) => {
-        const responseUser = await AuthAPI.profileInfo()
-        if (hasError(JSON.parse(responseUser))) {
-            dispatch({ loadUserDataError: responseUser.reason} );
-            return;
-        }
-        dispatch({ user: transformUser(JSON.parse(responseUser)  as User) });
+    const responseUser = await AuthAPI.profileInfo()
+    if (hasError(responseUser)){
+        dispatch({ loadUserDataError: responseUser.reason} );
+        return;
+    }
+    dispatch({ user: transformUser(responseUser as User) });
 };

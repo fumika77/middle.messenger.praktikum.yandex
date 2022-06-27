@@ -2,6 +2,7 @@ export const defaultState: AppState = {
     screen: null,
     socket: null,
     isLoading: false,
+    isChatLoading: false,
     loginFormError: "",
     profileSettingsFormError: "",
     createChatFormError: "",

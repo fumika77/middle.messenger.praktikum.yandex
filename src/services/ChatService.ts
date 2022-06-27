@@ -1,5 +1,4 @@
 import {default as ChatApi } from '../api/Chats';
-import {default as UserAPI} from '../api/User';
 import {Dispatch} from "../core/Store";
 import {hasError} from "../utils/apiHasError";
 import {
@@ -16,7 +15,7 @@ export const createChat = async (
 ) => {
 
     const response = await ChatApi.createChat(payload);
-
+    console.log(response)
     if (hasError(response)) {
         dispatch({ createChatFormData: { ...state.createChatFormData, errorDescription: response.reason }});
         return;
@@ -27,6 +26,23 @@ export const createChat = async (
     window.router.go('/dialogs');
 };
 
+export const getChats = async (
+    dispatch: Dispatch<AppState>,
+    state: AppState,
+    payload?: Partial<ChatListRequest>,
+) => {
+    dispatch({isDialogsLoading: true});
+    const request = payload || {} as Partial<ChatListRequest>;
+    const chats = await ChatApi.getChats(request);
+    if (hasError(chats)) {
+        dispatch({ dialogsError: chats.reason});
+        return;
+    }
+    const dialogs: Dialog[] = []
+    chats?.forEach(chat => dialogs.push(transformDialog(chat)))
+    dispatch({dialogsError: '', dialogs, isDialogsLoading: false});
+};
+
 export const addChatUser = async (
     dispatch: Dispatch<AppState>,
     state: AppState,
@@ -35,7 +51,7 @@ export const addChatUser = async (
     if (!userId){
         return;
     }
-    const chatId = state.activeDialog.id;
+    const chatId = state.activeDialogId;
 
     const response = await ChatApi.addChatUser({users: [userId], chatId: chatId});
 
@@ -48,35 +64,25 @@ export const addChatUser = async (
     window.router.go('/dialogs');
 };
 
-export const getChats = async (
-    dispatch: Dispatch<AppState>,
-    state: AppState,
-    payload?: Partial<ChatListRequest>,
-) => {
-    const request = payload? payload : {} as Partial<ChatListRequest>;
-    const chats = await ChatApi.getChats(request);
-    if (hasError(chats)) {
-        dispatch({ dialogsError: chats.reason});
-        return;
-    }
-    const dialogs: Dialog[] = []
-    chats?.forEach(chat => dialogs.push(transformDialog(chat)))
-    dispatch({dialogsError: '', dialogs: dialogs });
-};
 
 
 export const initChatWebSocket = async (
     dispatch: Dispatch<AppState>,
     state: AppState,
+    payload: any
 ) => {
-    const chatId = state.activeDialog?.id;
-    const userId = state.user?.id;
-    dispatch({ history: [] });
+    const chatId = payload.activeDialogId as number;
+    const userId = state.user?.id as number;
+    dispatch({ ...payload });
+    console.log('active chat updated in store')
     //если сокета не существует
     if (!window.socket.checkExist(chatId)){
+        console.log('Добавление сокета')
         await window.socket.addSocket(userId, chatId);
     }
-    window.socket.setActive(chatId)
+    console.log('Активация чата')
+    await window.socket.setActive(chatId, userId)
+    console.log('Чат активирован')
 };
 
 
@@ -85,6 +91,6 @@ export const sendMessage = async (
     state: AppState,
     payload: MessageRequest
 ) => {
+    dispatch({message:'', isMessageLoading: true})
     window.socket.sendMessage(payload)
-    dispatch({message:''})
 };

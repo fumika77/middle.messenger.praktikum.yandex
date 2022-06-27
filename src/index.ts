@@ -27,6 +27,7 @@ import createChat from "./views/createChat/createChat";
 import MessageItem from "./common/components/messageItem";
 import {AddUserChat} from "./views/addUserChat";
 import {ChatWebSocket} from "./core/ChatWebSocket";
+import {UserDictionary} from "./core/UserDictionary";
 
 registerComponents(ErrorText);
 registerComponents(Button);
@@ -46,10 +47,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const store = new Store<AppState>(defaultState);
     const router = new BrowserRouter();
     const socket = new ChatWebSocket();
+    const userDict = new UserDictionary();
 
     window.router = router;
     window.store = store;
     window.socket = socket;
+    window.userDict = userDict;
 
     /**
      * для переключения активного экрана
@@ -67,7 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
     router
         .use('/', Login, {})
         .use('', Login, {})
-        .use('/login', Login, {})
         .use('/dialogs', Dialogs, {})
         .use('/profile', ProfileDescription, {})
         .use('/profile-settings', ProfileSettings, {})

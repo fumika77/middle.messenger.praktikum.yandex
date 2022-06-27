@@ -22,6 +22,7 @@
     "@babel/core": "7.18.5",
     "@babel/plugin-transform-modules-commonjs": "7.18.2",
     "@babel/preset-typescript": "7.17.12",
+    "@jest-mock/express": "2.0.0",
     "@testing-library/jest-dom": "5.16.4",
     "@types/express": "4.17.13",
     "@types/jest": "28.1.2",
@@ -36,6 +37,7 @@
     "eslint": "8.12.0",
     "eslint-config-airbnb": "19.0.4",
     "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-html": "6.2.0",
     "eslint-plugin-prettier": "4.0.0",
     "express": "4.17.3",
     "express-handlebars": "6.0.3",
@@ -56,10 +58,12 @@
     "stylelint-config-standard": "25.0.0",
     "ts-jest": "28.0.5",
     "ts-node": "10.7.0",
+    "tsconfig-paths-webpack-plugin": "3.5.2",
     "typescript": "4.6.2",
     "webpack": "5.73.0",
     "webpack-cli": "4.10.0",
-    "webpack-dev-server": "4.9.2"
+    "webpack-dev-server": "4.9.2",
+    "xhr-mock": "2.5.1"
   },
   "dependencies": {
     "css-loader": "6.7.1",

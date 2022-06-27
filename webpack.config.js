@@ -32,7 +32,13 @@ module.exports = {
     resolve: {
         extensions: ['.ts', '.js', '.json'],
         alias: {
-            handlebars: 'handlebars/dist/handlebars.min.js'
+            handlebars: 'handlebars/dist/handlebars.min.js',
+            api: path.resolve(__dirname, 'src/api'),
+            core: path.resolve(__dirname, 'src/core'),
+            common: path.resolve(__dirname, 'src/common'),
+            services: path.resolve(__dirname, 'src/services'),
+            utils: path.resolve(__dirname, 'src/utils'),
+            view: path.resolve(__dirname, 'src/view'),
         },
         fallback: { "timers": require.resolve('timers-browserify') }
     },
@@ -48,7 +54,7 @@ module.exports = {
         new CopyWebpackPlugin({
             patterns: [{from: 'static/img', to: 'img'}]
         }),
-        new DotenvWebpackPlugin(),
+        new DotenvWebpackPlugin()
     ],
     devServer: {
         static: path.join(__dirname, `dist`),
@@ -94,5 +100,9 @@ module.exports = {
     },
     watchOptions: {
         ignored: /node_modules/,
+    },
+    optimization: {
+        innerGraph: false,
+        minimize: true,
     },
 }

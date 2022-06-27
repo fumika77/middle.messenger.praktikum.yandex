@@ -1,11 +1,11 @@
 import {Base} from "./Base";
-import {User as UserType, UserPassword, UserSearchById, UserSearchByLogin} from "./types";
+import {UserPassword, UserSearchById, UserSearchByLogin} from "./types";
 
-class User extends Base {
+class UserApi extends Base {
     private baseUrl = 'user';
 
-    public updateProfile(data: UserType) {
-        return super.put(this.baseUrl + '/profile', {data}).then((response) => {
+    public updateProfile(data: User) {
+        return super.put(`${this.baseUrl  }/profile`, {data}).then((response) => {
             return JSON.parse(response);
         })
     }
@@ -13,14 +13,14 @@ class User extends Base {
     public updateAvatar(file: File) {
         const data = new FormData();
         data.append('avatar', file);
-        return super.put(this.baseUrl + '/profile/avatar', {data: data, file:true}).then((response) => {
+        return super.put(`${this.baseUrl  }/profile/avatar`, {data: data, file:true}).then((response) => {
             return JSON.parse(response);
         })
     }
 
     public updatePassword(data: UserPassword) {
         return super.put(this.baseUrl + '/password', {data: data}).then((response) => {
-            return JSON.parse(response);
+            return response == 'OK'? response : JSON.parse(response);
         })
     }
 
@@ -31,11 +31,11 @@ class User extends Base {
     }
 
     public getUserById(data: UserSearchById) {
-        return super.get(this.baseUrl + `/${data.id}`, {data: data}).then((response) => {
+        return super.get(`${this.baseUrl  }/${data.id}`, {data: data}).then((response) => {
             return JSON.parse(response);
         })
     }
 }
 
-const instance = new User()
+const instance = new UserApi()
 export default instance

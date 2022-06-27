@@ -13,6 +13,10 @@ export function withStore<T>(Component: typeof Block, name?: string) {
             super.componentDidMount(props);
 
             this.props.store.on('change', () => {
+                console.log('this.props.store.on(\'change\', () => {')
+                console.log({
+                    ...window.store.getState(),
+                })
                 this.setProps({
                     ...this.props,
                     store: window.store,

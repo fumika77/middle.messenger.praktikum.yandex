@@ -17,5 +17,12 @@ module.exports = {
     ],
     moduleNameMapper: {
         '^nanoid': require.resolve('nanoid'),
+    },
+    globals: {
+        'ts-jest': {
+            diagnostics: {
+                exclude: ['**'],
+            },
+        }
     }
 };

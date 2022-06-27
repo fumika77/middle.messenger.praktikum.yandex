@@ -17,7 +17,7 @@ class Auth extends Base{
 
     public profileInfo(){
         return super.get(this.baseUrl + '/user',{} ).then((response) => {
-            return response;
+            return JSON.parse(response);
         })
     }
 

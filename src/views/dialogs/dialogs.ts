@@ -1,5 +1,4 @@
 import Block from '../../core/Block';
-import { IError, Validation } from '../../utils/validation';
 import { withRouter, withStore } from '../../utils';
 import { BrowserRouter } from '../../core/Route';
 import { Store } from '../../core/Store';
@@ -9,6 +8,7 @@ import { getProfileInfo, logout } from '../../services/AuthService';
 type DialogsPageProps = {
     router: BrowserRouter;
     store: Store<AppState>;
+    isLoading: boolean;
 };
 
 export class Dialogs extends Block {
@@ -17,6 +17,9 @@ export class Dialogs extends Block {
         this.setProps({
             formError: () => this.props.store.getState().loginFormError,
             isLoading: () => Boolean(this.props.store.getState().isLoading),
+            isChatLoading: () => Boolean(this.props.store.getState().isChatLoading),
+            isDialogsLoading: () => Boolean(this.props.store.getState().isDialogsLoading),
+            isMessageLoading: () => Boolean(this.props.store.getState().isMessageLoading),
             onProfileButtonClick: () => this.props.router.go('/profile'),
             onCreateChatButtonClick: () => this.props.router.go('/create-chat'),
             onAddUserButtonClick: () => this.props.router.go('/add-user-chat'),
@@ -25,19 +28,22 @@ export class Dialogs extends Block {
             },
             dialogs: () => this.props.store.getState().dialogs,
             dialogHistory: () => this.props.store.getState().history,
-            activeDialogTitle: () => this.props.store.getState().activeDialog?.title,
-            activeDialogAvatar: () => this.props.store.getState().activeDialog?.avatar,
+            activeDialogTitle: () => this.props.store.getState().activeDialogTitle,
+            activeDialogAvatar: () => this.props.store.getState().activeDialogAvatar,
             avatar: () => this.props.store.getState().user?.avatar,
         });
     }
 
     componentDidMount() {
+        this.props.store.dispatch({isLoading: true});
         this.props.store.dispatch(getProfileInfo);
         setTimeout(() => {
             if (this.props.store.getState().user?.id === null) {
-                this.props.router.go('/login');
+                this.props.router.go('');
+                this.props.store.dispatch({isLoading: false});
             }
         }, 100);
+
         this.props.store.dispatch(getChats);
     }
 
@@ -55,9 +61,9 @@ export class Dialogs extends Block {
     }
 
     render() {
-        const { values } = this.state;
+        console.log('Dialog page render')
         const avatar = this.props.store.getState().user?.avatar;
-        const { activeDialog } = this.props.store.getState();
+        const { activeDialogTitle, activeDialogAvatar} = this.props.store.getState();
         // language=hbs
         return `
             <main>
@@ -65,10 +71,10 @@ export class Dialogs extends Block {
                     <div class="dialogs__header">
                         {{#if activeDialogAvatar}}
                             {{{Avatar style="dialogs__item__img"
-                                   src="${activeDialog?.avatar}"}}}
+                                   src="${activeDialogAvatar}"}}}
                         {{/if}} 
                         {{#if activeDialogTitle}}
-                            <div class="dialogs__header__person__name text">${activeDialog?.title}</div>
+                            <div class="dialogs__header__person__name text">${activeDialogTitle}</div>
                             {{{ImageButton style="add__contact__button" src="img/user-add(40x40)@1x.png" onClick=onAddUserButtonClick}}}
                         {{/if}}
                         {{{ImageButton style="logout__button" src="img/logout(40x40)@1x.png" onClick=onLogoutClick}}}
@@ -94,7 +100,7 @@ export class Dialogs extends Block {
                                                src="img/round-chat-3(40x40)@1x.png"}}}
                             </div>
                         </div>
-                        <div class="dialogs__dialogs__box">
+                        <div class="dialogs__dialogs__box {{#if isDialogsLoading}}loading loadingDialogBox{{/if}}">
                             {{#each dialogs}}
                                 {{#with this}}
                                 {{{DialogItem avatar=avatar
@@ -105,7 +111,7 @@ export class Dialogs extends Block {
                             {{/each}}
                         </div>
                     </div>
-                    <div class="dialogs__content">
+                    <div class="dialogs__content {{#if isChatLoading}}loading loadingMessages{{/if}}" >
                         {{#each dialogHistory}}
                             {{#with this}}
                                 {{{MessageItem timeString=timeString
@@ -126,7 +132,8 @@ export class Dialogs extends Block {
                                      type="text"
                                      validatonType="message"
                             }}}
-                            {{{ImageButton class="dialogs__send__button"
+                            {{{ImageButton class="dialogs__send__button 
+                                   {{#if isMessageLoading}} hide{{/if}}"
                                            href=""
                                            src="img/send-button-3(40x40)@1x.png"
                                            onClick=onClick

@@ -1,15 +1,15 @@
 import {MessageDTO, MessageRequest} from "../api/types";
-import {clearInterval} from "timers";
 import {default as ChatApi} from "../api/Chats";
 import {hasError} from "../utils/apiHasError";
 import {transformMessage} from "../utils/apiTransformers";
 import {default as UserAPI} from "../api/User";
 
 export class ChatWebSocket{
-    private __instance;
-    private static __socketMap:Map<number, WebSocket>;
+    private static __instance;
+    private  __socketMap:Map<number, WebSocket>;
     private __activeSocket:WebSocket;
     private __timerId;
+    private __historyTimerId;
     constructor() {
         if (ChatWebSocket.__instance) {
             return ChatWebSocket.__instance;
@@ -19,8 +19,8 @@ export class ChatWebSocket{
         ChatWebSocket.__instance = this;
     }
 
-
     public async saveHistoryData (data: MessageDTO[]|MessageDTO) {
+        console.log('saveHistoryData start')
         const newMessages: Message[] = [];
         const userId = window.store.getState().user?.id;
         if (Array.isArray(data)){
@@ -35,16 +35,29 @@ export class ChatWebSocket{
         await Promise.all(newMessages?.map(async (message) => {
             const id = message.userId;
             if (id && message.isOtherUser){
-                const responseUser = await UserAPI.getUserById({id});
-                if (hasError(responseUser)) {
-                    window.store.dispatch({ dialogsError: responseUser.reason});
-                    return;
+                const user = window.userDict.getUser(id);
+                if (!user) {
+                    const responseUser = await UserAPI.getUserById({id});
+                    if (hasError(responseUser)) {
+                        window.store.dispatch({dialogsError: responseUser.reason});
+                        return;
+                    }
+                    window.userDict.addUser(responseUser);
+                    message.userLogin = responseUser.login;
+                } else {
+                    message.userLogin = user.login;
                 }
-                message.userLogin = responseUser.login;
             }
         }));
+        console.log('saveHistoryData end')
+        console.log('saveHistoryData dispatch start')
+        const history = [...window.store.getState().history,
+            ...newMessages.sort((a,b) => a.time - b.time)];
+        console.log('dispatchHisory')
         window.store.dispatch({
-            history: [...window.store.getState().history, ...newMessages.sort((a,b) => a.time - b.time)] });
+            isChatLoading: false,
+            history });
+        console.log('saveHistoryData dispatch end')
     }
 
     public async addSocket (userId:number, chatId: number){
@@ -56,7 +69,7 @@ export class ChatWebSocket{
             window.store.dispatch({ dialogsError: chatsResponse.reason});
             return;
         }
-        const token = chatsResponse.token;
+        const {token} = chatsResponse;
 
         const socket = new WebSocket(`${process.env.SOCKET_ENDPOINT}/${userId}/${chatId}/${token}`);
         socket.addEventListener('open', () => {
@@ -75,7 +88,6 @@ export class ChatWebSocket{
             const data = JSON.parse(event.data);
             if(data.type == "error"){
                 console.log('Ошибка', event.data);
-                return;
             }
             else if (data.type != "pong" && event.type=="message"){
                 this.saveHistoryData(data);
@@ -88,15 +100,13 @@ export class ChatWebSocket{
         this.__socketMap.set(chatId, socket);
     }
 
-    public setActive(chatId: number){
+    public setActive(chatId: number, userId: number){
         if (this.__socketMap.has(chatId)){
-            this.__activeSocket = this.__socketMap.get(chatId);
+            this.__activeSocket = this.__socketMap.get(chatId)!;
             this.__timerId =
                 setInterval(() => {
-                    if (this.__activeSocket.readyState !== 1) {
-                        this.__activeSocket.close();
-                        const chatId = window.store.getState().activeDialog.id!;
-                        const userId = window.store.getState().user?.id!;
+                    if (this.__activeSocket!.readyState !== 1) {
+                        this.__activeSocket!.close();
                         this.__socketMap.delete(chatId)
                         this.addSocket(userId, chatId);
                     } else {
@@ -106,6 +116,7 @@ export class ChatWebSocket{
                     }
                 }, 10000);
         }
+        console.log('socket инициализирован')
         this.getHistory()
     }
 
@@ -125,12 +136,20 @@ export class ChatWebSocket{
             content: message.message,
             type: 'message',
         }))
+        window.store.dispatch({isMessageLoading: false})
     }
 
     public getHistory() {
-        setTimeout(() => this.__activeSocket?.send(JSON.stringify({
-            content: '0',
-            type: 'get old',
-        })), 100);
+        console.log('Начинаем получать историю')
+        this.__historyTimerId =
+            setInterval(() => {
+                if (this.__activeSocket!.readyState == 1) {
+                    this.__activeSocket?.send(JSON.stringify({
+                        content: '0',
+                        type: 'get old',
+                    }));
+                    clearInterval(this.__historyTimerId);
+                }
+            }, 500);
     }
 }

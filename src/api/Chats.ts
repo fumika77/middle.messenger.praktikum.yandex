@@ -16,21 +16,9 @@ class Chats extends Base{
         })
     }
 
-    public deleteChat(data: ChatDeleteRequest){
-        return super.delete(this.baseUrl,{data} ).then((response) => {
-            return JSON.parse(response);
-        })
-    }
-
     public addChatUser(data: ModifyChatUserRequest){
         return super.put(this.baseUrl + '/users',{data} ).then((response) => {
             return response == 'OK'? response : JSON.parse(response);
-        })
-    }
-
-    public deleteChatUser(data: ModifyChatUserRequest){
-        return super.delete(this.baseUrl + '/users',{data} ).then((response) => {
-            return JSON.parse(response);
         })
     }
 

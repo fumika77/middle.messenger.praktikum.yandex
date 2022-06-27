@@ -1,9 +1,9 @@
-import Block from '../../core/Block';
-import { withRouter, withStore } from '../../utils';
-import { BrowserRouter } from '../../core/Route';
-import { Store } from '../../core/Store';
-import { getUserByLogin } from '../../services/ProfileService';
-import { addChatUser } from '../../services/ChatService';
+import Block from 'core/Block';
+import { withRouter, withStore } from 'utils';
+import { BrowserRouter } from 'core/Route';
+import { Store } from 'core/Store';
+import { getUserByLogin } from 'services/ProfileService';
+import { addChatUser } from 'services/ChatService';
 
 type AddUserChatPageProps = {
     router: BrowserRouter;
@@ -15,7 +15,7 @@ export class AddUserChat extends Block {
         super(props);
         this.setProps({
             onBackArrowClick: () => this.props.router.go('/dialogs'),
-            chatName: () => this.props.store.getState().activeDialog.title,
+            chatName: () => this.props.store.getState().activeDialogTitle,
             userLogin: () => this.props.store.getState().addUserFormData.userLogin,
             userId: () => this.props.store.getState().addUserFormData.user?.id,
             formError: () => this.props.store.getState().addUserFormData.error,

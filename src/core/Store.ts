@@ -24,18 +24,20 @@ export class Store<State extends Record<string, any>> extends EventBus {
     }
 
     public set(nextState: Partial<State>) {
+        console.log('nextStatenextState')
+        console.log(nextState)
         const prevState = { ...this.state };
 
         this.state = { ...this.state, ...nextState };
-
         this.emit('change', prevState, nextState);
     }
 
     dispatch(nextStateOrAction: Partial<State> | Action<State>, payload?: any) {
+        console.log('nextStateOrAction', {...nextStateOrAction})
         if (typeof nextStateOrAction === 'function') {
             nextStateOrAction(this.dispatch.bind(this), this.state, payload);
         } else {
-            this.set({ ...this.state, ...nextStateOrAction });
+            this.set({ ...nextStateOrAction, screen: this.state.screen });
         }
     }
 }

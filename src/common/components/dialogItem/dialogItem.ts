@@ -1,7 +1,7 @@
-import Block from '../../../core/Block';
-import {withStore} from "../../../utils";
-import {Store} from "../../../core/Store";
-import {initChatWebSocket} from "../../../services/ChatService";
+import Block from 'core/Block';
+import { withStore } from 'utils';
+import { Store } from 'core/Store';
+import { initChatWebSocket } from 'services/ChatService';
 
 interface DialogItemProps {
     avatar: string;
@@ -13,22 +13,28 @@ interface DialogItemProps {
 
 export class DialogItem extends Block {
     constructor(props: DialogItemProps) {
-        const link = (props.avatar!==undefined && props.avatar!==null) ? `${process.env.API_ENDPOINT}/resources/${props.avatar}` : 'img/user(144x144)@1x.png';
-        super({ ...props, link
-            , events: { click: () => {
+        const link =
+            props.avatar !== undefined && props.avatar !== null
+                ? `${process.env.API_ENDPOINT}/resources/${props.avatar}`
+                : 'img/user(144x144)@1x.png';
+        super({
+            ...props,
+            link,
+            events: {
+                click: () => {
                     this.props.store.dispatch({
-                            history: [],
-                            activeDialog: {
-                                id: this.props.id,
-                                title: this.props.title,
-                                avatar: props.avatar
-                            }
-                    })
-                    this.props.store.dispatch(initChatWebSocket)
-                }
+                        isChatLoading: true,
+                    });
 
-        }
-            });
+                    this.props.store.dispatch(initChatWebSocket, {
+                        history: [],
+                        activeDialogId: props.id,
+                        activeDialogTitle: props.title,
+                        activeDialogAvatar: props.avatar,
+                    });
+                },
+            },
+        });
     }
 
     static componentName = 'DialogItem';
@@ -47,4 +53,4 @@ export class DialogItem extends Block {
     }
 }
 
-export default withStore(DialogItem, 'DialogItem')
+export default withStore(DialogItem, 'DialogItem');

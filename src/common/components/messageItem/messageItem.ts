@@ -1,25 +1,25 @@
-import Block from '../../../core/Block';
-import {withStore} from "../../../utils";
-import {Store} from "../../../core/Store";
+import Block from 'core/Block';
+import { withStore } from 'utils';
+import { Store } from 'core/Store';
 
 interface MessageItemProps {
-    timeString: string,
-    message: string,
-    userId: number,
-    userLogin: Nullable<string>,
-    isOtherUser: boolean,
-    store: Store<AppState>
+    timeString: string;
+    message: string;
+    userId: number;
+    userLogin: Nullable<string>;
+    isOtherUser: boolean;
+    store: Store<AppState>;
 }
 
 export class MessageItem extends Block {
     constructor(props: MessageItemProps) {
-        super({ ...props});
+        super({ ...props });
     }
 
     static componentName = 'MessageItem';
 
     protected componentDidMount() {
-        if (!this.props.userLogin){
+        if (!this.props.userLogin) {
             return;
         }
     }
@@ -36,4 +36,4 @@ export class MessageItem extends Block {
     }
 }
 
-export default withStore(MessageItem,'MessageItem')
+export default withStore(MessageItem, 'MessageItem');

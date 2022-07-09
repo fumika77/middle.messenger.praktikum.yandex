@@ -1,4 +1,4 @@
-import Block from '../../../core/Block';
+import Block from 'core/Block';
 
 interface ButtonProps {
     text: string;
@@ -10,8 +10,8 @@ interface ButtonProps {
 export class Button extends Block {
     constructor({ text, link, style, onClick }: ButtonProps) {
         const buttonClick = (e: MouseEvent) => {
-            e.preventDefault()
-            onClick()
+            e.preventDefault();
+            onClick();
         };
         super({ text, link, style, events: { click: buttonClick } });
     }

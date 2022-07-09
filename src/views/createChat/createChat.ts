@@ -1,8 +1,8 @@
-import Block from '../../core/Block';
-import { withRouter, withStore } from '../../utils';
-import { BrowserRouter } from '../../core/Route';
-import { Store } from '../../core/Store';
-import { createChat } from '../../services/ChatService';
+import Block from 'core/Block';
+import { withRouter, withStore } from 'utils';
+import { BrowserRouter } from 'core/Route';
+import { Store } from 'core/Store';
+import { createChat } from 'services/ChatService';
 
 type CreateChatPageProps = {
     router: BrowserRouter;

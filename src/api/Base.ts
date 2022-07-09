@@ -35,23 +35,27 @@ function queryStringify(data: { [key: string]: any }) {
 }
 
 export class Base {
-    public get (url: string, options: IRequestOptions) {
-        return this.request(url, { ...options, method: EMethods.GET }, options.timeout).catch((err) => console.log(err));
-}
-    public post (url: string, options: IRequestOptions) {
+    public get(url: string, options: IRequestOptions) {
+        return this.request(url, { ...options, method: EMethods.GET }, options.timeout).catch((err) =>
+            console.log(err),
+        );
+    }
+
+    public post(url: string, options: IRequestOptions) {
         return this.request(url, { ...options, method: EMethods.POST }, options.timeout);
     }
-    public put (url: string, options: IRequestOptions) {
+
+    public put(url: string, options: IRequestOptions) {
         return this.request(url, { ...options, method: EMethods.PUT }, options.timeout);
     }
 
-    public delete  (url: string, options: IRequestOptions) {
+    public delete(url: string, options: IRequestOptions) {
         return this.request(url, { ...options, method: EMethods.DELETE }, options.timeout);
     }
 
-    private request (url: string, options: IRequestOptions, timeout = 5000) {
-            const host = `${process.env.API_ENDPOINT}/`;
-           return new Promise((resolve, reject) => {
+    private request(url: string, options: IRequestOptions, timeout = 5000) {
+        const host = `${process.env.API_ENDPOINT}/`;
+        return new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();
             if (options.method === EMethods.GET && options.data) {
                 xhr.open(options.method, host + url + queryStringify(options.data), true);
@@ -71,7 +75,7 @@ export class Base {
             xhr.onerror = () => {
                 reject({
                     status: xhr.status,
-                    statusText: xhr.statusText
+                    statusText: xhr.statusText,
                 });
             };
 
@@ -79,34 +83,19 @@ export class Base {
                 Object.keys(options.headers).forEach((key) => {
                     xhr.setRequestHeader(key, options.headers[key]);
                 });
-            }
-            else if (!options.file){
+            } else if (!options.file) {
                 xhr.setRequestHeader('Content-Type', 'application/json');
             }
 
             if (options.data) {
                 if (options.file) {
                     xhr.send(options.data as unknown as FormData);
-                }
-                else {
+                } else {
                     xhr.send(JSON.stringify(options.data));
-                };
+                }
             } else {
                 xhr.send();
             }
         });
     }
-}
-
-function fetchWithRetry(url: string, options: IRequestOptions): Promise<any> {
-    const { retries } = options;
-    function onError(err: any) {
-        const triesLeft = retries!--;
-        if (!triesLeft) {
-            throw err;
-        }
-        return fetchWithRetry(url, { ...options, retries: triesLeft });
-    }
-
-    return fetch(url, options).catch(onError);
 }

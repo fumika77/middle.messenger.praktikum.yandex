@@ -1,8 +1,8 @@
-import Block from '../../core/Block';
-import { getProfileInfo, login } from '../../services/AuthService';
-import { withRouter, withStore } from '../../utils';
-import { Store } from '../../core/Store';
-import { BrowserRouter } from '../../core/Route';
+import Block from 'core/Block';
+import { getProfileInfo, login } from 'services/AuthService';
+import { withRouter, withStore } from 'utils';
+import { Store } from 'core/Store';
+import { BrowserRouter } from 'core/Route';
 
 interface ILoginData {
     login: string;
@@ -11,6 +11,7 @@ interface ILoginData {
 type LoginPageProps = {
     router: BrowserRouter;
     store: Store<AppState>;
+    isLoading: boolean;
 };
 
 class Login extends Block {
@@ -20,15 +21,15 @@ class Login extends Block {
             formError: () => this.props.store.getState().loginFormError,
             isLoading: () => Boolean(this.props.store.getState().isLoading),
             onSignUpClick: () => this.props.router.go('/sign-up'),
-            onSignInClick: () => this.props.router.go('/dialogs'),
         });
     }
 
     componentDidMount() {
         this.props.store.dispatch(getProfileInfo);
-        setTimeout(() => {
+        let intervalId = setInterval(() => {
             if (this.props.store.getState().user?.id) {
-                this.props.onSignInClick();
+                this.props.router.go('/dialogs');
+                clearInterval(intervalId);
             }
         }, 100);
     }
@@ -49,9 +50,6 @@ class Login extends Block {
 
                 if (hasNoError) {
                     this.props.store.dispatch(login, loginData);
-                    if (!this.props.store.getState().loginFormError) {
-                        this.props.onSignInClick();
-                    }
                 }
             },
         };
@@ -60,7 +58,7 @@ class Login extends Block {
     render() {
         // language=hbs
         return `
-        <main>
+        <main {{#if isLoading}}class="loading"{{/if}}>
             <div class="login">
                 <img class="login__img" src="img/user(144x144)@1x.png">
                 {{{InputLabel id="loginLoginPage"

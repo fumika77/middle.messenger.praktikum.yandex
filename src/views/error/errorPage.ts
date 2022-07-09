@@ -1,5 +1,5 @@
-import Block from '../../core/Block';
-import { withRouter, withStore } from '../../utils';
+import Block from 'core/Block';
+import { withRouter, withStore } from 'utils';
 
 interface IErrorPageProps {
     errorNumber: number;

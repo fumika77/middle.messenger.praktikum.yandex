@@ -1,4 +1,4 @@
-import Block from '../../../core/Block';
+import Block from 'core/Block';
 
 interface BackArrowProps {
     onClick: () => void;
@@ -7,8 +7,8 @@ interface BackArrowProps {
 export class LogoutButton extends Block {
     constructor({ onClick }: BackArrowProps) {
         const buttonClick = (e: MouseEvent) => {
-            e.preventDefault()
-            onClick()
+            e.preventDefault();
+            onClick();
         };
         super({ events: { click: buttonClick } });
     }

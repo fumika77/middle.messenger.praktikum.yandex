@@ -1,7 +1,7 @@
-import Block from '../../../core/Block';
-import {withStore} from "../../../utils";
-import {Validation} from "../../../utils/validation";
-import {Store} from "../../../core/Store";
+import Block from 'core/Block';
+import { withStore } from 'utils';
+import { Validation } from 'utils/validation';
+import { Store } from 'core/Store';
 
 interface InputProps {
     type: 'text' | 'password' | 'email';
@@ -18,11 +18,11 @@ export class Input extends Block {
     constructor(props: InputProps) {
         let defaultValue;
         let defaultValueErrorText;
-        if (props.validationType=='password'||props.validationType=='password_repeat'){
-            defaultValue =  props.store.getState().passwordValidation[props.validationType]
-            defaultValueErrorText =  props.store.getState().passwordValidation[`${props.validationType}ErrorText`]
+        if (props.validationType == 'password' || props.validationType == 'password_repeat') {
+            defaultValue = props.store.getState().passwordValidation[props.validationType];
+            defaultValueErrorText = props.store.getState().passwordValidation[`${props.validationType}ErrorText`];
         } else {
-            defaultValue = props.value
+            defaultValue = props.value;
         }
         super({
             ...props,
@@ -35,8 +35,8 @@ export class Input extends Block {
                 focusin: () => {
                     document.getElementById(`${props.id}ErrorText`)!.style.display = 'hidden';
                 },
-                change: () =>{
-                    this.state.onChange()
+                change: () => {
+                    this.state.onChange();
                 },
             },
         });
@@ -47,38 +47,45 @@ export class Input extends Block {
     protected getStateFromProps() {
         this.state = {
             value: this.props.defaultValue || '',
-            error: this.props.defaultValueErrorText||'',
+            error: this.props.defaultValueErrorText || '',
 
             onChange: () => {
                 let value = (document.getElementById(this.props.id) as HTMLInputElement)?.value;
                 let nextState;
-                if (this.props.validationType=='password'||this.props.validationType=='password_repeat'){
-                    this.props.store.dispatch({passwordValidation: {
+                if (this.props.validationType == 'password' || this.props.validationType == 'password_repeat') {
+                    this.props.store.dispatch({
+                        passwordValidation: {
                             ...this.props.store.getState().passwordValidation,
                             [this.props.validationType]: value,
-                        }})
-                    let validationResults = Validation(this.props.store.getState().passwordValidation)[this.props.validationType];
+                        },
+                    });
+                    let validationResults = Validation(this.props.store.getState().passwordValidation)[
+                        this.props.validationType
+                    ];
                     nextState = {
                         value: this.props.store.getState().passwordValidation[this.props.validationType],
-                        error:  validationResults?.status? '' : validationResults?.errorText
-                    }
-                    this.props.store.dispatch({passwordValidation: {
-                        ...this.props.store.getState().passwordValidation,
-                            [`${this.props.validationType}ErrorText`]: nextState.error
-                        }})
-                } else if (this.props.validationType){
-                    let validationResults = Validation({ [this.props.validationType]: value})[this.props.validationType];
+                        error: validationResults?.status ? '' : validationResults?.errorText,
+                    };
+                    this.props.store.dispatch({
+                        passwordValidation: {
+                            ...this.props.store.getState().passwordValidation,
+                            [`${this.props.validationType}ErrorText`]: nextState.error,
+                        },
+                    });
+                } else if (this.props.validationType) {
+                    let validationResults = Validation({ [this.props.validationType]: value })[
+                        this.props.validationType
+                    ];
                     nextState = {
                         value: value,
-                        error:  validationResults.status? '' : validationResults.errorText
-                    }
-                } else
-                {
-                    nextState = {value};
+                        error: validationResults.status ? '' : validationResults.errorText,
+                    };
+                } else {
+                    nextState = { value };
                 }
-                this.setState(nextState)
-            }
-        }
+                this.setState(nextState);
+            },
+        };
     }
 
     protected componentDidMount() {
@@ -86,7 +93,7 @@ export class Input extends Block {
     }
 
     render() {
-         const {error, value} = this.state;
+        const { error, value } = this.state;
         // language=hbs
         return `
             <div class="input__wrapper">
@@ -104,4 +111,4 @@ export class Input extends Block {
     }
 }
 
-export default withStore(Input, 'Input')
+export default withStore(Input, 'Input');

@@ -1,14 +1,14 @@
-import Block from '../../../core/Block';
-import {withStore} from "../../../utils";
+import Block from 'core/Block';
+import { withStore } from 'utils';
 
 interface IErrorTextProps {
     errorText?: string;
-    id  : string;
+    id: string;
 }
 
 export class ErrorText extends Block {
-    constructor({id, errorText }: IErrorTextProps) {
-        super({id, errorText });
+    constructor({ id, errorText }: IErrorTextProps) {
+        super({ id, errorText });
     }
 
     static componentName = 'ErrorText';
@@ -21,4 +21,4 @@ export class ErrorText extends Block {
     }
 }
 
-export default withStore(ErrorText)
+export default withStore(ErrorText);
